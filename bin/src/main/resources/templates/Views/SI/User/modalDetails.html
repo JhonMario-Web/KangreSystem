@@ -1,0 +1,48 @@
+<!-- Modal -->
+<head>
+	<meta charset="UTF-8">
+</head>
+<div class="modal fade" id="user-details" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">[[#{app.detalles}]]</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <input type="hidden" id="idUserModalDatails" name="idUserModalDatails"/>
+      </div>
+      <div class="modal-body row p-4 d-flex align-items-center">
+	      <div class="col-5 text-center" style="border-right: 2px solid rgba(0,0,0,0.1);">
+	      	<img th:src="@{/img/LogoSimboloNegro.png}" class="img-fluid mb-3 rounded" style="width:220px; height: auto;">
+	      </div>
+	      <div class="col">
+		      <h1 class="text-center" id="nombres"></h1>
+		      <h2 class="text-center text-secondary" id="apellidos"></h2>
+		      <h3 class="font-weight-bold text-success text-center border border-success rounded-pill" id="username"></h3>
+		      <p class="text-center text-lowercase" id="email"></p>
+		      <p class="text-center"><span id="edad"></span> - <span id="pais"></span></p>
+		      <p class="text-center" id="direccion"></p>
+		      <p class="text-center" id="ciudad"></p>
+		      <p class="text-center"><span id="celular"></span> - <span id="telefono"></span></p>
+	      </div>
+      </div>
+      <div class="modal-footer d-flex justify-content-center">
+      	  <div class="btn-group btn-block">
+	         <button type="button" th:onclick="agregarRol()" class="btn btn-light border border-secondary font-weight-bold text-secondary">
+	         	<span th:text="#{app.agregar}"></span>
+	         	<i class="fas fa-user-shield ml-2 text-dark"></i>
+         	</button>
+	         <button type="button" th:onclick="confirmResetPass()" class="btn btn-light border border-secondary font-weight-bold text-secondary">
+	         	<span th:text="#{app.contrasena}"></span>
+	         	<i class="fas fa-key ml-2 text-dark"></i>
+         	</button>
+	         <button type="button" th:onclick="editUser()" class="btn btn-light border border-secondary font-weight-bold text-secondary">
+	         	<span th:text="#{app.editar}"></span>
+	         	<i class="fas fa-edit ml-2 text-dark"></i>
+         	</button>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>

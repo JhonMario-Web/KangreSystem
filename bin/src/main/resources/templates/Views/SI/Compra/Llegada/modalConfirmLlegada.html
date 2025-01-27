@@ -1,0 +1,38 @@
+<div class="modal fade" id="modalConfirmLlegada" tabindex="-1" role="dialog" aria-labelledby="deleteModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">[[#{app.modal.confirmar}]]</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body text-center">
+      	<h1 class="font-weight-light display-4">[[#{app.modal.seguro}]]</h1>
+      	<hr>
+      	<h3 class="text-danger" th:if="${ cantidadIgual == false || precioIgual == false || insumosFaltantes == false}">Se encontraron estas novedades:</h3>
+   		<h5 th:if="${cantidadIgual == false}">Cantidades diferentes</h5>
+   		<h5 th:if="${precioIgual == false}">Precios diferentes</h5>
+   		<h5 th:if="${insumosFaltantes == false}">Insumos faltantes</h5>
+   		<hr th:if="${ cantidadIgual == false || precioIgual == false || insumosFaltantes == false}">
+      	<form th:object="${llegada}" th:action="@{/proveedor/servicios/compra/recibir/insumos-recibidos}" method="post">
+      		<div class="form-group" th:if="${ cantidadIgual == false || precioIgual == false || insumosFaltantes == false}">
+      			<textarea rows="4" class="form-control" th:field="*{novedad}" id="novedad" name="novedad" placeholder="Describe las novedades aqui"></textarea>
+      		</div>
+      		<button type="submit" class="btn btn-lg btn-danger rounded-pill font-weight-bold btn-block">
+	        	<span th:text="#{app.boton.aceptar}"></span>
+	        	<i class="fas fa-check ml-1"></i>
+        	</button>
+      	</form>
+        <input type="hidden" id="idCompraMD" name="idCompraMD"/>
+        
+        <a href="#" class="btn btn-lg btn-light rounded-pill font-weight-bold btn-block" data-dismiss="modal">
+        	<span th:text=#{app.boton.cancelar}></span>
+        	<i class="fas fa-times ml-1"></i>
+       </a>
+        
+      </div>
+      
+    </div>
+  </div>
+</div>

@@ -1,0 +1,37 @@
+<div class="modal fade" id="modalFilterVencimientosMesActual" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content p-4">
+      <div class="modal-header border-0">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      	<h1 class="text-center font-weight-light">[[#{app.prov.filtro}]]</h1>
+      	<hr>
+        <form th:action="@{/inventario/vencimiento/treinta-dias/}" autocomplete="off" th:object="${vencimiento}" method="post">
+          <div class="form-group">
+            <label for="idInsumo" class="col-form-label" th:text="'ID Insumo'"></label>
+            <input type="number" class="form-control" th:field="*{insumo.idInsumo}" id="idInsumo" name="idInsumo">  
+		  </div>
+          <div class="form-group">
+            <label for="lote" class="col-form-label" th:text="'Lote'"></label>
+            <input type="text" class="form-control" th:field="*{lote}" id="lote" name="lote" >
+          </div>
+          <div class="form-group">
+            <label for="fecha" class="col-form-label" th:text="'Fecha de vencimiento'"></label>
+            <input type="date" class="form-control" th:field="*{fecha}" id="fecha" name="fecha" >
+          </div>
+          <button type="submit" class="btn btn-primary font-weight-bold btn-block rounded-pill">
+   			<i class="fas fa-search mr-1"></i>
+   			<span th:text="#{app.prov.buscar}"></span>
+          </button>
+       	  <button type="button" class="btn btn-light font-weight-bold btn-block rounded-pill" data-dismiss="modal">
+   	  		<i class="fas fa-times mr-1"></i>
+   	  		<span th:text="#{app.prov.cancelar}"></span>
+       	  </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

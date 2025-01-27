@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Recibir compra | KangreSystem</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/dashboard.css}">
+	<link rel="shotcut icon" th:href="@{/img/logosimbolo.png}">
+	<script src="https://kit.fontawesome.com/eb1bb051d4.js"></script>
+</head>
+<style>
+	.jumbotron{
+		border-radius: 15px;
+	}
+</style>
+<body>
+	<header th:replace="plantillas/burguer :: header"></header>
+	<nav th:replace="plantillas/burguer :: navbar"></nav>
+	<div class="content mx-auto">
+		<div class="alert alert-success alert-dismissible fade show mt-2" role="alert" th:if="${success}">
+			<i class="far fa-check-circle mr-1"></i>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+			<strong th:text="${success}"></strong>
+		</div>
+		<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" th:if="${error}">
+	      <i class="far fa-times-circle"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${error}"></strong>
+		</div>
+		<div class="alert alert-warning alert-dismissible fade show mt-2" role="alert" th:if="${warning}">
+		  <i class="fas fa-exclamation-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${warning}"></strong>
+		</div>
+		<div class="alert alert-info alert-dismissible fade show mt-2" role="alert" th:if="${info}">
+		  <i class="fas fa-info-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${info}"></strong>
+		</div>
+	</div>
+	<div class="content mx-auto">
+		<h1 th:text="'Verificar insumos'" class="text-center display-3 mt-5"></h1>
+		
+		
+		
+		<hr>
+		<div class="row justify-content-between">
+			<div class="col-4">
+				<div class="jumbotron px-5 py-4 justify-content-between d-flex bg-secondary text-white-50">
+					<h1 th:text="'COMPRA'" class="font-weight-bold"></h1>
+					<h1 th:text="${compra.numeroCompra}" class="font-weight-bold"></h1>
+				</div>
+			</div>
+			<div class="col-4">
+				<div class="jumbotron px-5 py-4 bg-secondary text-white-50">
+					<h1 th:text="${compra.proveedor.nombre}" class="text-center font-weight-bold"></h1>
+				</div>
+			</div>
+			<div class="col-4">
+				<div class="jumbotron px-5 py-4 bg-secondary text-white-50">
+					<h1 th:text="${llegada.numeroFactura}" class="text-center font-weight-bold"></h1>
+				</div>
+			</div>
+			<div class="col-5">
+				<h2 class="text-secondary text-center">Insumos solicitados</h2>
+				<table class="table table-hover table-borderless text-center">
+				  <thead>
+				    <tr>
+				      <th scope="col">ID</th>
+				      <th scope="col">Insumo</th>
+				      <th scope="col">Precio</th>
+				      <th scope="col">Cantidad</th>
+				      <th scope="col"></th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				    <tr th:each="s:${solicitados}">
+				      <th scope="row" th:text="${s.insumo.idInsumo}"></th>
+				      <td th:text="${s.insumo.nombre}"></td>
+				      <td th:text="${'$'+s.insumo.precio}"></td>
+				      <td th:text="${s.cantidad}"></td>
+				      <td>
+				      	<a href="#cant-insumo-llegada" data-toggle="modal" class="text-success btn-cant">
+				      		<i class="fas fa-check-circle" data-toggle="tooltip" data-placement="top" title="Agregar insumo"></i>
+				      		<input type="hidden" id="idInsumo" name="idInsumo" th:value="${s.insumo.idInsumo}">
+				      	</a>
+				      </td>
+				    </tr>
+				  </tbody>
+				</table>
+			</div>
+			<div class="col-2  align-items-center d-flex">
+				<div>
+					<a href="" class="btn disabled btn-outline-success font-weight-bold btn-block">
+						Cantidad correcta
+					</a>
+					<a href="" class="btn disabled btn-outline-danger font-weight-bold btn-block">Cantidad direfente</a>
+				</div>
+				
+			</div>
+			<div class="col-5">
+				<h2 class="text-secondary text-center">Insumos a recibir</h2>
+				<table class="table table-hover table-borderless text-center">
+				  <thead>
+				    <tr>
+				      <th scope="col">ID</th>
+				      <th scope="col">Insumo</th>
+				      <th scope="col">Precio</th>
+				      <th scope="col">Cantidad</th>
+				      <th scope="col"></th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				    <tr th:each="ar:${aRecibir}" class="font-weight-bold" th:classappend="${ar.cantEquals ? 'text-success' : 'text-danger'}">
+				      <th scope="row" th:text="${ar.idDetalle}"></th>
+				      <td th:text="${ar.insumo.nombre}"></td>
+				      <td th:text="${'$'+ar.insumo.precio}"></td>
+				      <td th:text="${ar.cantidad}"></td>
+				      <td>
+				      	<a th:href="@{/proveedor/servicios/compra/recibir/quitar-insumo/}+${ar.idDetalle - 1}" class="text-danger" data-toggle="tooltip" data-placement="top" title="Quitar insumo">
+				      		<i class="fas fa-times-circle"></i>
+				      	</a>
+				      </td>
+				    </tr>
+				  </tbody>
+				</table>
+			</div>
+		</div>
+		<hr>
+		<a th:href="@{/proveedor/servicios/compra/recibir/nueva}" class="btn btn-lg btn-outline-danger font-weight-bold rounded-pill">
+			<i class="fas fa-times-circle mr-1"></i>
+			Cancelar
+		</a>
+		<a href="#modalConfirmLlegada" data-toggle="modal" class="btn btn-lg btn-success float-right font-weight-bold rounded-pill">
+			Siguiente
+			<i class="fas fa-arrow-circle-right ml-1"></i>
+		</a>
+	</div>
+	<footer th:replace="plantillas/burguer :: footer"></footer>	
+	
+	<script type="text/javascript">
+	
+	    function clearSearch() {
+	        window.location = "[[@{/proveedor/}]]";
+	    }
+	   
+	    function confirmDelete(id){
+	    	$('#deleteModalCompra').modal('show');
+	    	$("#idCompraMD").val(id);
+	    }
+	    
+	    function deleteCompra(){
+	    	var id = $("#idCompraMD").val();
+	        window.location = "/proveedor/servicios/compra/delete/"+id;
+	    }
+	    
+	    function editProveedor(){
+	    	var id = $("#idProveedorModal").val();
+	        window.location = "/proveedor/edit/"+id;
+	    }
+	    
+	    function insumosProveedor(){
+	    	var nit = $("#proveedor-details #nitProveedorModalD").val();
+	        window.location = "/proveedor/insumos/"+nit;
+	    }
+	    
+		$('document').ready(function(){
+    		
+    		$('[data-toggle="tooltip"]').tooltip();
+    		
+    		$('.table .btn-cant').on('click', function(){
+    			var idInsumo = $(this).parent().find('#idInsumo').val();
+    			$.ajax({
+    				type: 'GET',
+    				url: '/proveedor/servicios/compra/recibir/insumo-details/'+idInsumo,
+    				success: function(insumo){
+    					$('#cant-insumo-llegada #idInsumoMC').val(insumo.idInsumo);
+    					$('#cant-insumo-llegada #nombreInsumoText').text(insumo.nombre);
+    					$('#cant-insumo-llegada #precioInsumoText').text('$'+insumo.precio);
+    				}
+    			});
+    		});	
+    		
+    	});
+	</script>
+	
+	<div th:include="Views/SI/Compra/Llegada/modalCantidadInsumo.html" th:remove="tag"></div>			
+	<div th:include="Views/SI/Compra/Llegada/modalConfirmLlegada.html" th:remove="tag"></div>			
+</body>
+</html>

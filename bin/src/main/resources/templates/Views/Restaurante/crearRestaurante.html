@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Restaurante | KangreSystem</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/dashboard.css}">
+	<link rel="shotcut icon" th:href="@{/img/logosimbolo.png}">
+	<script src="https://kit.fontawesome.com/eb1bb051d4.js"></script>
+	
+</head>
+<body>
+	<header th:replace="plantillas/burguer :: header"></header>
+	<nav th:replace="plantillas/burguer :: navbar"></nav>
+	<div class="content mx-auto">
+		<div class="alert alert-success alert-dismissible fade show mt-2" role="alert" th:if="${success}">
+		  <i class="far fa-check-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${success}"></strong>
+		</div>
+		<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" th:if="${error}">
+		  <i class="far fa-times-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${error}"></strong>
+		</div>
+		<div class="alert alert-warning alert-dismissible fade show mt-2" role="alert" th:if="${warning}">
+		  <i class="fas fa-exclamation-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${warning}"></strong>
+		</div>
+		<div class="alert alert-info alert-dismissible fade show mt-2" role="alert" th:if="${info}">
+		  <i class="fas fa-info-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${info}"></strong>
+		</div>
+	</div>
+	<div class="content mx-auto">
+		<h1 th:text="#{app.restaurantes.agregar.titulo}" class="text-center display-3 mt-5"></h1>
+		<hr>
+		<div class="row d-flex justify-content-center align-items-center">
+			<div class="col-5">
+				<form th:action="@{/restaurante/agregar}" th:object="${restaurante}" method="post" class="needs-validation" novalidate enctype="multipart/form-data">
+					<div id="alerta" class=""></div>
+					<input type="hidden" th:field="*{idRestaurante}"/>			
+					<div class="row">
+						<div class="col-12 form-group">
+							<label for="nombre" th:text="#{app.prov.nombre}"></label>
+							<input type="text" th:field="*{nombre}" id="nombre" name="nombre" class="form-control" maxlength="50" required>
+							<div class="invalid-feedback">[[#{app.prov.completar}]]</div>
+						</div>
+						<div class="col-6 form-group">
+							<label for="telefono" th:text="#{app.prov.tel}"></label>
+							<input type="text" th:field="*{telefono}" id="telefono" name="telefono" class="form-control"  maxlength="50" required>
+							<div class="invalid-feedback">[[#{app.prov.completar}]]</div>
+						</div>
+						<div class="col-6 form-group">
+							<label for="celular" th:text="#{app.prov.cel}"></label>
+						    <input type="text" th:field="*{celular}" class="form-control" id="celular" name="celular" required/>
+  							<div class="invalid-feedback">[[#{app.prov.completar}]]</div>
+  						</div>
+  						<div class="col-12 form-group">
+							<label for="direccion" th:text="#{app.prov.dir}"></label>
+							<input type="text" th:field="*{direccion}" id="direccion" name="direccion" class="form-control"  maxlength="50" required>
+							<div class="invalid-feedback">[[#{app.prov.completar}]]</div>
+						</div>
+						<div class="col-6 form-group">
+							<label for="horario" th:text="#{app.prov.lista.horario}"></label>
+							<input type="text" th:field="*{horario}" class="form-control" id="horario" name="horario" required/>
+							<div class="invalid-feedback">[[#{app.prov.completar}]]</div>
+						</div>
+						<div class="col-6 form-group">
+							<label for="ciudad" th:text="#{app.prov.ciudad}"></label>
+							<select  id="ciudad" th:field="*{ciudad}" name="ciudad" class="custom-select" required>
+								<option th:value="''" th:text="''"/>
+								<option th:value="'BOGOTA'" th:text="'Bogotá D.C'"/>
+								<option th:value="'CHIA'" th:text="'Chía'"/>						
+							</select>
+							<div class="invalid-feedback">[[#{app.prov.completar}]]</div>
+						</div>
+						<div class="form-group col-12">
+							<label th:text="#{app.restaurantes.imagen}"></label>
+							<div class="custom-file mt-2" id="logo-collapse">
+							    <input type="file" class="custom-file-input" name="file" id="logo">
+							    <label class="custom-file-label" for="customFile" th:text="#{app.restaurantes.escoger}"></label>
+							</div>
+						</div>			
+						<div class="col-12 form-group">
+							<button type="submit" class="btn btn-lg float-right btn-outline-success font-weight-bold rounded-pill">
+								<span th:text="#{app.boton.guardar}"></span>
+								<i class="fas fa-check-circle ml-1"></i>
+							</button>
+								
+						</div>
+					</div>
+					
+				</form>
+			</div>
+			<div class="col-7">
+				<img th:src="@{/img/restaurante.png}" class="img-fluid d-block mx-auto" width="400" style="border-radius:15px;">
+			</div>
+		</div>
+		<hr>
+	</div>
+	<footer th:replace="plantillas/burguer :: footer"></footer>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
+	<script type="text/javascript">
+		
+		
+		
+		(function() {
+			  'use strict';
+			  window.addEventListener('load', function() {
+			    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+			    var forms = document.getElementsByClassName('needs-validation');
+			    // Loop over them and prevent submission
+			    var validation = Array.prototype.filter.call(forms, function(form) {
+			      form.addEventListener('submit', function(event) {
+			        if (form.checkValidity() === false) {
+			          event.preventDefault();
+			          event.stopPropagation();
+			        }
+			        form.classList.add('was-validated');
+			      }, false);
+			    });
+			  }, false);
+			})();
+		
+		$(document).ready(function () {
+			bsCustomFileInput.init()
+		})
+	</script>
+</body>
+</html>

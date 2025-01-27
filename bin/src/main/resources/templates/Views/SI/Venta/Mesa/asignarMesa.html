@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Asignar mesa | KangreSystem</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/dashboard.css}">
+	<link rel="shotcut icon" th:href="@{/img/logosimbolo.png}">
+	<script src="https://kit.fontawesome.com/eb1bb051d4.js"></script>
+</head>
+
+<style>
+	.jumbotron{
+		height: 400px;
+		overflow: auto;
+	}
+</style>
+
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col">
+				<div class="alert alert-success alert-dismissible fade show mt-2" role="alert" th:if="${success}">
+				  <i class="far fa-check-circle mr-1"></i>
+				  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				    <span aria-hidden="true">&times;</span>
+				  </button>
+				  <strong th:text="${success}"></strong>
+				</div>
+				<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" th:if="${error}">
+				  <i class="far fa-times-circle mr-1"></i>
+				  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				    <span aria-hidden="true">&times;</span>
+				  </button>
+				  <strong th:text="${error}"></strong>
+				</div>
+				<div class="alert alert-warning alert-dismissible fade show mt-2" role="alert" th:if="${warning}">
+				  <i class="fas fa-exclamation-circle mr-1"></i>
+				  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				    <span aria-hidden="true">&times;</span>
+				  </button>
+				  <strong th:text="${warning}"></strong>
+				</div>
+				<div class="alert alert-info alert-dismissible fade show mt-2" role="alert" th:if="${info}">
+				  <i class="fas fa-info-circle mr-1"></i>
+				  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				    <span aria-hidden="true">&times;</span>
+				  </button>
+				  <strong th:text="${info}"></strong>
+				</div>
+			</div>
+		</div>
+		<div class="display-3 text-center mt-4" th:text="#{app.mesa.titulo}"></div>
+		<hr>
+		<div class="row">
+			<div class="col">
+				<div class="jumbotron pt-5 pb-4">
+					<h1 class="font-weight-light text-center">[[#{app.mesa.disponibles}]]</h1>
+					<table class="table text-center">
+					  <thead>
+					    <tr>
+					      <th scope="col">ID</th>
+					      <th scope="col">[[#{app.mesa.numero}]]</th>
+					      <th scope="col">[[#{app.mesa.capacidad}]]</th>
+					      <th scope="col"></th>
+					    </tr>
+					  </thead>
+					  <tbody>
+					    <tr th:each="m:${mesas}">
+					      <th scope="row" th:text="${m.idMesa}"></th>
+					      <td th:text="${m.numeroMesa}"></td>
+					      <td th:text="${m.capacidad}"></td>
+					      <td>
+					      	<a th:href="@{/pedido/agregar-mesa/}+${m.idMesa - 1}+'/'+${m.numeroMesa}" class="btn btn-outline-success border-0">
+					      		<i class="fas fa-plus-circle"></i>
+					      	</a>
+					      </td>
+					    </tr>
+					  </tbody>
+					</table>
+				</div>
+			</div>
+			<div class="col">
+				<div class="jumbotron pt-5 pb-4">
+					<h1 class="font-weight-light text-center">[[#{app.mesa.agregadas}]]</h1>
+					<table class="table text-center">
+					  <thead>
+					    <tr>
+					      <th scope="col">ID</th>
+					      <th scope="col">[[#{app.mesa.numero}]]</th>
+					      <th scope="col"></th>
+					    </tr>
+					  </thead>
+					  <tbody>
+					    <tr th:each="a:${agregadas}">
+					      <th scope="row" th:text="${a.idPedidoMesa}"></th>
+					      <td th:text="${a.mesa.numeroMesa}"></td>
+					      <td>
+					      	<a th:href="@{/pedido/quitar-mesa/}+${a.idPedidoMesa - 1}+'/'+${a.mesa.numeroMesa}" class="btn btn-outline-danger border-0">
+					      		<i class="fas fa-times-circle"></i>
+					      	</a>
+					      </td>
+					    </tr>
+					  </tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col d-flex justify-content-between">
+				<a th:href="@{/pedido/}" class="btn btn-lg btn-outline-primary rounded-pill border-0 font-weight-bold">
+					<i class="fas fa-arrow-circle-left"></i>
+				 	<span th:text="#{app.mesa.boton.volver}"></span>
+				</a>
+				<a th:href="@{/pedido/}" class="btn btn-lg btn-outline-success rounded-pill font-weight-bold">
+					<span th:text="#{app.mesa.boton.aceptar}"></span>
+					<i class="fas fa-check-circle ml-1"></i>
+				</a>
+			</div>
+		</div>
+	</div>
+	
+	<script type="text/javascript">
+	
+	    function clearSearch() {
+	        window.location = "[[@{/rol/}]]";
+	    }
+	   
+	    function confirmDelete(id){
+	    	$('#deleteModal').modal('show');
+	    	$("#idRol").val(id);
+	    }
+	    
+	    function deleteRol(){
+	    	var id = $("#idRol").val();
+	        window.location = "delete/"+id;
+	    }
+	    
+	    function agregarRol(){
+	    	var id = $("#idRolModal").val();
+	        window.location = "agregar/"+id;
+	    }
+	</script>
+	
+<!-- 	<div th:include="Views/SI/Rol/modalDeleteRol.html" th:remove="tag"></div> -->
+</body>
+</html>

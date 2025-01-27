@@ -1,0 +1,49 @@
+<div class="modal fade" id="modalFilterComprasMesActual" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content p-4">
+      <div class="modal-header border-0">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      	<h1 class="text-center font-weight-light">[[#{app.prov.filtro}]]</h1>
+      	<hr>
+        <form th:action="@{/proveedor/servicios/compra/mes-actual/}" th:object="${compra}" method="post">
+          <div class="form-group">
+            <label for="nitProveedor" class="col-form-label">ID</label>
+            <input type="text" class="form-control" th:field="*{idCompra}" id="idCompraMF" name="idCompraMF" >
+          </div>
+          <hr>
+          <div class="form-group">
+            <label for="fechaMF" class="col-form-label" th:text="'Fecha'"></label>
+            <input type="date" class="form-control" th:field="*{fecha}" id="fechaMF" name="fechaMF">
+          </div>
+          <div class="form-group">
+            <label for="ciudad" class="col-form-label" th:text="'Proveedor'"></label>
+            <select class="custom-select" id="proveedor" name="proveedor" th:field="*{proveedor.idProveedor}">
+            	<option th:value="''" th:text="''"/>
+            	<option th:each="p:${proveedores}" th:value="${p.idProveedor}" th:text="${p.nombre}"/>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="estado" class="col-form-label" th:text="'Estado'"></label>
+            <select class="custom-select" id="estado" name="estado" th:field="*{estado}">
+            	<option th:value="''" th:text="''"/>
+            	<option th:value="'SOLICITADA'" th:text="'Solicitada'"/>
+            	<option th:value="'RECIBIDA'" th:text="'Recibida'"/>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary font-weight-bold btn-block rounded-pill">
+      			<i class="fas fa-search mr-1"></i>
+      			<span th:text="#{app.prov.buscar}"></span>
+          </button>
+       	  <button type="button" class="btn btn-light font-weight-bold btn-block rounded-pill" data-dismiss="modal">
+       	  		<i class="fas fa-times mr-1"></i>
+       	  		<span th:text="#{app.prov.cancelar}"></span>
+       	  </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

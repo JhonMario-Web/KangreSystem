@@ -1,0 +1,45 @@
+<div class="modal fade" id="modalFilterProducto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content p-4">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">[[#{app.prov.filtro}]]</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form th:action="@{/producto/}" method="post">
+          <div class="form-group">
+            <label for="nitProveedor" class="col-form-label" th:text="#{app.prov.lista.nombre}"></label>
+            <input type="text" class="form-control" id="nombre" name="nombre" >
+          </div>
+          <hr>
+          <div class="form-group">
+            <label for="categoria" class="col-form-label" th:text="#{app.prov.categoria}"></label>
+            <select class="custom-select" id="categoria" name="categoria">
+            	<option th:value="''" th:text="''"/>
+            	<option th:each="c:${categorias}" th:value="${c.idCategoria}" th:text="${c.categoria}"/>
+            </select>
+          </div>
+          <div class="form-group">
+            	<label for="estado" th:text="#{app.insumos.estado}"></label>
+				<select id="estado" name="estado" class="custom-select">
+					<option th:value="''" th:text="''"/>
+					<option th:value="'ACTIVO'" th:text="#{app.modal.producto.activo}"/>
+					<option th:value="'INACTIVO'" th:text="#{app.modal.producto.inactivo}"/>
+					<option th:value="'SUSPENDIDO'" th:text="#{app.modal.producto.suspendido}"/>							
+				</select>
+          </div>
+          <button type="submit" class="btn btn-lg btn-primary font-weight-bold btn-block rounded-pill">
+      			<span th:text="#{app.prov.buscar}"></span>
+      			<i class="fas fa-search ml-1"></i>
+          </button>
+       	  <button type="button" class="btn btn-lg btn-light font-weight-bold btn-block rounded-pill" data-dismiss="modal">
+       	  		<span th:text="#{app.prov.cancelar}"></span>
+       	  		<i class="fas fa-times ml-1"></i>
+       	  </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

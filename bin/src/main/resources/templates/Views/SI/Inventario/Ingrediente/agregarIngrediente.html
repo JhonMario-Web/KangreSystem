@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+	<meta charset="UTF-8">
+	<title>Ingredientes | KangreSystem</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/dashboard.css}">
+	<link rel="shotcut icon" th:href="@{/img/logosimbolo.png}">
+	<script src="https://kit.fontawesome.com/eb1bb051d4.js"></script>
+</head>	
+
+<style>
+	.tabla-scroll{
+		height: 450px;
+		overflow: auto;
+	}
+</style>
+
+<body>
+
+	<header th:replace="plantillas/burguer :: header" ></header>
+	<nav th:replace="plantillas/burguer :: navbar" ></nav>
+	
+	<div class="content mx-auto">
+		<div class="alert alert-success alert-dismissible fade show mt-2" role="alert" th:if="${success}">
+			<i class="far fa-check-circle mr-1"></i>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+			<strong th:text="${success}"></strong>
+		</div>
+		<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" th:if="${error}">
+	      <i class="far fa-times-circle"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${error}"></strong>
+		</div>
+		<div class="alert alert-warning alert-dismissible fade show mt-2" role="alert" th:if="${warning}">
+		  <i class="fas fa-exclamation-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${warning}"></strong>
+		</div>
+		<div class="alert alert-info alert-dismissible fade show mt-2" role="alert" th:if="${info}">
+		  <i class="fas fa-info-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${info}"></strong>
+		</div>
+	</div>
+	<div class="content mx-auto d-block" >
+		<h1 th:text="${titulo}" class="display-3 text-center mt-5"></h1>
+		<h1 th:text="${producto.nombre}" class="font-weight-light text-center text-secondary" name="productoNombre"></h1>
+		<hr>
+		<div class="row">
+			<div class="col">
+				<div class="jumbotron tabla-scroll">
+					<h2 class="font-weight-light text-center">Disponibles</h2>
+					<table class="table">
+					  <thead>
+					    <tr>
+					      <th scope="col">Item</th>
+					      <th scope="col">Nombre</th>
+					      <th scope="col">Añadir</th>
+					    </tr>
+					  </thead>
+					  <tbody>
+					    <tr th:each="ins:${insumos}">
+					      <th scope="row" th:text="${ins.idInsumo}">
+					      	<input type="hidden" id="idInsumoCant" name="idInsumoCant">
+					      </th>
+					      <td th:text="${ins.nombre}"></td>
+					      <td>
+				      		<a href="#ingre-cant-ins"  data-toggle="modal" class="nav-link text-success btn-cant-ins">
+					      		<i class="fas fa-plus-circle ml-1"></i>
+					      		<input type="hidden" th:value="${ins.nombre}" id="nombreInsumoCant" name="nombreInsumoCant">
+					      		<input type="hidden" th:value="${ins.idInsumo}" id="idInsumoCant" name="idInsumoCant">
+					      	</a>
+					      </td>
+					    </tr>
+					  </tbody>
+					</table>
+				</div>
+			</div>
+			<div class="col">
+				<div class="jumbotron tabla-scroll">
+					<h2 class="font-weight-light text-center">Agregados</h2>
+					<table class="table">
+					  <thead>
+					    <tr>
+					      <th scope="col">Item</th>
+					      <th scope="col">Nombre</th>
+					      <th scope="col">Cantidad</th>
+					      <th scope="col"></th>
+					    </tr>
+					  </thead>
+					  <tbody>
+					    <tr th:each="ingre:${ingredientes}">
+					      <th scope="row" th:text="${ingre.idIngrediente}">1</th>
+					      <td th:text="${ingre.insumo.nombre}"></td>
+					      <td th:text="${ingre.cantidad}"></td>
+					      <td>
+					      	<a th:href="@{/ingrediente/quitar-item/} + ${ingre.idIngrediente} +'/' + ${ingre.insumo.nombre}" class="nav-link text-danger">
+					      		<i class="fas fa-times-circle ml-1"></i>
+					      	</a>
+					      </td>
+					    </tr>
+					  </tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<h2 class="font-weight-light text-center">Costo total en insumos: <span class="font-weight-bold" th:text="${'$'+total}"></span></h2>
+		<hr>
+		<div class="row ">
+			<div class="col d-flex justify-content-center">
+				<a th:href="@{/ingrediente/quitar-todo}" class="btn btn-lg btn-outline-dark font-weight-bold rounded-pill border-0 mx-1">
+					Quitar todo
+					<i class="fas fa-times-circle ml-1"></i>
+				</a>
+				<a th:href="@{/ingrediente/guardar-todo}" class="btn btn-lg btn-outline-success font-weight-bold rounded-pill mx-1">
+					Guardar
+					<i class="fas fa-check-circle ml-1"></i>
+				</a>
+			</div>
+		</div>
+	</div>
+	
+	<footer th:replace="plantillas/burguer :: footer" ></footer>
+	
+	
+	<script type="text/javascript">
+	
+	    function clearSearch() {
+	        window.location = "[[@{/proveedor/}]]";
+	    }
+	   
+	    function confirmDelete(id){
+	    	$('#deleteModal').modal('show');
+	    	$("#idProveedor").val(id);
+	    }
+	    
+	    function deleteProveedor(){
+	    	var id = $("#idProveedor").val();
+	        window.location = "delete/"+id;
+	    }
+	    
+	    function editProveedor(){
+	    	var id = $("#idProveedorModal").val();
+	        window.location = "edit/"+id;
+	    }
+	    
+		$('document').ready(function(){
+    		
+    		$('[data-toggle="tooltip"]').tooltip();
+    		
+    		$('.table .btn-cant-ins').on('click', function(){
+    			var nombreInsumo = $(this).parent().find('#nombreInsumoCant').val();
+    			var idInsumo = $(this).parent().find('#idInsumoCant').val();
+    			
+    			$.ajax({
+    				type: 'GET',
+    				url: '/ingrediente/cantidad-insumo/'+nombreInsumo,
+    				success: function(insumo){
+    					$('#ingre-cant-ins #nombreInsumoText').text(insumo.nombre);
+    					$('#ingre-cant-ins #nombreInsumo').val(insumo.nombre);
+    					$('#ingre-cant-ins #idInsumo').val(idInsumo);
+    				}
+    			});
+    		});	
+    		
+    	});
+	</script>
+	<script>
+		// Example starter JavaScript for disabling form submissions if there are invalid fields
+		(function() {
+		  'use strict';
+		  window.addEventListener('load', function() {
+		    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+		    var forms = document.getElementsByClassName('needs-validation');
+		    // Loop over them and prevent submission
+		    var validation = Array.prototype.filter.call(forms, function(form) {
+		      form.addEventListener('submit', function(event) {
+		        if (form.checkValidity() === false) {
+		          event.preventDefault();
+		          event.stopPropagation();
+		        }
+		        form.classList.add('was-validated');
+		      }, false);
+		    });
+		  }, false);
+		})();
+	</script>
+	<div th:include="Views/SI/Inventario/Ingrediente/modalCantidadIngrediente.html" th:remove="tag"></div>	
+</body>
+</html>

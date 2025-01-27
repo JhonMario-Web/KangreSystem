@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Error 405 | KangreSystem</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="shotcut icon" th:href="@{/img/logosimbolo.png}">
+	<script src="https://kit.fontawesome.com/eb1bb051d4.js"></script>
+</head>
+<body style="overflow-x:hidden;">
+	<div class="container">
+		<div class="row vh-100 align-items-center">
+			<div class="col">
+				<h1 class="text-dark text-center text-uppercase m-0 display-1">E R R O R</h1>
+				<h1 th:text="${status}" class="text-warning text-center display-1" style="font-size: 300px;"></h1>
+				
+				<h3 class="text-danger text-center display-4">
+					<span th:text="${error}"></span>
+				</h3>
+				<div class="justify-content-center d-flex">
+					<button class="btn btn-danger btn-lg btn-block mt-4" style="width: 600px;" onclick="goBack()">
+						<i class="fas fa-arrow-circle-left mr-1"></i>
+						Regresar
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		function goBack() {
+		  window.history.back();
+		}
+	</script>
+</body>
+</html>
+				
+		

@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<title></title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/dashboard.css}">
+	<link rel="shotcut icon" th:href="@{/img/logosimbolo.png}">
+	<script th:src="@{/js/ingreso.js}"></script>
+	<script src="https://kit.fontawesome.com/eb1bb051d4.js"></script>
+</head>
+<!-- <span sec:authentication="principal.authorities" class="font-weight-bold text-black-50">ADMIN</span> -->
+<!-- <span class="text-black-50 font-weight-bold" sec:authentication="name"></span> -->
+<body class="container-fluid">
+	<!-- HEADER / CABECERA -->
+	<header th:fragment="header" class="row cabecera d-flex justify-content-between mx-auto">
+			
+			<!-- Logo y buscador -->
+			<div class="col align-self-end">
+				<a th:href="@{/}" class="d-none d-lg-block">
+					<img th:src="@{/img/LogoTexto.png}" alt="Logo KangreSystem" title="Inicio"
+						class="img-fluid d-block mx-auto " width="370px">
+				</a>
+				<a th:href="@{/}" class="d-block d-lg-none mr-2">
+					<img th:src="@{/img/logoSimboloRojo.png}" alt="Logo KangreSystem" title="Inicio"
+						class="img-fluid d-block mx-auto " width="50px">
+				</a>
+			</div>
+		</header>
+	<!-- NAVBAR / BARRA DE NAVEGACION -->
+	<nav th:fragment="navbar" class="row sticky-top">
+			<div class="col px-4">
+				<nav class="navbar navbar-expand-lg navbar-dark rounded-pill mx-auto py-0 px-2" style="background: #820100; width: 90%;">
+					<div class="dropdown" title="Cambiar idioma" >
+
+						<button class="rounded-pill border-0 btn btn-outline-light" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						    <i class="fas fa-globe"></i>
+						</button>
+						<div class="dropdown-menu mt-2" aria-labelledby="dropdownMenuButton">
+							<h6 class="dropdown-header" th:text="#{app.nav.globo}"></h6>
+							<div class="dropdown-divider"></div>
+
+							<a class="dropdown-item" th:href="@{?lang=en_US}"><img width="20" th:src="@{/img/eeuu.png}" class="mr-2">U.S.A</a>
+						    <a class="dropdown-item" th:href="@{?lang=es}"><img width="20" th:src="@{/img/colombia.jpg}" class="mr-2">Colombia</a>
+						    
+
+						</div>
+					</div>
+					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+						aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse navbar-opciones" id="navbarNavDropdown">
+						<ul class="navbar-nav">
+							<li class="nav-item active"><a class="nav-link" th:href="@{/}" th:text="#{app.nav.inicio}"></a></li>
+							<li class="nav-item"><a class="nav-link"  th:href="@{/proveedor/}" th:text="#{app.nav.prov}"></a>
+								<ul>
+									<li><a th:href="@{/proveedor/servicios}">
+											<i class="fas fa-cubes mr-2"></i>
+											<span th:text="'Servicios'"></span>
+										</a>
+										<ul>
+											<li><a th:href="@{/proveedor/servicios/compra/}" th:text="'Compras'"></a></li>
+											<li><a th:href="@{/proveedor/servicios/devolucion/}" th:text="'Devoluciones'"></a></li>
+										</ul>
+									</li>
+									<li><a th:href="@{/proveedor/servicios/compra/recibir/nueva}">
+											<i class="fas fa-people-carry mr-2"></i>
+											<span th:text="#{app.nav.prov.reciv_compra}"></span>
+										</a>
+										<ul>
+											<li><a th:href="@{/proveedor/servicios/compra/recibir/nueva}" th:text="'Nueva'"></a></li>
+											<li><a href="" th:text="'Compras recibidas'"></a></li>
+										</ul>
+									</li>
+									<li><a th:href="@{/proveedor/agregar}">
+											<i class="fas fa-user-plus mr-2"></i>
+											<span th:text="#{app.nav.prov.nuevo}"></span>
+										</a>
+									</li>
+									<li><a th:href="@{/proveedor/}">
+									 		<i class="fas fa-clipboard-list mr-2"></i>
+									 		<span th:text="#{app.nav.prov.ver}"></span>
+								 		</a>
+							 		</li>
+								</ul>
+							</li>
+							<li class="nav-item"><a class="nav-link" href="" th:text="'General'"></a>
+								<ul>
+									<li><a th:href="@{/gestor-categorias/}">
+											<i class="fas fa-bars mr-2"></i>
+											<span th:text="'Gestion categorias'"></span>
+										</a>
+										<ul>
+											<li><a th:href="@{/gestor-categorias/producto/}"><span th:text="#{app.nav.inven.prod}"></span></a></li>
+											<li><a th:href="@{/gestor-categorias/proveedor/}"><span th:text="#{app.nav.prov}"></span></a></li>
+											<li><a th:href="@{/gestor-categorias/insumo/}"><span th:text="#{app.nav.inven.insum}"></span></a></li>
+										</ul>
+									</li>
+									<li><a th:href="@{/restaurante/}">
+											<i class="fas fa-store mr-2"></i>
+											<span th:text="#{app.nav.restaurantes}"></span>
+										</a>
+										<ul>
+											<li><a th:href="@{/restaurante/agregar}"><span th:text="#{app.nav.restaurante.nueva}"></span></a></li>
+											<li><a th:href="@{/restaurante/}"><span th:text="#{app.nav.restaurante.ver}"></span></a></li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+							<li class="nav-item"><a class="nav-link" th:href="@{/inventario/}" th:text="#{app.nav.inven}"></a>
+								<ul>
+									<li>
+										<a th:href="@{/inventario/existencias}">
+											<i class="fas fa-boxes mr-2"></i>
+											<span th:text="#{app.nav.inven.exis}"></span>
+										</a>
+									</li>
+									<li>
+										<a th:href="@{/inventario/movimientos}">
+											<i class="fas fa-exchange-alt mr-2"></i>
+											<span th:text="#{app.nav.inven.mov}"></span>
+										</a>
+									</li>
+
+									<li><a th:href="@{/insumo/}">
+											<i class="fas fa-bread-slice mr-2"></i>
+											<span th:text="#{app.nav.inven.insum}"></span>
+										</a>
+										<ul>
+											<li><a th:href="@{/insumo/agregar}" th:text="#{app.nav.inven.insum.nuevo}"></a></li>
+											<li><a th:href="@{/insumo/cargar-info}" th:text="#{app.nav.inven.insum.info}"></a></li>
+											<li><a th:href="@{/insumo/}" th:text="#{app.nav.inven.insum.ver}"></a></li>
+										</ul>
+									</li>
+									<li>
+										<a th:href="@{/ingrediente/}">
+											<i class="fas fa-carrot mr-2"></i>
+											<span th:text="#{app.nav.inven.ing}"></span>
+										</a>
+									</li>
+									<li>
+										<a th:href="@{/producto/}">
+											<i class="fas fa-hamburger mr-2"></i>
+										    <span th:text="#{app.nav.inven.prod}"></span>
+										</a>
+										<ul>
+											<li><a th:href="@{/producto/agregar}" th:text="#{app.nav.inven.prod.nuevo}"></a></li>
+											<li><a th:href="@{/producto/cargar-info}" th:text="#{app.nav.inven.prod.info}"></a></li>
+											<li><a th:href="@{/producto/}" th:text="#{app.nav.inven.prod.ver}"></a></li>
+										</ul>
+									</li>
+									<li>
+										<a th:href="@{/inventario/averia/}">
+											<i class="far fa-trash-alt mr-2"></i>
+											<span th:text="#{app.nav.inven.aver}"></span>
+										</a>
+										<ul>
+											<li><a th:href="@{/inventario/averia/nueva}" th:text="#{app.nav.inven.aver.nueva}"></a></li>
+											<li><a href="" th:text="#{app.nav.inven.aver.ver}"></a></li>
+											<li><a th:href="@{/inventario/averia/}" th:text="#{app.nav.inven.aver.ver}"></a></li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+							<li class="nav-item"><a class="nav-link" th:href="@{/user/}" th:text="#{app.nav.usuario}"></a>
+								<ul>
+									<li><a th:href="@{/empleado/}">
+											<i class="fas fa-user-tie mr-2"></i>
+											<span th:text="#{app.nav.usuario.emple}"></span>
+										</a>
+										<ul>
+											<li><a th:href="@{/empleado/}" th:text="#{app.nav.usuario.emple.ver}"></a></li>
+											<li><a th:href="@{/admin/}" th:text="#{app.nav.usuario.emple.admins}"></a></li>
+										</ul>
+									</li>
+									<li><a th:href="@{/cliente/}">
+											<i class="fas fa-users mr-2"></i>
+											<span th:text="#{app.nav.usuario.clien}"></span>
+										</a>
+									</li>
+									<li><a th:href="@{/rol/}">
+											<i class="fas fa-user-shield mr-2"></i>
+											<span th:text="#{app.nav.usuario.rol}"></span>
+										</a>
+									</li>
+									<li><a th:href="@{/user/}">
+											<i class="fas fa-clipboard-list mr-2"></i>
+											<span th:text="#{app.nav.usuario.ver}"></span>
+										</a>
+									</li>
+								</ul>
+							</li>
+							<li class="nav-item"><a class="nav-link" th:href="@{/novedad/}" th:text="'Gestios correos'"></a>
+								<ul>
+									<li><a th:href="@{/novedad/nueva}">
+											<i class="far fa-newspaper mr-1"></i>
+											<span th:text="'Novedades'"></span>
+										</a>
+										<ul>
+											<li><a th:href="@{/novedad/nueva}" th:text="'Nueva'"></a>
+											<li><a th:href="@{/novedad/}" th:text="'Ver todas'"></a>
+										</ul>
+									</li>
+									<li><a th:href="@{/novedad/nueva}">
+											<i class="fas fa-tags mr-1"></i>
+											<span th:text="'Ofertas'"></span>
+										</a>
+										<ul>
+											<li><a th:href="@{/oferta/compartir}" th:text="'Nueva'"></a>
+											<li><a th:href="@{/oferta/}" th:text="'Ver todas'"></a>
+										</ul>
+									</li>
+								</ul>
+							</li>
+							<li class="nav-item"><a class="nav-link" href="" th:text="'Calificar servicio'"></a>
+								<ul>
+									<li><a th:href="@{/pedido/calificacion/nueva}">
+											<i class="fas fa-plus mr-1"></i>
+											<span th:text="'Nueva calificacion'"></span>
+										</a>
+									</li>
+									<li><a th:href="@{/pedido/calificacion/}">
+											<i class="fas fa-clipboard-list mr-1"></i>
+											<span th:text="'Ver todas'"></span>
+										</a>
+									</li>
+								</ul>
+							</li>
+							<li class="nav-item"><a class="nav-link" href="#" th:text="#{app.nav.quienes_somos}"></a></li>
+							<li class="nav-item"><a class="nav-link" href="#" th:text="#{app.nav.venta}"></a>
+								<ul>
+									<li><a class="nav-link" th:href="@{/pedido/todos/}">
+											<i class="fas fa-cash-register mr-2"></i>
+											<span th:text="#{app.nav.venta.pedido}"></span>
+										</a>
+										<ul>
+											<li><a class="nav-link" th:href="@{/pedido/}" th:text="#{app.nav.venta.pedido.nuevo}"></a></li>
+											<li><a class="nav-link" th:href="@{/pedido/todos/}" th:text="#{app.nav.venta.pedido.ver}"></a></li>
+										</ul>
+									</li>
+									<li><a class="nav-link" href="">
+											<i class="fas fa-th-list mr-2"></i>
+											<span th:text="#{app.nav.venta.estadisticas}"></span>
+										</a>
+										<ul>
+											<li><a class="nav-link" href="" th:text="#{app.nav.venta.pedido.nuevo}"></a></li>
+											<li><a class="nav-link" href="" th:text="'Ver todos'"></a></li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+							<li class="nav-item"><a class="nav-link" th:href="@{/sucursal/}" th:text="'Sucursales'"></a>
+								<ul>
+									<li>
+										<a th:href="@{/sucursal/bogota}">
+											<i class="fas fa-building mr-1"></i>
+											Bogotá
+										</a>
+									</li>
+									<li>
+										<a th:href="@{/sucursal/chia}">
+											<i class="fas fa-home mr-1"></i>
+											Chia
+										</a>
+									</li>
+									<li>
+										<a th:href="@{/sucursal/}">
+											<i class="fas fa-clipboard-list mr-1"></i>
+											<span th:text="#{app.nav.novedad.ver}"></span>
+										</a>
+									</li>
+								</ul>
+							</li>
+							<li class="nav-item"><a class="nav-link" href="#" th:text="#{app.nav.kangre}"></a>
+								<ul>
+									<li><a th:href="@{/kangrepuntos/detalles}">
+											<i class="fas fa-search-plus mr-1"></i>
+											<span th:text="#{app.nav.kangre.deta}"></span>
+										</a>
+									</li>
+									<li><a th:href="@{/favorito/transferencia/nueva}">
+											<i class="fas fa-people-arrows mr-1"></i>
+											<span th:text="'Transferir'"></span>
+										</a>
+									</li>
+									<li><a th:href="@{/favorito/}">
+											<i class="fas fa-star mr-1"></i>
+											<span th:text="#{app.nav.kangre.favs}"></span>
+										</a>
+									</li>
+									<li><a th:href="@{/kangrepuntos/contrasenia}">
+											<i class="fas fa-lock mr-1"></i>
+											<span th:text="'Seguridad'"></span>
+										</a>
+									</li>
+								</ul>
+							</li>
+							<li class="nav-item" sec:authorize="hasRole('ROLE_USER') && isAuthenticated()"><a class="nav-link" th:href="@{/producto/catalogo/}" th:text="'Menú'"></a></li>
+							<li class="nav-item" sec:authorize="hasRole('ROLE_CAJERO') && isAuthenticated()"><a class="nav-link" href="">Pedidos</a></li>
+						</ul>
+						
+						<div class="dropdown ml-auto" sec:authorize="!isAuthenticated()">
+							<button class="rounded-pill border-0 btn btn-outline-light" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							    <i style="font-size:20px;" class="fas fa-door-open"></i>
+							    <span class="" th:text="#{app.nav.log.inicio}"></span>
+							</button>
+							<div class="dropdown-menu dropdown-menu-right mt-2" aria-labelledby="dropdownMenuButton">
+								<a class="dropdown-item" th:href="@{/login}" th:text="#{app.nav.ingresar}"></a>
+							    <a class="dropdown-item" th:href="@{/sign-up/personal-info}" th:text="#{app.nav.log.registro}"></a>
+							</div>
+						</div>
+						<div class="dropdown ml-auto" sec:authorize="isAuthenticated()">
+							<button class="rounded-pill border-0 btn btn-outline-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							    <i class="fas fa-user"></i>
+							    <span sec:authentication="name" class="font-weight-bold"></span>
+							</button>
+							<div class="dropdown-menu dropdown-menu-right mt-2" aria-labelledby="dropdownMenuButton">
+								<a class="dropdown-item" th:href="@{/mi-perfil/datos-basicos}" th:text="#{app.nav.perf.ver}"></a>
+							    <a class="dropdown-item" th:href="@{/mi-perfil/cambiar-contrasenia}" th:text="#{app.nav.perf.contr}"></a>
+							    <button type="button" class="dropdown-item" data-toggle="modal" data-target="#cerrarSesion">
+							    	<span th:text="#{app.nav.perf.cerrar}"></span>
+								</button>
+							</div>
+						</div>
+					</div>
+				</nav>
+			</div>
+		</nav>
+	<!-- CONTENT / CONTENIDO -->
+	<div class="content mx-auto"></div>
+	<!-- FOOTER / PIE DE PAGINA -->
+	<footer th:fragment="footer" class="my-4">
+		<div class="queso mx-auto"></div>
+		<div class="lechuga mx-auto"></div>
+		<div class="mx-auto row footer py-3">
+			<div class="col d-flex justify-content-center align-items-center iconos-footer">
+				<a href="" class="">
+					<i class="facebook fab fa-facebook"></i>
+				</a>
+				<a href="" class="">
+					<i class="twitter fab fa-twitter"></i>
+				</a>
+				<a href="" class="">
+					<i class="whatsapp fab fa-whatsapp"></i>
+				</a>
+				<a href="" class="">
+					<i class="instagram fab fa-instagram"></i>
+				</a>
+			</div>
+			<div class="col align-items-center d-flex justify-content-center">
+				<p class="m-0">Copyright <span class="font-weight-bold">KangreSystem</span> &copy; - 2020</p>
+			</div>
+			<div class="col">
+				<img class="mx-auto d-block img-fluid my-0" th:src="@{/img/LH_KS.png}" alt="" width="120px">
+			</div>
+		</div>
+		
+		<!-- Modal -->
+		<div class="modal fade" id="cerrarSesion" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+			  <div class="modal-dialog modal-dialog-centered" role="document">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <h5 class="modal-title" id="exampleModalCenterTitle">Cerrar sesión</h5>
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			          <span aria-hidden="true">&times;</span>
+			        </button>
+			      </div>
+			      <div class="modal-body">
+			        Desea cerrar sesion de KangreSystem?
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+			        <form th:action="@{/logout}" method="post">
+						<button class="btn btn-primary" type="submit">
+							<span>Cerrar sesion</span>
+						</button>
+					</form>
+			      </div>
+			    </div>
+			  </div>
+		</div>
+		
+		<!-- <script type="text/javascript" th:src="@{/js/jquery-3.5.1.min.js}"></script> -->
+		<script src="https://code.jquery.com/jquery-1.9.1.js" integrity="sha256-e9gNBsAcA0DBuRWbm0oZfbiCyhjLrI6bmqAl5o+ZjUA=" crossorigin="anonymous"></script>
+		<script type="text/javascript" th:src="@{/js/popper.min.js}"></script>
+		<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+		<script src="https://code.highcharts.com/highcharts.js"></script>
+		<script src="https://code.highcharts.com/modules/exporting.js"></script>
+	</footer>
+	
+</body>
+</html>

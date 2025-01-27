@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Inventario | KangreSystem</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/dashboard.css}">
+	<link rel="shotcut icon" th:href="@{/img/logosimbolo.png}">
+	<script src="https://kit.fontawesome.com/eb1bb051d4.js"></script>
+</head>
+<style>
+	.bg-primary, .bg-secondary, .bg-dark, .bg-info, .bg-warning, .bg-danger, .bg-success{
+		 opacity: 0.5;
+	}
+	.jumbotron{
+		border-radius: 20px;
+	}
+</style>
+<body>
+	<header th:replace="plantillas/burguer :: header"></header>
+	<nav th:replace="plantillas/burguer :: navbar"></nav>
+	<div class="content mx-auto">
+		<div class="alert alert-success alert-dismissible fade show mt-2" role="alert" th:if="${success}">
+			<i class="far fa-check-circle mr-1"></i>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+			<strong th:text="${success}"></strong>
+		</div>
+		<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" th:if="${error}">
+	      <i class="far fa-times-circle"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${error}"></strong>
+		</div>
+		<div class="alert alert-warning alert-dismissible fade show mt-2" role="alert" th:if="${warning}">
+		  <i class="fas fa-exclamation-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${warning}"></strong>
+		</div>
+		<div class="alert alert-info alert-dismissible fade show mt-2" role="alert" th:if="${info}">
+		  <i class="fas fa-info-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${info}"></strong>
+		</div>
+	</div>
+	<div class="content mx-auto">
+		<h1 th:text="#{app.inven.index.titulo}" class="text-center display-4 mt-4"></h1>
+		<hr>
+		<div class="row">
+			<div class="col-4 px-4">
+				<div class="jumbotron bg-info text-white p-4 mt-5">
+					<h3 class="d-flex justify-content-between align-items-center">
+						<span class="display-4" th:text="${entradas.size()}"></span>
+						<i class="fas fa-sign-in-alt text-white-50" style="font-size: 50px;"></i>
+					</h3>
+					<hr class="bg-light">
+					<h3 class="mb-0 text-center">
+						<a th:href="@{/inventario/movimientos/entradas/mes-actual/}" class="text-white py-0">[[#{app.inven.index.entradas.mes}]]</a>					
+					</h3>
+				</div>
+			</div>
+			<div class="col-4 px-4">
+				<div class="jumbotron bg-secondary text-white p-4 mt-5">
+					<h3 class="d-flex justify-content-between align-items-center">
+						<span class="display-4" th:text="${existencias.size()}"></span>
+						<i class="fas fa-boxes text-white-50" style="font-size: 50px;"></i>
+					</h3>
+					<hr class="bg-light">
+					<h3 class="mb-0 text-center">
+						<a th:href="@{/inventario/existencias/}" class="text-white py-0">[[#{app.inven.index.existencias}]]</a>
+					</h3>
+				</div>
+			</div>
+			<div class="col-4 px-4">
+				<div class="jumbotron bg-primary text-white p-4 mt-5">
+					<h3 class="d-flex justify-content-between align-items-center">
+						<span class="display-4" th:text="${salidas.size()}"></span>
+						<i class="fas fa-sign-out-alt text-white-50" style="font-size: 50px;"></i>
+					</h3>
+					<hr class="bg-light">
+					<h3 class="mb-0 text-center">					
+						<a th:href="@{/inventario/movimientos/salidas/mes-actual/}" class="text-white py-0">[[#{app.inven.index.salidas.mes}]]</a>
+					</h3>
+				</div>
+			</div>
+			<div class="col-4 px-4">
+				<div class="jumbotron bg-danger text-white p-4 mt-5">
+					<h3 class="d-flex justify-content-between align-items-center">
+						<span class="display-4" th:text="${vencenEnTreinta.size()}"></span>
+						<i class="fas fa-skull-crossbones text-white-50" style="font-size: 50px;"></i>
+					</h3>
+					<hr class="bg-light">
+					<h3 class="mb-0 text-center">
+						<a th:href="@{/inventario/vencimiento/treinta-dias/}" class="text-white py-0">[[#{app.inven.index.treinta.dias}]]</a>
+					</h3>
+				</div>
+			</div>
+			<div class="col-4 px-4">
+				<div class="jumbotron bg-light p-4 mt-5">
+					<h3 class="d-flex justify-content-between align-items-center">
+						<span class="display-4" th:text="${totalIns}"></span>
+						<i class="fas fa-bread-slice text-black-50" style="font-size: 50px;"></i>
+					</h3>
+					<hr>
+					<h3 class="mb-0 text-center">					
+						<a th:href="@{/insumo/}" class="text-dark py-0">[[#{app.inven.index.total.insumos}]]</a>
+					</h3>
+				</div>
+			</div>
+			<div class="col-4 px-4">
+				<div class="jumbotron bg-success text-white p-4 mt-5">
+					<h3 class="d-flex justify-content-between align-items-center">
+						<span class="display-4">5</span>
+						<i class="fas fa-trophy text-white-50" style="font-size: 50px;"></i>
+					</h3>
+					<hr class="bg-light">
+					<h3 class="mb-0 text-center">
+						<a th:href="@{/producto/top/}" class="text-white py-0">[[#{app.inven.index.top.cinco}]]</a>					
+					</h3>
+				</div>
+			</div>
+			<div class="col-4 px-4">
+				<div class="jumbotron bg-warning text-dark p-4 mt-5">
+					<h3 class="d-flex justify-content-between align-items-center">
+						<span class="display-4" th:text="${totalProv}"></span>
+						<i class="fas fa-industry text-black-50" style="font-size: 50px;"></i>
+					</h3>
+					<hr>
+					<h3 class="mb-0 text-center">
+						<a th:href="@{/proveedor/}" class="text-dark py-0">[[#{app.inven.index.proveedores}]]</a>
+					</h3>
+				</div>
+			</div>
+			<div class="col-4 px-4">
+				<div class="jumbotron bg-info text-white p-4 mt-5">
+					<h3 class="d-flex justify-content-between align-items-center">
+						<span class="display-4" th:text="${compras.size()}"></span>
+						<i class="fas fa-truck-loading text-white-50" style="font-size: 50px;"></i>
+					</h3>
+					<hr class="bg-light">
+					<h3 class="mb-0 text-center">
+						<a th:href="@{/proveedor/servicios/compra/mes-actual/}" class="text-white py-0">[[#{app.inven.index.compras.mes}]]</a>
+					</h3>
+				</div>
+			</div>
+			<div class="col-4 px-4">
+				<div class="jumbotron bg-danger text-white p-4 mt-5">
+					<h3 class="d-flex justify-content-between align-items-center">
+						<span class="display-4" th:text="${averias.size()}"></span>
+						<i class="fas fa-trash-alt text-white-50" style="font-size: 50px;"></i>
+					</h3>
+					<hr class="bg-light">
+					<h3 class="mb-0 text-center">
+						<a th:href="@{/inventario/averia/mes-actual/}" class="text-white py-0">[[#{app.inven.index.averias.mes}]]</a>					
+					</h3>
+				</div>
+			</div>
+			<div class="col-4 px-4">
+				<div class="jumbotron bg-dark text-white p-4 mt-5">
+					<h3 class="d-flex justify-content-between align-items-center">
+						<span class="display-4" th:text="${totalProd}"></span>
+						<i class="fas fa-hamburger text-white-50" style="font-size: 50px;"></i>
+					</h3>
+					<hr class="bg-light">
+					<h3 class="mb-0 text-center">
+						<a th:href="@{/producto/}" class="text-white py-0">[[#{app.inven.index.total.products}]]</a>					
+					</h3>
+				</div>
+			</div>
+			<div class="col-4 px-4">
+				<div class="jumbotron bg-secondary text-white p-4 mt-5">
+					<h3 class="d-flex justify-content-between align-items-center">
+						<span class="display-4" th:text="${vencimientos.size()}"></span>
+					<i class="far fa-calendar-alt text-white-50" style="font-size: 50px;"></i>
+					</h3>
+					<hr class="bg-light">
+					<h3 class="mb-0 text-center">
+						<a th:href="@{/inventario/vencimiento/}" class="text-white py-0">[[#{app.inven.index.vencimientos}]]</a>					
+					</h3>
+				</div>
+			</div>
+			<div class="col-4 px-4">
+				<div class="jumbotron bg-light text-dark p-4 mt-5">
+					<h3 class="d-flex justify-content-center align-items-center">
+						<span class="display-4" th:text="${'$'+perdidas}"></span>
+					</h3>
+					<hr>
+					<h3 class="mb-0 text-center">
+						<span class="text-dark py-0">[[#{app.inven.index.perdidas}]]</span>					
+					</h3>
+				</div>
+			</div>
+		</div>
+		<hr>
+	</div>
+	
+	<footer th:replace="plantillas/burguer :: footer"></footer>	
+	
+	<script type="text/javascript">
+	
+	    function clearSearch() {
+	        window.location = "[[@{/proveedor/}]]";
+	    }
+	   
+	    function confirmDelete(id){
+	    	$('#deleteModalProducto').modal('show');
+	    	$("#idProductoMD").val(id);
+	    }
+	    
+	    function deleteProducto(){
+	    	var id = $("#idProductoMD").val();
+	        window.location = "/producto/delete/"+id;
+	    }
+	    
+	    function editProducto(){
+	    	var id = $("#idProductoModal").val();
+	        window.location = "/producto/edit/"+id;
+	    }
+	    
+	    function editIngredientes(){
+	    	var id = $("#idProductoModal").val();
+	        window.location = "/ingrediente/editar/"+id;
+	    }
+	    
+		$('document').ready(function(){
+    		
+    		$('[data-toggle="tooltip"]').tooltip();
+    		
+    		$('.table .btn-edit').on('click', function(){
+    			var idProducto = $(this).parent().find('#idProducto').val();
+    			$.ajax({
+    				type: 'GET',
+    				url: '/producto/details/'+idProducto,
+    				success: function(producto){
+    					$('#producto-details #idProductoModal').val(producto.idProducto);
+    					$('#producto-details #nombre').text(producto.nombre);
+    					$('#producto-details #codBarra').text(producto.codBarra);
+    					$('#producto-details #precio').text(producto.precio);
+    					$('#producto-details #categoria').text(producto.categoria.categoria);
+    					$('#producto-details #estado').text(producto.estado);
+    					$('#producto-details #detalle').text(producto.detalle);
+    					$('#producto-details #foto').attr('src', '/Imagenes/'+producto.foto);
+    				}
+    			});
+    		});	
+    		
+    	});
+	</script>			
+</body>
+</html>

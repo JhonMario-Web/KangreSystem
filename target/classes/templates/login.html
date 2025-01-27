@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Iniciar Sesión | KangreSystem</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/login.css}">
+	<link rel="shotcut icon" th:href="@{/img/logosimbolo.png}">
+	<script src="https://kit.fontawesome.com/eb1bb051d4.js"></script>
+</head>
+<body>
+	<div class="content mx-auto">
+		<div class="alert alert-success alert-dismissible fade show mt-2" role="alert" th:if="${success}">
+		  <i class="far fa-check-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${success}"></strong>
+		</div>
+		<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" th:if="${error}">
+		  <i class="far fa-times-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${error}"></strong>
+		</div>
+		<div class="alert alert-warning alert-dismissible fade show mt-2" role="alert" th:if="${warning}">
+		  <i class="fas fa-exclamation-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${warning}"></strong>
+		</div>
+		<div class="alert alert-info alert-dismissible fade show mt-2" role="alert" th:if="${info}">
+		  <i class="fas fa-info-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${info}"></strong>
+		</div>
+	</div>
+	<div class="row vh-100">
+		<div class="jumbotron mx-auto my-auto" style="border-radius: 20px;">
+			<a th:href="@{/}" title="Volver al inicio">
+				<img th:src="@{/img/burguer.png}" class="mx-auto d-block" width="80" height="80">
+			</a>
+			<h2 th:text="#{app.log.iniciar_sesion}" class="text-center mb-4 mt-3"></h2>
+			<form autocomplete="off" th:action="@{/login}" method="post">
+				<input type="text" class="input form-control my-2 text-center mx-auto d-block" id="username" name="username" th:placeholder="#{app.log.documento}" autofocus pattern="[0-9]{3,15}" maxlength="15" required>
+				<input type="password" class="input form-control my-2 text-center mx-auto d-block" id="password" name="password" th:placeholder="#{app.log.contrasena}" maxlength="20" required>
+				<button type="submit" class="boton-entrar border-success mx-auto d-block mt-4 btn btn-success">
+					<span th:text="#{app.log.entrar}"></span>
+				</button>
+			</form>
+			<a th:href="@{/sign-up/personal-info}" class="boton-registro mx-auto d-block mt-2 btn btn-outline-secondary" th:text="#{app.log.registrarme}"></a>			
+			<a th:href="@{/}" class="text-success text-center d-block mt-3 text-decoration-none">[[#{app.log.inicio}]]</a>
+			<hr>
+			<small class="text-center d-block">Copyright, All rights reserved &copy; 2020 - KangreSystem, Inc</small>
+		</div>
+	</div>
+	
+	<script type="text/javascript" th:src="@{/js/jquery-3.5.1.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/popper.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+</body>
+</html>

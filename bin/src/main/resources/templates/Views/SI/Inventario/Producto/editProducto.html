@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Registro | KangreSystem</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/dashboard.css}">
+	<link rel="shotcut icon" th:href="@{/img/logosimbolo.png}">
+	<script src="https://kit.fontawesome.com/eb1bb051d4.js"></script>
+	
+</head>
+<body>
+	<header th:replace="plantillas/burguer :: header"></header>
+	<nav th:replace="plantillas/burguer :: navbar"></nav>
+	<div class="content mx-auto">
+		<div class="alert alert-success alert-dismissible fade show mt-2" role="alert" th:if="${success}">
+		  <i class="far fa-check-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${success}"></strong>
+		</div>
+		<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" th:if="${error}">
+		  <i class="far fa-times-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${error}"></strong>
+		</div>
+		<div class="alert alert-warning alert-dismissible fade show mt-2" role="alert" th:if="${warning}">
+		  <i class="fas fa-exclamation-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${warning}"></strong>
+		</div>
+		<div class="alert alert-info alert-dismissible fade show mt-2" role="alert" th:if="${info}">
+		  <i class="fas fa-info-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${info}"></strong>
+		</div>
+	</div>
+	<div class="content mx-auto">
+		<h1 th:text="${titulo}" class="text-center display-3 mt-5"></h1>
+		
+		<form th:action="@{/producto/editar}" th:object="${producto}" method="post" class="needs-validation" enctype="multipart/form-data" novalidate>
+			<div class="row justify-content-center d-flex align-items-center">
+				<div class="col-6">
+					<img th:src="@{'/Imagenes/' + ${producto.foto}}" th:alt="${producto.foto}" class="img-fluid mt-4 rounded d-block mx-auto" style="width:250px; height: auto;">
+					<a class="nav-link text-center" data-toggle="collapse" href="#foto-collapse" role="button" aria-expanded="false" aria-controls="logo-collapse">
+			    		Cambiar foto
+			  		</a>
+					<hr>
+					<input type="hidden" th:field="*{idProducto}"/>			
+					<div class="row">
+						<div class="form-group col-12 collapse"  id="foto-collapse">
+							<label>Imagen de presentación:</label>
+							<div th:classappend="${collapse}" class="custom-file mt-2 ">
+							    <input type="file" class="custom-file-input" name="file" id="logo">
+							    <label class="custom-file-label" for="customFile">Escoger imagen para el producto (jpg, png)</label>
+							</div>
+						</div>
+						<div class="col-12 form-group">
+							<label for="estado">Estado</label>
+							<select class="custom-select" th:field="*{estado}" id="estado">
+								<option th:text="''" th:value="''">
+								<option th:text="'Activo'" th:value="'ACTIVO'">
+								<option th:text="'Suspendido'" th:value="'SUSPENDIDO'">
+								<option th:text="'Inactivo'" th:value="'INACTIVO'">
+							</select>
+			  	
+						</div>
+						<div class="col-12 form-group">
+							<label for="nombre">Nombre:</label>
+							<input type="text" th:field="*{nombre}" id="nombre" name="nombre" class="form-control" maxlength="50" required>
+							<div class="invalid-feedback">Completa este campo!</div>
+						</div>
+						<div class="col-6 form-group">
+							<label for="categoria">Categoria:</label>
+							<select th:field="*{categoria.idCategoria}" id="categoria" name="categoria" class="custom-select" required>
+								<option th:value="''" th:text="''"/>
+								<option th:each="c:${categorias}" th:value="${c.idCategoria}" th:text="${c.categoria}"/>
+							</select>
+							<div class="invalid-feedback">Completa este campo!</div>
+						</div>
+						<div class="col-6 form-group">
+							<label for="precio">Precio:</label>
+							<input type="number" th:field="*{precio}" id="precio" name="precio" class="form-control" required>
+							<div class="invalid-feedback">Completa este campo!</div>
+						</div>
+						<div class="col-12 form-group">
+							<label for="detalle">Descripción:</label>
+				    		<textarea th:field="*{detalle}" class="form-control" rows="5" id="detalle" name="detalle" required></textarea>
+							<div class="invalid-feedback">Completa este campo!</div>
+						</div>
+						<div class="col-12">
+							<button type="submit" id="btn-enviar" name="btn-enviar" class="btn btn-lg float-right btn-outline-success font-weight-bold rounded-pill">
+								Guardar
+								<i class="fas fa-check-circle ml-1"></i>
+							</button>	
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>	
+	</div>
+	<hr>
+	<footer th:replace="plantillas/burguer :: footer"></footer>
+	
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
+	<script type="text/javascript" th:src="@{/js/agregarProv.js}"></script>
+	<script type="text/javascript" th:src="@{/js/registroProducto.js}"></script>
+</body>
+</html>

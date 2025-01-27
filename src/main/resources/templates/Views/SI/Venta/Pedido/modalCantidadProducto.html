@@ -1,0 +1,37 @@
+<!-- Modal -->
+<div class="modal fade" id="cant-prod-pedido" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header border-0">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body row p-4">
+	      <div class="col">
+		      <h1 class="text-center text-black-50" id="nombreProductoText"></h1>
+		      <h2 class="text-center font-weight-bold" id="categoriaProductoText"></h2>
+		      <h2 class="text-center text-success font-weight-light" id="precioProductoText"></h2>
+		      <hr>
+		      <form autocomplete="off" th:action="@{/pedido/agregar-item-list}" th:object="${detalle}" method="post" class="needs-validation" novalidate>
+		      	<input type="hidden" id="idProductoMC" name="idProductoMC"/>
+		      	<div class="form-group">
+		      		<label for="cantIngrediente" th:text="#{app.pedido.modal.cantidad}"></label>
+		      		<input type="number" class="form-control" th:field="*{cantidad}" id="cantProducto" 
+		      		name="cantProducto" min="1" max="30" required>
+		      		<div class="invalid-feedback">La cantidad es requerida y con un rango de 1 - 30 unidades.</div>
+		      	</div>
+		      	<button type="submit" class="btn btn-block btn-primary rounded-pill font-weight-bold">
+		      		<i class="fas fa-check-circle mr-1"></i>
+		      		<span th:text="#{app.pedido.modal.boton}"></span>
+	      		</button>
+	      		<a href="" class="btn btn-light rounded-pill font-weight-bold btn-block" data-dismiss="modal">
+		        	<i class="fas fa-times mr-1"></i>
+		        	<span th:text=#{app.boton.cancelar}></span>
+       			</a>
+		      </form>   
+	      </div>
+      </div>
+    </div>
+  </div>
+</div>

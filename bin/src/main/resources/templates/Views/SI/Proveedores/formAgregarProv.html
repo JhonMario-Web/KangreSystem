@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Proveedor | KangreSystem</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/dashboard.css}">
+	<link rel="shotcut icon" th:href="@{/img/logosimbolo.png}">
+	<script src="https://kit.fontawesome.com/eb1bb051d4.js"></script>
+	
+</head>
+<body>
+	<header th:replace="plantillas/burguer :: header"></header>
+	<nav th:replace="plantillas/burguer :: navbar"></nav>
+	<div class="content mx-auto">
+		<div class="alert alert-success alert-dismissible fade show mt-2" role="alert" th:if="${success}">
+		  <i class="far fa-check-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${success}"></strong>
+		</div>
+		<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" th:if="${error}">
+		  <i class="far fa-times-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${error}"></strong>
+		</div>
+		<div class="alert alert-warning alert-dismissible fade show mt-2" role="alert" th:if="${warning}">
+		  <i class="fas fa-exclamation-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${warning}"></strong>
+		</div>
+		<div class="alert alert-info alert-dismissible fade show mt-2" role="alert" th:if="${info}">
+		  <i class="fas fa-info-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${info}"></strong>
+		</div>
+	</div>
+	<div class="content mx-auto">
+		<h1 th:text="#{app.prov.agregar}" class="text-center display-3 mt-5"></h1>
+		<hr>
+		<div class="row d-flex justify-content-center align-items-center">
+			<div class="col-7">
+				<img th:src="@{/img/proveedores.jpg}" class="img-fluid d-block mx-auto">
+				
+				<form th:action="@{/proveedor/agregar}" th:object="${proveedor}" name="formRegistro" id="formRegistro" method="post" class="needs-validation form-row" novalidate enctype="multipart/form-data">
+					<div id="alerta" class=""></div>
+					<input type="hidden" th:field="*{idProveedor}"/>			
+					<input type="hidden" th:field="*{tipoArchivo}"/>			
+					<input type="hidden" th:field="*{enabled}"/>
+					<div class="col-12 form-group">
+						<label for="nitProveedor">Nit:</label>
+						<input type="text" th:field="*{nitProveedor}" id="nitProveedor" name="nitProveedor" class="form-control" maxlength="50" required>
+						<div class="invalid-feedback">[[#{app.prov.completar}]]</div>
+					</div>
+					<div class="col-12 form-group">
+						<label for="nombre" th:text="#{app.prov.nombre}"></label>
+						<input type="text" th:field="*{nombre}" id="nombre" name="nombre" class="form-control" maxlength="50" required>
+						<div class="invalid-feedback">[[#{app.prov.completar}]]</div>
+					</div>
+					<div class="col-6 form-group">
+						<label for="celular" th:text="#{app.prov.cel}"></label>
+					    <input type="text" th:field="*{celular}" class="form-control" id="celular" name="celular" required/>
+ 							<div class="invalid-feedback">[[#{app.prov.completar}]]</div>
+ 						</div>
+					<div class="col-6 form-group">
+						<label for="telefono" th:text="#{app.prov.tel}"></label>
+					    <input type="text" th:field="*{telefono}" class="form-control" id="telefono" name="telefono" required/>
+ 							<div class="invalid-feedback">[[#{app.prov.completar}]]</div>
+ 						</div>
+					<div class="col-12 form-group">
+						<label for="email" th:text="#{app.prov.correo}"></label>
+					    <input type="email" th:field="*{email}" class="form-control" id="email" name="email" required/>
+ 							<div class="invalid-feedback">[[#{app.prov.completar}]]</div>
+					</div>
+					<div class="col-6 form-group">
+						<label for="ciudad" th:text="#{app.prov.ciudad}"></label>
+						<select id="ciudad" name="ciudad" th:field="*{ciudad}" class="custom-select" required>
+							<option th:value="''" th:text="''"/>
+							<option th:value="'BOGOTA'" th:text="'Bogota'"/>
+							<option th:value="'CHIA'" th:text="'Chia'"/>										
+						</select>
+						<div class="invalid-feedback">[[#{app.prov.completar}]]</div>
+					</div>
+ 						<div class="col-6 form-group">
+ 							<label for="categoria" th:text="#{app.prov.categoria}"></label>
+						<select id="categoria" th:field="*{categoria.idCategoria}" name="categoria" class="custom-select" required>
+							<option th:value="''" th:text="''"/>
+							<option th:each="c:${categorias}" th:text="${c.categoria}" th:value="${c.idCategoria}"/>
+						</select>
+						<div class="invalid-feedback">[[#{app.prov.completar}]]</div>
+					</div>
+					<div class="col-12 form-group">
+						<label for="direccion" th:text="#{app.prov.dir}"></label>
+					    <input type="text" th:field="*{direccion}" class="form-control" id="direccion" name="direccion" required/>
+ 							<div class="invalid-feedback">[[#{app.prov.completar}]]</div>
+					</div>
+					<label for="logo" th:text="#{app.prov.log}"></label>
+					<div class="custom-file col-12 form-group">
+					  <input type="file" th:value="${file}" class="custom-file-input" name="file" id="logo">
+					  <label class="custom-file-label" for="logo" th:text="#{app.prov.arch}"></label>
+					</div>
+					<div class="col-12 form-group mt-4 px-0">
+						<a id="btn-enviar" class="btn float-left font-weight-bold btn-outline-secondary btn-lg rounded-pill" th:href="@{/proveedor/agregar}">
+							<i class="fas fa-undo-alt mr-1"></i>
+							<span th:text="#{app.prov.form}"></span>
+						</a>
+						<button type="submit" id="btn-enviar" name="btn-enviar" class="btn float-right font-weight-bold btn-outline-success btn-lg rounded-pill">
+							<span th:text="#{app.prov.agr}"></span>
+							<i class="fas fa-plus-circle ml-1"></i>
+						</button>
+					</div>
+				</form>
+			</div>		
+		</div>
+	</div>
+	
+	<footer th:replace="plantillas/burguer :: footer"></footer>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
+	<script type="text/javascript">
+		 (function() {
+			  'use strict';
+			  window.addEventListener('load', function() {
+			    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+			    var forms = document.getElementsByClassName('needs-validation');
+			    // Loop over them and prevent submission
+			    var validation = Array.prototype.filter.call(forms, function(form) {
+			      form.addEventListener('submit', function(event) {
+			        if (form.checkValidity() === false) {
+			          event.preventDefault();
+			          event.stopPropagation();
+			        }
+			        form.classList.add('was-validated');
+			      }, false);
+			    });
+			  }, false);
+			})();
+		 
+		 $(document).ready(function () {
+				bsCustomFileInput.init()
+			})
+	</script>
+</body>
+</html>

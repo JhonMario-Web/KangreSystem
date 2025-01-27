@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Error 400 | KangreSystem</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="shotcut icon" th:href="@{/img/logosimbolo.png}">
+	<script src="https://kit.fontawesome.com/eb1bb051d4.js"></script>
+</head>
+<body>
+	<div class="container">
+		<div class="row vh-100 align-items-center">
+			<div class="col">
+				<img th:src="@{/img/400.jpg}" width="600" class="img-fluid d-block mx-auto"/>
+				<div class="justify-content-center d-flex">
+					<button class="btn btn-danger btn-lg btn-block" style="width: 600px;" onclick="goBack()">
+						<i class="fas fa-arrow-circle-left mr-1"></i>
+						Regresar
+					</button>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+	<script>
+		function goBack() {
+		  window.history.back();
+		}
+	</script>
+</body>
+</html>

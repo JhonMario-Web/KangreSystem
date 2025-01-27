@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Pedido | KangreSystem</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/indexPedido.css}">
+	<link rel="shotcut icon" th:href="@{/img/logosimbolo.png}">
+	<script src="https://kit.fontawesome.com/eb1bb051d4.js"></script>
+</head>
+
+<style>
+	.tabla-scroll{
+		height: 220px;
+		overflow: auto;
+	}
+</style>
+
+<body>
+	<div class="container py-4">
+		 <div class="dropdown btn-group btn-block fixed-top mb-5">
+  	  		 <a th:href="@{/}" class="btn btn-secondary btn-lg rounded-0">
+			  	<i class="fas fa-home mr-1 text-dark"></i>
+			  	<span th:text="#{app.pedido.bar.inicio}"></span>
+  	  		</a>
+		  <a th:href="@{/pedido/mesa}" class="btn btn-secondary btn-lg" th:classappend="${mode ? '' : 'disabled'}">
+		  	<i class="fas fa-concierge-bell mr-1 text-info"></i>
+		  	<span th:text="#{app.pedido.bar.mesa}"></span>
+  		  </a>
+		  <a class="btn btn-secondary btn-lg" href="" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+		  th:classappend="${mode ? 'disabled' : ''}">
+		   	<i class="fas fa-money-bill-alt mr-1 text-success"></i>
+		    <span th:text="#{app.pedido.bar.pagar}"></span>
+		  </a>
+			<a class="btn btn-secondary btn-lg" th:href="@{/pedido/orden/cajero/index}" aria-haspopup="true" aria-expanded="false"
+			th:classappend="${mode ? 'disabled' : ''}">
+			   	<i class="fas fa-align-justify mr-1 text-white"></i>
+			    <span th:text="#{app.pedido.bar.ordenes}"></span>
+		  </a>
+			<a th:href="@{/mesa/}" class="btn btn-secondary btn-lg" aria-haspopup="true" aria-expanded="false"
+			th:classappend="${mode ? 'disabled' : ''}">
+			   	<i class="fas fa-atlas mr-1 text-warning"></i>
+			    <span th:text="#{app.pedido.bar.restaurante}"></span>
+		  </a>
+		  	<a th:href="@{/pedido/cancelar}" class="btn btn-secondary btn-lg" th:classappend="${mode ? '' : 'disabled'}">
+			  	<i class="fas fa-times mr-1 text-danger"></i>
+			  	<span th:text="#{app.boton.cancelar}"></span>
+		  	</a>
+		  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+		  	<div class="dropdown-header" th:text="#{app.pagar.medios}"></div>
+		  	 <div class="dropdown-divider"></div>
+		    <a class="dropdown-item" th:href="@{/pedido/pago/efectivo}" th:text="#{app.pagar.efectivo}"></a>
+		    <a class="dropdown-item" th:href="@{/pedido/pago/kangrepuntos}" th:text="#{app.pagar.puntos}"></a>
+		  </div>
+	   </div>
+		<div class="row mt-5">
+			<div class="col">
+				<div class="jumbotron bg-light border d-flex justify-content-between py-5 m-0" style="border-radius: 20px;">
+					<a th:href="@{/pedido/preparar-nuevo}" class="btn btn-light border-dark rounded-pill px-4" th:classappend="${!mode ? '' : 'disabled'}">
+						<span class="display-4" th:text="#{app.pedido.boton.nuevo}"></span>
+					</a>
+					<span class="display-4" th:text="#{app.pedido.titulo	}"></span>
+					<span th:text="${pedido.numeroOrden}" th:classappend="${mode ? '' : 'disabled'}" class="display-4 border py-2 px-5 rounded-pill border-dark"></span>
+				</div>
+			</div>
+		</div>
+		<hr>
+		<div class="row">
+			<div class="col">
+				<div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${success}">
+					<i class="far fa-check-circle mr-1"></i>
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					  <span aria-hidden="true">&times;</span>
+					</button>
+					<strong th:text="${success}"></strong>
+				</div>
+				<div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${error}">
+			      <i class="far fa-times-circle"></i>
+				  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				    <span aria-hidden="true">&times;</span>
+				  </button>
+				  <strong th:text="${error}"></strong>
+				</div>
+				<div class="alert alert-warning alert-dismissible fade show" role="alert" th:if="${warning}">
+				  <i class="fas fa-exclamation-circle mr-1"></i>
+				  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				    <span aria-hidden="true">&times;</span>
+				  </button>
+				  <strong th:text="${warning}"></strong>
+				</div>
+				<div class="alert alert-info alert-dismissible fade show" role="alert" th:if="${info}">
+				  <i class="fas fa-info-circle mr-1"></i>
+				  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				    <span aria-hidden="true">&times;</span>
+				  </button>
+				  <strong th:text="${info}"></strong>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-7">
+				<div class="card" style="height: 400px; border-radius: 20px;">
+				  <div class="card-header bg-success" style="border-radius: 20px 20px 0 0;">
+				   	<h2 class="text-white">[[#{app.pedido.producto}]]</h2>
+				  </div>
+				  <div class="card-body">
+				  	
+				  	<form class="form-row my-3" th:action="@{/pedido/agregar-item-cod}" method="post">
+					  <div class="col">
+					    <input type="number" class="form-control form-control-lg" th:classappend="${mode ? '' : 'disabled'}" id="idProductoCod" name="idProductoCod" th:placeholder="#{app.pedido.producto.id}" required>
+					  </div>
+					  <div class="col-auto">
+					  	<button type="submit" class="btn btn-lg btn-light border-secondary" th:classappend="${mode ? '' : 'disabled'}">
+					  		<span th:text="#{app.pedido.buscar}"></span>
+					  		<i class="fas fa-search ml-1"></i>
+			  			</button>
+			  			<a th:href="@{/pedido/limpiar-filtro-categorias}" class="btn btn-lg btn-light border-secondary" th:classappend="${mode ? '' : 'disabled'}">
+			  				<i class="far fa-times-circle"></i>
+			  			</a>
+			  			<div class="btn-group">
+						  <button type="button" class="btn btn-lg btn-light border-secondary dropdown-toggle" th:classappend="${mode ? '' : 'disabled'}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						    <span th:text="#{app.pedido.categoria}"></span>
+						  </button>
+						  <div class="dropdown-menu dropdown-menu-right" style="overflow: auto; max-height: 400px;">
+						    <a th:href="@{/pedido/categoria/entradas}" class="dropdown-item" th:text="#{app.categoria.entradas}"></a>
+						    <a th:href="@{/pedido/categoria/ensaladas}" class="dropdown-item" th:text="#{app.categoria.ensaladas}"></a>
+						    <a th:href="@{/pedido/categoria/sopas}" class="dropdown-item" th:text="#{app.categoria.sopas}"></a>
+						    <a th:href="@{/pedido/categoria/hamburguesas}" class="dropdown-item" th:text="#{app.categoria.hamburguesas}"></a>
+						    <a th:href="@{/pedido/categoria/sanduches}" class="dropdown-item" th:text="#{app.categoria.sanduches}"></a>
+						    <a th:href="@{/pedido/categoria/perros-calientes}" class="dropdown-item" th:text="#{app.categoria.perros}"></a>
+						    <a th:href="@{/pedido/categoria/adiciones}" class="dropdown-item" th:text="#{app.categoria.adiciones}"></a>
+						    <a th:href="@{/pedido/categoria/acompañamientos}" class="dropdown-item" th:text="#{app.categoria.acompanamientos}"></a>
+						    <a th:href="@{/pedido/categoria/fuertes}" class="dropdown-item" th:text="#{app.categoria.fuertes}"></a>
+						    <a th:href="@{/pedido/categoria/postres}" class="dropdown-item" th:text="#{app.categoria.postres}"></a>
+						    <a th:href="@{/pedido/categoria/bebidas-calientes}" class="dropdown-item" th:text="#{app.categoria.calientes}"></a>
+						    <a th:href="@{/pedido/categoria/bebidas-frias}" class="dropdown-item" th:text="#{app.categoria.frias}"></a>
+						    <a th:href="@{/pedido/categoria/cervezas}" class="dropdown-item" th:text="#{app.categoria.cervezas}"></a>
+						    <a th:href="@{/pedido/categoria/cocteles}" class="dropdown-item" th:text="#{app.categoria.cocteles}"></a>
+						    <a th:href="@{/pedido/categoria/vinos}" class="dropdown-item" th:text="#{app.categoria.vinos}"></a>
+						    <a th:href="@{/pedido/categoria/licores}" class="dropdown-item" th:text="#{app.categoria.licores}"></a>
+						  </div>
+						</div>
+					  </div>
+					</form>
+				  	<div class="tabla-scroll">
+				  		<table class="table table-hover table-borderless text-center">
+						 <thead>
+						   <tr>
+						     <th scope="col">ID</th>
+						     <th scope="col">[[#{app.pedido.lista.producto}]]</th>
+						     <th scope="col">[[#{app.pedido.lista.categoria}]]</th>
+						     <th scope="col">[[#{app.pedido.lista.precio}]]</th>
+						     <th scope="col"></th>
+						   </tr>
+						 </thead>
+						 <tbody>
+						   <tr th:each="p:${productos}">
+						     <th scope="row" th:text="${p.idProducto}"></th>
+						     <td th:text="${p.nombre}"></td>
+						     <td th:text="${p.categoria.categoria}"></td>
+						     <td th:text="${'$'+#numbers.formatDecimal(p.precio, 0, 'POINT', 0, 'POINT')}"></td>
+						     <td>
+						     	<a href="#cant-prod-pedido" data-toggle="modal" class="p-0 text-success btn-cant-prod">
+						     		<i class="fas fa-plus-circle" data-toggle="tooltip" data-placement="top" title="Agregar"></i>
+						     		<input type="hidden" th:value="${p.idProducto}" id="idProducto" name="idProducto">
+						     	</a>
+						     </td>
+						   </tr>
+						 </tbody>
+						</table>	
+				  	</div>
+				  </div>
+				</div>
+			</div>
+			<div class="col-5">
+				<div class="card" style="height: 400px; border-radius: 20px;">
+					<div class="card-header bg-success" style="border-radius: 20px 20px 0 0;">
+						<h2 class="justify-content-between d-flex text-white">
+							<span class="" th:text="#{app.pedido.total}"></span>
+							<span th:text="${'$'+#numbers.formatDecimal(pedido.total, 0, 'POINT', 0, 'POINT')}"></span>
+						</h2>
+					</div>
+					<div class="card-body">
+						<p class="d-flex justify-content-between"><span class="font-weight-bold" th:text="#{app.pedido.puntos}">PUNTOS POR COMPRA</span> <span th:text="${pedido.kangrepuntos}"></span></p>
+						<p class="d-flex justify-content-between"><span class="font-weight-bold" th:text="#{app.pedido.iba}">I.V.A</span> <span th:text="${'$'+#numbers.formatDecimal(iva, 0, 'POINT', 0, 'POINT')}"></span></p>
+						<p class="d-flex justify-content-between"><span class="font-weight-bold" th:text="#{app.pedido.sub}">SUBTOTAL</span> <span th:text="${'$'+#numbers.formatDecimal(pedido.subtotal, 0, 'POINT', 0, 'POINT')}"></span></p>
+						<p class="d-flex justify-content-between"><span class="font-weight-bold" th:text="#{app.pedido.total.mayus}">TOTAL</span> <span th:text="${'$'+#numbers.formatDecimal(pedido.total, 0, 'POINT', 0, 'POINT')}"></span></p>
+						<a href="#modalConfirmOrden" data-toggle="modal" class="btn btn-block btn-success rounded-pill font-weight-bold" th:classappend="${agregados.size() == 0 ? 'disabled' : ''}">
+							<i class="fas fa-check-circle mr-1"></i>
+							<span th:text="#{app.pedido.boton.tomar.orden}"></span>
+							
+						</a>
+						<a th:href="@{/pedido/tomar-orden}" class="btn btn-block btn-light rounded-pill font-weight-bold" th:classappend="${agregados.size() == 0 ? 'disabled' : ''}">
+							<i class="fas fa-trash mr-1"></i>
+							<span th:text="#{app.pedido.boton.limpiar}"></span>
+							
+						</a>
+					</div>
+					<div class="card-footer text-white-50 font-weight-bold text-center bg-secondary" style="border-radius: 0 0 20px 20px;">
+						<span th:text="${pedido.empleado.user.nombres} + ' ' + ${pedido.empleado.user.apellidos}"></span>
+				  	</div>
+				</div>
+			</div>
+		</div>
+		<hr>
+		<div class="row">
+			<div class="col">
+				<div class="card" style="border-radius: 20px;">
+				  <div class="card-header" style="border-radius: 20px 20px 0 0;">
+				   	<h2 class="text-black-50">[[#{app.pedido.agregados}]]</h2>
+				  </div>
+				  <div class="card-body"> 	
+			   		<table class="table table-hover table-borderless text-center">
+					 <thead>
+					   <tr>
+					     <th scope="col">#</th>
+					     <th scope="col">ID</th>
+					     <th scope="col">[[#{app.pedido.lista.producto}]]</th>
+					     <th scope="col">[[#{app.pedido.lista.precio}]]</th>
+					     <th scope="col">[[#{app.pedido.detalle.cantidad}]]</th>
+					     <th scope="col">[[#{app.pedido.detalle.sub}]]</th>
+					     <th scope="col" class="text-center">[[#{app.pedido.detalle.quitar}]]</th>
+					   </tr>
+					 </thead>
+					 <tbody>
+					   <tr th:each="a:${agregados}">
+					     <th scope="row" th:text="${a.idDetalle}"></th>
+					     <td th:text="${a.producto.idProducto}"></td>
+					     <td th:text="${a.producto.nombre}"></td>
+					     <td th:text="${'$'+#numbers.formatDecimal(a.producto.precio, 0, 'POINT', 0, 'POINT')}"></td>
+					     <td th:text="${a.cantidad}"></td>
+					     <td th:text="${'$'+#numbers.formatDecimal(a.subtotal, 0, 'POINT', 0, 'POINT')}"></td>
+					     <td class="text-center">
+					     	<a th:href="@{/pedido/quitar-item/} + ${a.idDetalle}" class="p-0 text-danger">
+					     		<i class="fas fa-times-circle" data-toggle="tooltip" data-placement="top" title="Quitar"></i>
+					     	</a>
+					     </td>
+					   </tr>
+					 </tbody>
+					</table>
+				  </div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+	<script type="text/javascript" th:src="@{/js/popper.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+	
+	<div th:include="Views/SI/Venta/Pedido/modalCantidadProducto.html" th:remove="tag"></div>
+	<div th:include="Views/SI/Venta/Pedido/modalConfirmOrden.html" th:remove="tag"></div>
+	
+	<script>
+		// Example starter JavaScript for disabling form submissions if there are invalid fields
+		(function() {
+		  'use strict';
+		  window.addEventListener('load', function() {
+		    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+		    var forms = document.getElementsByClassName('needs-validation');
+		    // Loop over them and prevent submission
+		    var validation = Array.prototype.filter.call(forms, function(form) {
+		      form.addEventListener('submit', function(event) {
+		        if (form.checkValidity() === false) {
+		          event.preventDefault();
+		          event.stopPropagation();
+		        }
+		        form.classList.add('was-validated');
+		      }, false);
+		    });
+		  }, false);
+		})();
+	</script>
+	<script type="text/javascript">
+	    function tomarOrden(){
+	    	window.location = "/pedido/tomar-orden";
+	    }
+	    
+	    $('document').ready(function(){
+			
+			$('[data-toggle="tooltip"]').tooltip();
+			
+			$('.table .btn-cant-prod').on('click', function(){
+				var idProducto = $(this).parent().find('#idProducto').val();
+				
+				$.ajax({
+					type: 'GET',
+					url: '/pedido/producto/'+idProducto,
+					success: function(producto){
+						$('#cant-prod-pedido #nombreProductoText').text(producto.nombre);
+						$('#cant-prod-pedido #precioProductoText').text('$'+producto.precio+' C/U');
+						$('#cant-prod-pedido #categoriaProductoText').text(producto.categoria.categoria);
+						$('#cant-prod-pedido #idProductoMC').val(idProducto);
+					}
+				});
+			});	
+			
+		});
+	</script>
+</body>
+</html>

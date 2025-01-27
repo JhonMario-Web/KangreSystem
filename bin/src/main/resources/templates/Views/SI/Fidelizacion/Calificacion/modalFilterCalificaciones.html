@@ -1,0 +1,44 @@
+<div class="modal fade" id="modalFilterCalificaciones" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content p-4">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">[[#{app.prov.filtro}]]</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form th:action="@{/pedido/calificacion/}" th:object="${calificacion}" method="post">
+          <div class="form-group">
+            <label for="idCalificacionMF" class="col-form-label">ID</label>
+            <input type="text" class="form-control" id="idCalificacionMF" name="idCalificacionMF" >
+          </div>
+          <hr>
+          <div class="form-group">
+            <label for="categoria" class="col-form-label" th:text="'Fecha'"></label>
+            <input type="date" class="form-control form-control-lg" th:field="*{fecha}">
+          </div>
+          <div class="form-group">
+            <label for="calificacion" class="col-form-label" th:text="'Calificacion'"></label>
+            <select class="custom-select custom-select-lg" id="calificacion" name="calificacion" th:field="*{calificacion}">
+            	<option th:value="''" th:text="''"/>
+            	<option th:value="'EXCELENTE'" th:text="'Excelente'"/>
+            	<option th:value="'MUY BUENO'" th:text="'Muy bueno'"/>
+            	<option th:value="'BUENO'" th:text="'Bueno'"/>
+            	<option th:value="'REGULAR'" th:text="'Regular'"/>
+            	<option th:value="'MALO'" th:text="'Malo'"/>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-lg btn-primary font-weight-bold btn-block rounded-pill">
+      			<span th:text="#{app.prov.buscar}"></span>
+      			<i class="fas fa-search ml-1"></i>
+          </button>
+       	  <button type="button" class="btn btn-lg btn-light font-weight-bold btn-block rounded-pill" data-dismiss="modal">
+       	  		<span th:text="#{app.prov.cancelar}"></span>
+       	  		<i class="fas fa-times ml-1"></i>
+       	  </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

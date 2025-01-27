@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Calificaciones | KangreSystem</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/dashboard.css}">
+	<link rel="shotcut icon" th:href="@{/img/logosimbolo.png}">
+	<script src="https://kit.fontawesome.com/eb1bb051d4.js"></script>
+</head>
+<body>
+	<header th:replace="plantillas/burguer :: header"></header>
+	<nav th:replace="plantillas/burguer :: navbar"></nav>
+	<div class="content mx-auto">
+		<div class="alert alert-success alert-dismissible fade show mt-2" role="alert" th:if="${success}">
+			<i class="far fa-check-circle mr-1"></i>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+			<strong th:text="${success}"></strong>
+		</div>
+		<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" th:if="${error}">
+	      <i class="far fa-times-circle"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${error}"></strong>
+		</div>
+		<div class="alert alert-warning alert-dismissible fade show mt-2" role="alert" th:if="${warning}">
+		  <i class="fas fa-exclamation-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${warning}"></strong>
+		</div>
+		<div class="alert alert-info alert-dismissible fade show mt-2" role="alert" th:if="${info}">
+		  <i class="fas fa-info-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${info}"></strong>
+		</div>
+	</div>
+	<div class="content mx-auto">
+		<h1 th:text="#{app.calificacion.titulo}" class="text-center display-4 mt-4"></h1>
+		<div class="justify-content-center d-flex mb-4">
+			<button type="button" data-toggle="modal" data-target="#modalFilterCalificaciones" class="btn col-3 btn-light border border-secondary rounded-pill" title="Buscar / filtrar">
+				<span th:text="#{app.prov.busc}"></span>
+				<i class="fas fa-search ml-2"></i>
+			</button>
+		</div>
+		<div class="justify-content-center d-flex">
+			<div class="btn-group">
+				<a class="btn btn-light border border-secondary font-weight-bold text-secondary" th:href="@{/pedido/calificacion/pdf}">[[#{app.prov.exp}]]<i class="far fa-file-pdf ml-1 text-dark"></i></a>
+				<a class="btn btn-light border border-secondary font-weight-bold text-secondary" th:href="@{/pedido/calificacion/(format=xlsx)}">[[#{app.prov.exl}]]<i class="far fa-file-excel ml-1 text-dark"></i></a>
+				<a class="btn btn-light border border-secondary font-weight-bold text-secondary" th:href="@{/pedido/calificacion/limpiar-filtro}">[[#{app.prov.filt}]]<i class="fas fa-backspace ml-1 text-dark"></i></a>
+			</div>
+		</div>
+	</div>
+	<div class="content mx-auto">
+		<table class="table text-center table-hover">
+	  		<thead class="thead-light">
+			    <tr>
+			      <th scope="col">ID</th>
+			      <th scope="col">[[#{app.index.alerta.fecha}]]</th>
+			      <th scope="col">[[#{app.calificacion.pedido}]]</th>
+			      <th scope="col">[[#{app.calificacion.cliente}]]</th>
+			      <th scope="col">[[#{app.calificacion}]]</th>
+			      <th scope="col" class="text-center"></th>
+			    </tr>
+	  		</thead>
+			<tbody>
+			    <tr th:each="c:${calificaciones}">
+			      <th scope="row" th:text="${c.idCalificacion}"></th>
+			      <td th:text="${#calendars.format(c.fecha, 'dd/MMM/yyyy')}" class="text-uppercase"></td>
+			      <td th:text="${c.pedido.idPedido}"></td>
+			      <td th:text="${c.cliente.user.nombres+' '+c.cliente.user.apellidos}"></td>
+			      <td th:text="${c.calificacion}"></td>
+			      <td class="text-center">
+			      	<a href="#calificacion-descripcion" data-toggle="modal" class="btn-details text-info" title="Eliminar">
+		      			<i class="fas fa-ellipsis-h" data-toggle="tooltip" data-placement="top" title="Descripcion de oferta"></i>
+		      			<input type="hidden" th:value="${c.idCalificacion}" id="idCalificacion" name="idCalificacion">
+	      			</a>
+			      </td>
+			    </tr>
+			</tbody>
+		</table>
+	</div>
+	<footer th:replace="plantillas/burguer :: footer"></footer>	
+	
+	<script type="text/javascript">
+	
+	    function clearSearch() {
+	        window.location = "[[@{/proveedor/}]]";
+	    }
+	   
+	    function confirmDelete(id){
+	    	$('#deleteModal').modal('show');
+	    	$("#idProveedor").val(id);
+	    }
+	    
+	    function deleteProveedor(){
+	    	var id = $("#idProveedor").val();
+	        window.location = "delete/"+id;
+	    }
+	    
+	    function editProveedor(){
+	    	var id = $("#idProveedorModal").val();
+	        window.location = "/proveedor/edit/"+id;
+	    }
+	    
+	    function insumosProveedor(){
+	    	var nit = $("#proveedor-details #nitProveedorModalD").val();
+	        window.location = "/proveedor/insumos/"+nit;
+	    }
+	    
+		$('document').ready(function(){
+    		
+    		$('[data-toggle="tooltip"]').tooltip();
+    		
+    		$('.table .btn-details').on('click', function(){
+    			var idCalificacion = $(this).parent().find('#idCalificacion').val();
+    			$.ajax({
+    				type: 'GET',
+    				url: '/pedido/calificacion/details/'+idCalificacion,
+    				success: function(calificacion){
+    					$('#calificacion-descripcion #descripcion').text(calificacion.descripcion);
+    				}
+    			});
+    		});	
+    		
+    	});
+	</script>
+	
+	<div th:include="Views/SI/Fidelizacion/Calificacion/modalFilterCalificaciones.html" th:remove="tag"></div>			
+	<div th:include="Views/SI/Fidelizacion/Calificacion/modalDescripCalificacion.html" th:remove="tag"></div>			
+	<div th:include="Views/SI/Proveedores/modalDetailsP.html" th:remove="tag"></div>			
+</body>
+</html>

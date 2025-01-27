@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Pago efectivo | KangreSystem</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="shotcut icon" th:href="@{/img/logosimbolo.png}">
+	<script src="https://kit.fontawesome.com/eb1bb051d4.js"></script>
+</head>
+<style>
+	.bg-primary, .bg-secondary, .bg-dark, .bg-info, .bg-warning, .bg-danger, .bg-success{
+		 opacity: 0.5;
+	}
+	.jumbotron{
+		border-radius: 15px;
+	}
+</style>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col">
+				<div class="alert alert-success alert-dismissible fade show mt-2" role="alert" th:if="${success}">
+					<i class="far fa-check-circle mr-1"></i>
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					  <span aria-hidden="true">&times;</span>
+					</button>
+					<strong th:text="${success}"></strong>
+				</div>
+				<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" th:if="${error}">
+			      <i class="far fa-times-circle"></i>
+				  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				    <span aria-hidden="true">&times;</span>
+				  </button>
+				  <strong th:text="${error}"></strong>
+				</div>
+				<div class="alert alert-warning alert-dismissible fade show mt-2" role="alert" th:if="${warning}">
+				  <i class="fas fa-exclamation-circle mr-1"></i>
+				  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				    <span aria-hidden="true">&times;</span>
+				  </button>
+				  <strong th:text="${warning}"></strong>
+				</div>
+				<div class="alert alert-info alert-dismissible fade show mt-2" role="alert" th:if="${info}">
+				  <i class="fas fa-info-circle mr-1"></i>
+				  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				    <span aria-hidden="true">&times;</span>
+				  </button>
+				  <strong th:text="${info}"></strong>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+	<div class="container py-4">
+		<div class="display-4 text-center mt-4" th:text="#{app.efectivo.titulo}"></div>
+		<hr>
+		<div class="col-12 justify-content-center d-flex">
+			<div class="text-center text-success">
+				<a href="#add-cliente-modal" th:if="${pedido.cliente == null}" data-toggle="modal" class="btn btn-lg btn-primary font-weight-bold rounded-pill mb-2">Acumular Kangrepuntos</a>
+				<h3 th:if="${pedido.cliente != null}" th:text="${pedido.cliente.user.nombres+' '+pedido.cliente.user.apellidos}" class="font-weight-bold"></h3>
+				<h4 th:if="${pedido.cliente != null}" th:text="${pedido.cliente.user.username}"></h4>
+			</div>
+		</div>
+		<hr>
+		<div class="row justify-content-center">
+			<div class="col-12">
+				<table class="table table-hover text-center table-borderless">
+					 <thead>
+					   <tr>
+					     <th scope="col">ID</th>
+					     <th scope="col">[[#{app.pedido.lista.producto}]]</th>
+					     <th scope="col">[[#{app.pedido.lista.precio}]]</th>
+					     <th scope="col">[[#{app.pedido.detalle.cantidad}]]</th>
+					     <th scope="col">[[#{app.pedido.detalle.sub}]]</th>
+					   </tr>
+					 </thead>
+					 <tbody>
+					   <tr th:each="d:${detalles}">
+					     <th scope="row" th:text="${d.producto.idProducto}"></th>
+					     <td th:text="${d.producto.nombre}"></td>
+					     <td th:text="${'$'+#numbers.formatDecimal(d.producto.precio, 0, 'POINT', 0, 'POINT')}"></td>
+					     <td th:text="${d.cantidad}"></td>
+					     <td th:text="${'$'+#numbers.formatDecimal(d.subtotal, 0, 'POINT', 0, 'POINT')}"></td>
+					   </tr>
+					 </tbody>
+				</table>
+				<hr>
+			</div>
+			<div class="col-12">
+				<div class="jumbotron bg-light py-3 px-4 mt-4">
+					<h1 class="font-weight-light justify-content-between d-flex"><span th:text="'Bonificación'"></span> <small class="font-weight-light" th:text="${pedido.kangrepuntos+' puntos'}"></small></h1>
+				  	<h1 class="font-weight-light justify-content-between d-flex"><span th:text="#{app.pedido.detalle.sub}">Subtotal</span> <small class="font-weight-light" th:text="${'$'+#numbers.formatDecimal(pedido.subtotal, 0, 'POINT', 0, 'POINT')}"></small></h1>
+				  	<h1 class="font-weight-light justify-content-between d-flex"><span th:text="#{app.pedido.iba}">I.V.A</span> <small class="font-weight-light" th:text="${'$'+#numbers.formatDecimal(iva, 0, 'POINT', 0, 'POINT')}"></small></h1>
+				</div>
+			</div>
+			<form th:action="@{/pedido/pago/efectivo/trxn}" method="post" class="needs-validation col-12" novalidate>
+				<div class="">
+					<div class="jumbotron bg-success py-3 px-4 mt-5 text-white">
+						<h1 class="font-weight-bold justify-content-between d-flex"><span th:text="#{app.efectivo.total}">Total</span> <small class="" th:text="${'$'+#numbers.formatDecimal(pedido.total, 0, 'POINT', 0, 'POINT')}"></small></h1>
+						<hr class="bg-light">
+						<div class="justify-content-between d-flex">
+							<h1 class="font-weight-bold" th:text="#{app.pagar.efectivo}"></h1>
+			  				<div class="input-group mb-4 col-4 pr-0">
+							  <div class="input-group-prepend">
+							    <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+							  </div>
+							  <input type="number" class="form-control form-control-lg text-right" id="efectivo"
+							  name="efectivo" min="1" required>
+								<div class="invalid-feedback text-white text-right">Ingrese la cantidad de efectivo.</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-12 justify-content-between p-0 mb-4">
+					<a th:href="@{/pedido/}" class="mr-2 btn btn-outline-dark rounded-pill font-weight-bold">
+						<i class="fas fa-times-circle"></i>
+						<span th:text="#{app.efectivo.boton.cancelar}"></span>
+					</a>
+					<button type="submit" class="btn btn-success float-right rounded-pill font-weight-bold">
+						<span th:text="#{app.efectivo.pagar}"></span>
+						<i class="fas fa-check-circle"></i>
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+	
+	<div th:include="Views/SI/Venta/Pedido/modalAddClientePedido.html" th:remove="tag"></div>
+	
+    <script src="https://code.jquery.com/jquery-1.9.1.js" integrity="sha256-e9gNBsAcA0DBuRWbm0oZfbiCyhjLrI6bmqAl5o+ZjUA=" crossorigin="anonymous"></script>
+	<script type="text/javascript" th:src="@{/js/popper.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+    <script>
+		// Example starter JavaScript for disabling form submissions if there are invalid fields
+		(function() {
+		  'use strict';
+		  window.addEventListener('load', function() {
+		    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+		    var forms = document.getElementsByClassName('needs-validation');
+		    // Loop over them and prevent submission
+		    var validation = Array.prototype.filter.call(forms, function(form) {
+		      form.addEventListener('submit', function(event) {
+		        if (form.checkValidity() === false) {
+		          event.preventDefault();
+		          event.stopPropagation();
+		        }
+		        form.classList.add('was-validated');
+		      }, false);
+		    });
+		  }, false);
+		})();
+	</script>
+</body>
+</html>

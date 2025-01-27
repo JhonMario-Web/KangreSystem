@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head >
+	<meta charset="UTF-8">
+	<title>Asignar rol | KangreSystem</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="shotcut icon" th:href="@{/img/logosimbolo.png}">
+	<link rel="stylesheet" th:href="@{/css/dashboard.css}">
+	<script th:src="@{/js/ingreso.js}"></script>
+	<script src="https://kit.fontawesome.com/eb1bb051d4.js"></script>
+</head>
+<body>
+	<header th:replace="plantillas/burguer :: header"></header>
+	<nav th:replace="plantillas/burguer :: navbar"></nav>
+	<div class="content mx-auto">
+		<div class="alert alert-success alert-dismissible fade show mt-2" role="alert" th:if="${success}">
+		  <i class="far fa-check-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${success}"></strong>
+		</div>
+		<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" th:if="${error}">
+		  <i class="far fa-times-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${error}"></strong>
+		</div>
+		<div class="alert alert-warning alert-dismissible fade show mt-2" role="alert" th:if="${warning}">
+		  <i class="fas fa-exclamation-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${warning}"></strong>
+		</div>
+		<div class="alert alert-info alert-dismissible fade show mt-2" role="alert" th:if="${info}">
+		  <i class="fas fa-info-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${info}"></strong>
+		</div>
+	</div>
+	<div class="content mx-auto">
+		<h1 th:text="#{app.rol.add}" class="text-center display-4 mt-5"></h1>
+		<hr>
+		<h4 th:text="${rol.user.nombres} + ' ' +  ${rol.user.apellidos}" class="text-center text-secondary font-weight-bold"></h4>
+		<hr>
+		<div class="row d-flex align-items-center">
+			<div class="col-4 ml-auto">
+				<div class="jumbotron p-4" style="border-radius: 20px;">
+				<p class="font-weight-bold">[[#{app.rol.tener}]]</p>
+				<p><small>[[#{app.rol.recuerda}]]</small></p>
+				</div>
+				<form th:action="@{/rol/asignar-rol}" method="post" th:object="${rol}">
+					<input type="hidden" th:field="*{idRol}">
+					<input type="hidden" th:field="*{user.idUser}">
+					<div class="form-group">
+						<label for="rol">[[#{app.rol.selec}]]</label>
+						<select th:field="*{rol}" name="rol" id="rol" class="custom-select" style="text-align-last: center;" autofocus required>
+							<option th:value="''" th:text="''"/>
+							<option th:each="r:${roles}" th:value="${r}" th:text="${r}"/>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="sueldo">[[#{app.rol.sueldo}]]</label>
+						<input type="text" class="form-control" th:value="${sueldo}" id="sueldo" name="sueldo" required/>
+					</div>
+					<button type="submit" id="btn" class="font-weight-bold rounded-pill mt-3 btn btn-danger btn-block float-right">
+						<i class="fas fa-check-circle ml-2"></i>
+						<span th:text="#{app.rol.agregar.boton}"></span>
+					</button>
+				</form>
+			</div>
+			<div class="col-7 ">
+				<img th:src="@{/img/roles.jpg}" class="img-fluid" width="600">
+			</div>
+		
+	</div>
+	</div>
+	
+	<footer th:replace="plantillas/burguer :: footer"></footer>
+</body>
+<script>
+	function goBack(){
+		window.history.back();
+	}
+</script>
+</html>

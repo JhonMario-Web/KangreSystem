@@ -1,0 +1,38 @@
+<!-- Modal -->
+<div class="modal fade" id="producto-details" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Detalles</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+       	<input type="hidden" id="idProductoModal" name="idProductoModal"/>
+      </div>
+      <div class="modal-body row p-4">
+	      <div class="col">
+	      	  <img src="" alt="Foto producto" class="img-fluid mb-3 rounded d-block mx-auto" style="width:200px; height: auto;" id="foto" name="foto">
+		      <h1 class="text-center display-4" id="nombre"></h1>
+		      <h3 class="text-center text-secondary font-weight-light" id="precio"></h3>
+		      <hr>
+		      <p class="text-center"><span class="font-weight-bold">Codigo de barra: </span><span id="codBarra"></span></p>
+		      <p class="text-center"><span class="font-weight-bold">Precio: $</span><span id="precio"></span></p>
+		      <p class="text-center"><span class="font-weight-bold">Categoria: </span> <span id="categoria"></span></p>
+		      <p class="text-center"><span class="font-weight-bold">Estado: </span><span id="estado"></span></p>
+		      <p class="text-center"><span class="font-weight-bold">Detalle: </span><span id="detalle"></span></p>
+		      <hr>
+		      <div class="btn-group btn-block">
+		         <button type="button" th:onclick="editProducto()" class="btn btn-light border border-secondary font-weight-bold text-secondary">
+		         	<span th:text="'Editar producto'"></span>
+		         	<i class="fas fa-edit ml-2 text-dark"></i>
+	         	</button>
+		         <button type="button" th:onclick="editIngredientes()" class="btn btn-light border border-secondary font-weight-bold text-secondary">
+		         	<span th:text="'Editar ingredientes'"></span>
+		         	<i class="fas fa-carrot ml-2 text-dark"></i>
+	         	</button>
+         	   </div>
+	      </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Calificar servicio | KangreSystem</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/dashboard.css}">
+	<link rel="shotcut icon" th:href="@{/img/logosimbolo.png}">
+	<script src="https://kit.fontawesome.com/eb1bb051d4.js"></script>
+</head>
+<style>
+	.jumbotron{
+		border-radius: 15px;
+	}
+</style>
+<body>
+	<header th:replace="plantillas/burguer :: header"></header>
+	<nav th:replace="plantillas/burguer :: navbar"></nav>
+	<div class="content mx-auto">
+		<div class="alert alert-success alert-dismissible fade show mt-2" role="alert" th:if="${success}">
+			<i class="far fa-check-circle mr-1"></i>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+			<strong th:text="${success}"></strong>
+		</div>
+		<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" th:if="${error}">
+	      <i class="far fa-times-circle"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${error}"></strong>
+		</div>
+		<div class="alert alert-warning alert-dismissible fade show mt-2" role="alert" th:if="${warning}">
+		  <i class="fas fa-exclamation-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${warning}"></strong>
+		</div>
+		<div class="alert alert-info alert-dismissible fade show mt-2" role="alert" th:if="${info}">
+		  <i class="fas fa-info-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${info}"></strong>
+		</div>
+	</div>
+	<div class="content mx-auto">
+		<h1 th:text="'Califica nuestro servicio'" class="text-center display-3 mt-5"></h1>
+		<hr>
+		<div class="row justify-content-center">
+			<div class="col-7" th:if="${pedido == null}">
+				<img th:src="@{/img/calificaciones.jpg}" class="img-fluid">
+				<div class="jumbotron px-5 py-4 bg-light">
+					<h2 class="text-center font-weight-light">ID Pedido</h2>
+					<hr>
+					<form th:action="@{/pedido/calificacion/agregar-pedido}" method="post">
+					  <div class="form-group">
+					    <input type="number" class="form-control form-control-lg" id="idPedido" name="idPedido" placeholder="ID Pedido" required>
+					   </div>
+					   <button type="submit" class="btn btn-block btn-danger font-weight-bold rounded-pill btn-lg">
+					   		Buscar pedido
+					   		<i class="fas fa-search ml-1"></i>
+				   	   </button>
+					</form>
+				</div>
+			</div>
+			<div class="col-5" th:if="${pedido}">
+				<div class="jumbotron px-5 py-4">
+					<h2 class="text-center font-weight-light">Detalles de pedido</h2>
+					<hr>
+					<p class="justify-content-between d-flex"><span class="font-weight-bold">Cajero</span><span th:text="${pedido.empleado.user.nombres}"></span></p>
+					<p class="justify-content-between d-flex"><span class="font-weight-bold">Tipo pago</span><span th:text="${pedido.tipoPago}"></span></p>
+					<p class="justify-content-between d-flex"><span class="font-weight-bold">Fecha</span><span th:text="${pedido.fecha}"></span></p>
+					<p class="justify-content-between d-flex"><span class="font-weight-bold">ID</span><span th:text="${pedido.idPedido}"></span></p>
+				</div>
+				<a th:href="@{/pedido/calificacion/cancelar}" class="text-danger btn btn-lg btn-light btn-block rounded-pill font-weight-bold bg-white">
+					Cancelar
+					<i class="fas fa-times-circle ml-1"></i>
+				</a>
+			</div>
+			<div class="col-10" th:if="${pedido}">
+				<hr>
+				<div>
+					<div class="justify-content-between d-flex">
+						<h3 class="text-center">
+							<a href="#" th:onclick="'javascript:confirmCalificacion(\'' + 'MALO' + '\' );'" class="text-dark nav-link">
+								<i class="far fa-frown" style="font-size: 60px;"></i>
+								<span class="d-block text-secondary text-center mt-3 font-weight-light">MALO</span>
+							</a>
+						</h3>
+						<h3 class="text-center">
+							<a href="#" th:onclick="'javascript:confirmCalificacion(\'' + 'REGULAR' + '\' );'" class="text-secondary nav-link">
+								<i class="far fa-meh" style="font-size: 60px;"></i>
+								<span class="d-block text-secondary text-center mt-3 font-weight-light">REGULAR</span>
+							</a>
+						</h3>
+						<h3 class="text-center">
+							<a href="#" th:onclick="'javascript:confirmCalificacion(\'' + 'BUENO' + '\' );'" class="text-warning nav-link">
+								<i class="far fa-smile" style="font-size: 60px;"></i>
+								<span class="d-block text-secondary text-center mt-3 font-weight-light">BUENO</span>
+							</a>
+						</h3>
+						<h3 class="text-center">
+							<a href="#" th:onclick="'javascript:confirmCalificacion(\'' + 'MUY BUENO' + '\' );'" class="text-info nav-link">
+								<i class="far fa-laugh" style="font-size: 60px;"></i>
+								<span class="d-block text-secondary text-center mt-3 font-weight-light">MUY BUENO</span>
+							</a>
+						</h3>
+						<h3 class="text-center">
+							<a href="#" th:onclick="'javascript:confirmCalificacion(\'' + 'EXCELENTE' + '\' );'" class="text-success nav-link">
+								<i class="far fa-grin-stars" style="font-size: 60px;"></i>
+								<span class="d-block text-secondary text-center mt-3 font-weight-light">EXCELENTE</span>
+							</a>
+						</h3>
+					</div>
+				</div>
+				<hr>
+			</div>
+		</div>
+	</div>
+	
+	<footer th:replace="plantillas/burguer :: footer"></footer>	
+	
+	<script type="text/javascript">
+	
+	    function clearSearch() {
+	        window.location = "[[@{/proveedor/}]]";
+	    }
+	   
+	    function confirmCalificacion(calificacion){
+	    	$('#modalCalificarServicio').modal('show');
+	    	$('#modalCalificarServicio #calificacionModal').text(calificacion);
+	    	$("#modalCalificarServicio #calificacion").val(calificacion);
+	    	
+	    }
+	    
+	    function deleteProveedor(){
+	    	var id = $("#idProveedor").val();
+	        window.location = "delete/"+id;
+	    }
+	    
+	    function editProveedor(){
+	    	var id = $("#idProveedorModal").val();
+	        window.location = "/proveedor/edit/"+id;
+	    }
+	    
+	    function insumosProveedor(){
+	    	var nit = $("#proveedor-details #nitProveedorModalD").val();
+	        window.location = "/proveedor/insumos/"+nit;
+	    }
+	    
+		$('document').ready(function(){
+    		
+    		$('[data-toggle="tooltip"]').tooltip();
+    		
+    		$('.table .btn-edit').on('click', function(){
+    			var idProveedor = $(this).parent().find('#idProveedor').val();
+    			$.ajax({
+    				type: 'GET',
+    				url: '/proveedor/details/'+idProveedor,
+    				success: function(proveedor){
+    					$('#proveedor-details #idProveedorModal').val(proveedor.idProveedor);
+    					$('#proveedor-details #nitProveedorModalD').val(proveedor.nitProveedor);
+    					$('#proveedor-details #nitProveedor').text(proveedor.nitProveedor);
+    					$('#proveedor-details #nombre').text(proveedor.nombre);
+    					$('#proveedor-details #telefono').text(proveedor.telefono);
+    					$('#proveedor-details #celular').text(proveedor.celular);
+    					$('#proveedor-details #email').text(proveedor.email);
+    					$('#proveedor-details #direccion').text(proveedor.direccion);
+    					$('#proveedor-details #categoria').text(proveedor.categoria.categoria);
+    					$('#proveedor-details #enabled').text(proveedor.enabled);
+    					$('#proveedor-details #ciudad').text(proveedor.ciudad);
+    					$('#proveedor-details #logo').attr('src', '/Imagenes/'+proveedor.logo);
+    				}
+    			});
+    		});	
+    		
+    	});
+	</script>
+	
+	<div th:include="Views/SI/Fidelizacion/Calificacion/modalCalificarServicio.html" th:remove="tag"></div>			
+	<div th:include="Views/SI/Proveedores/modalFilter.html" th:remove="tag"></div>			
+	<div th:include="Views/SI/Proveedores/modalDetailsP.html" th:remove="tag"></div>			
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Restablecer contraseña | KangreSystem</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/codigoContraseña.css}">
+	<link rel="shotcut icon" th:href="@{/img/logosimbolo.png}">
+	<script th:src="@{/js/ingreso.js}"></script>
+	<script src="https://kit.fontawesome.com/eb1bb051d4.js"></script>
+</head>
+<body class="row align-items-center vh-100">
+	<div class="container d-flex justify-content-center ">
+		<div class="jumbotron">
+			<div class="row justify-content-center logo">
+				<div class="col ingreso">
+					<img th:src="@{/img/logoMonocro.png}" alt="" class="img-fluid img-responsive mb-4" title="Logo KangreSystem">	
+					<hr>
+					<h1 class="text-center text-success font-weight-light">Restablecer contraseña</h1>
+					<hr>
+					<div id="alerta" class="text-center"></div>
+					<p class="font-weight-bold text-light rounded bg-dark text-center py-2">Necesitamos comprobar tu identidad</p>
+					<p>Escriba el código que te hemos enviado</p>
+					<form id="codigoContraseña">
+						<div class="form-row">
+							<div class="form-group col">
+								<input type="text" class="form-control text-center" maxlength="1" id="valor1" name="valor1" required>
+							</div>
+							<div class="form-group col">
+								<input type="text" class="form-control text-center" maxlength="1" id="valor2" name="valor2" required>
+							</div>
+							<div class="form-group col">
+								<input type="text" class="form-control text-center" maxlength="1" id="valor3" name="valor3" required>
+							</div>
+							<div class="form-group col">
+								<input type="text" class="form-control text-center" maxlength="1" id="valor4" name="valor4" required>
+							</div>
+							<div class="form-group col">
+								<input type="text" class="form-control text-center" maxlength="1" id="valor5" name="valor5" required>
+							</div>
+						</div>
+						<small><a href="#">No me ha llegado, volver a enviar</a></small>
+						<hr>
+						<div class="btn-group btn-block">
+							<a href="/restablecerContraseña" class="btn btn-info font-weight-bold">Volver</a>
+							<button type="submit" class="btn btn-success font-weight-bold">Siguiente</button>
+						</div>
+					</form>
+					<a th:href="@{/index}" class="nav-link text-center  text-secondary">Regresar al Inicio</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

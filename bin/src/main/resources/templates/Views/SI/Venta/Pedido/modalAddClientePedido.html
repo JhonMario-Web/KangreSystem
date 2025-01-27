@@ -1,0 +1,26 @@
+<!-- Modal -->
+<div class="modal fade" id="add-cliente-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">[[#{app.pedido.modal.cliente}]]</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body row p-4">
+	      <div class="col">
+		      <form th:action="@{/pedido/agregar-cliente}" method="post" class="needs-validation" novalidate>
+		      	<div class="form-group">
+		      		<label for="numeroDoc" th:text="#{app.pedido.modal.doc}"></label>
+		      		<input type="text" class="form-control form-control-lg" id="numeroDoc" name="numeroDoc" required>
+		      	</div>
+		      	<button type="submit" class="btn btn-block btn-lg btn-primary rounded-pill font-weight-bold">
+		      		<span th:text="#{app.pedido.modal.boton}"></span>
+		      		<i class="fas fa-check-circle ml-2"></i></button>
+		      </form>   
+	      </div>
+      </div>
+    </div>
+  </div>
+</div>

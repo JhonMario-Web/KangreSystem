@@ -1,0 +1,129 @@
+body{
+	overflow-x:hidden;	
+}
+.logo{
+	min-height: 90px;
+}
+.logo .img-1 img{
+	width: 180px;
+	padding: 10px;
+}
+.simbolo{
+	height: 50px;
+	width: auto;	
+}
+.texto{
+	width: 220px;
+	height: auto;
+}
+.barraNavega{
+	background: #C60000;
+	min-height: 50px;
+}
+.dropdown-menu ul{
+	padding-left: 0;
+}
+.dropdown-menu ul li{
+	list-style: none;
+}
+.dropdown-menu ul li a:hover{
+	background: rgba(0,0,0,0.2);
+}
+.navIndex hr{
+	border: 0.5px solid rgba(255,255,255,0.2);
+	margin: 0;
+}
+.dropdown-menu a{
+	color: black;
+}
+.ingresar a.btn{
+	width: 100%;
+}
+/*---Contenido principal/iframe---*/
+.iframe{
+	width: 100%;
+	max-height: 100%;
+}
+/*---Footer---*/
+footer{
+	min-height: 90px;
+	margin-top: 10px;
+	margin-bottom: 5px;
+	padding: 20px 0;
+	background: rgba(0,0,0,0.2);
+	text-align: center;
+}
+.logos{
+	width: 70px;
+}
+.infoFooter a span{
+	font-size: 12px;
+}
+.infoFooter a{
+	padding: 0;
+	margin: 7px 0;
+}
+.infoFooter p{
+	margin: 0;
+}
+.logoFooter img{
+	width: 120px;
+}
+.redesSociales a{
+	margin: 0;
+	color: rgba(0,0,0,0.5);
+	font-size: 25px;
+}
+
+.redesSociales a i{
+	margin: 0 5px; 
+}
+
+.icono:hover{
+	line-height: 30px;
+	transition: all 1s ease;
+}
+.facebook:hover{
+	color: #2453FF;
+}
+.twitter:hover{
+	color: #36AEFF;
+}
+.instagram:hover{
+	color: #9900CC;
+}
+.trabajo:hover{
+	color: black;
+}
+.soporte:hover{
+	color: orange;
+}
+.problema:hover{
+	color: red;
+}
+
+/*---MEDIA QUERIES*/
+
+/* Extra small devices (portrait phones, less than 576px)
+No media query since this is the default in Bootstrap*/
+
+/*Small devices (landscape phones, 576px and up)*/
+@media (min-width: 576px) {
+
+	
+}
+
+/*Medium devices (tablets, 768px and up)*/
+@media (min-width: 768px) {
+
+}
+
+/*Large devices (desktops, 992px and up)*/
+@media (min-width: 992px) {
+
+}
+
+/*Extra large devices (large desktops, 1200px and up)*/
+@media (min-width: 1200px) {
+
+}

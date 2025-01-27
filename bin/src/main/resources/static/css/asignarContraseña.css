@@ -1,0 +1,54 @@
+body{
+	overflow: hidden;
+	font-size: 0.9rem;
+}
+.contraseña h1{
+	font-size: 1.3rem;
+}
+.logo img{
+	width: 100%;
+	max-width: 380px;
+}
+.jumbotron{
+	background: rgba(0,0,0,0.06);
+	padding: 40px;
+	margin: 10px 50px;
+	min-width: 320px;
+	max-width: 400px;
+  }
+
+/*---MEDIAQUERIES---*/
+
+/*Extra small devices (portrait phones, less than 576px)
+No media query for `xs` since this is the default in Bootstrap*/
+
+/*Small devices (landscape phones, 576px and up)*/
+@media (min-width: 576px) {
+	body{
+		font-size: 1rem;
+	}
+	
+	.contraseña h1{
+		font-size: 1.7rem;
+	}
+
+}
+
+
+/*Medium devices (tablets, 768px and up)*/
+@media (min-width: 768px) {
+	
+	.contraseña h1{
+		font-size: 2rem;
+	}
+}
+
+
+/*Large devices (desktops, 992px and up)*/
+@media (min-width: 992px) {
+	.contraseña h1{
+		font-size: 2rem;
+	}
+}
+
+

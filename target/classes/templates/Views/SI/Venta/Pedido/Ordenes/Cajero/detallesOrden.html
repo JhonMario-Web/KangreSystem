@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Detalles orden | KangreSystem</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/indexPedido.css}">
+	<link rel="shotcut icon" th:href="@{/img/logosimbolo.png}">
+	<script src="https://kit.fontawesome.com/eb1bb051d4.js"></script>
+</head>
+<body>
+	<div class="container py-4">
+		 <div class="row">
+			<div class="col">
+				<div class="alert alert-success alert-dismissible fade show mt-2" role="alert" th:if="${success}">
+					<i class="far fa-check-circle mr-1"></i>
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					  <span aria-hidden="true">&times;</span>
+					</button>
+					<strong th:text="${success}"></strong>
+				</div>
+				<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" th:if="${error}">
+			      <i class="far fa-times-circle"></i>
+				  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				    <span aria-hidden="true">&times;</span>
+				  </button>
+				  <strong th:text="${error}"></strong>
+				</div>
+				<div class="alert alert-warning alert-dismissible fade show mt-2" role="alert" th:if="${warning}">
+				  <i class="fas fa-exclamation-circle mr-1"></i>
+				  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				    <span aria-hidden="true">&times;</span>
+				  </button>
+				  <strong th:text="${warning}"></strong>
+				</div>
+				<div class="alert alert-info alert-dismissible fade show mt-2" role="alert" th:if="${info}">
+				  <i class="fas fa-info-circle mr-1"></i>
+				  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				    <span aria-hidden="true">&times;</span>
+				  </button>
+				  <strong th:text="${info}"></strong>
+				</div>
+			</div>
+		</div>
+		<div class="display-4 text-center mt-4" th:text="'Productos agregados'"></div>
+		<h1 class="text-center text-secondary" th:text="'Orden numero '+${orden.numeroOrden}"></h1>
+		<div class="row mt-4 justify-content-center">
+			<div class="col-8">
+				<table class="table table-borderless text-center table-hover">
+				  <thead>
+				    <tr>
+				      <th scope="col">ID</th>
+				      <th scope="col">Producto</th>
+				      <th scope="col">Cantidad</th>
+				      <th scope="col">Subtotal</th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				    <tr th:each="d:${detalles}">
+				      <th scope="row" th:text="${d.producto.idProducto}"></th>
+				      <td th:text="${d.producto.nombre}"></td>
+				      <td th:text="${d.cantidad}"></td>
+				      <td th:text="${'$'+#numbers.formatDecimal(d.subtotal, 0, 'POINT', 0, 'POINT')}"></td>
+				    </tr>
+				  </tbody>
+				</table>
+				<button type="button" th:onclick="goBack()" class="mt-2 btn btn-primary rounded-pill font-weight-bold">
+					<i class="fas fa-arrow-circle-left mr-1"></i>
+					Volver a tomar orden
+				</button>
+			</div>
+		</div>
+	</div>
+		
+	<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+	<script type="text/javascript" th:src="@{/js/popper.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+	
+	<script>
+		function goBack() {
+		  window.history.back();
+		}
+	</script>
+	
+</body>
+</html>

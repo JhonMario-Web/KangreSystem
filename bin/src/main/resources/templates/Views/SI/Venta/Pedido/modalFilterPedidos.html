@@ -1,0 +1,41 @@
+<div class="modal fade" id="modalFilterPedidos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content p-4">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">[[#{app.prov.filtro}]]</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form th:action="@{/pedido/filtrar}" method="post">
+          <div class="form-group">
+            <label for="idPedidoMF" class="col-form-label" th:text="#{app.pedidos.modal.id}"></label>
+            <input type="number" class="form-control form-control-lg" id="idPedidoMF" name="idPedidoMF" >
+          </div>
+          <hr>
+          <div class="form-group">
+            <label for="numeroPedidoMF" class="col-form-label" th:text="#{app.pedidos.modal.numero}"></label>
+            <input type="number" class="form-control form-control-lg" id="numeroPedidoMF" name="numeroPedidoMF" >
+          </div>
+          <hr>
+          <div class="form-group">
+            <label for="empleadoMF" class="col-form-label" th:text="#{app.pedidos.empleado}"></label>
+            <select class="custom-select" id="empleadoMF" name="empleadoMF">
+            	<option th:value="''" th:text="''"/>
+            	<option th:each="e:${empleados}" th:value="${e.idEmpleado}" th:text="${e.user.nombres}+' '+${e.user.apellidos}"/>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-lg btn-primary font-weight-bold btn-block rounded-pill">
+      			<span th:text="#{app.prov.buscar}"></span>
+      			<i class="fas fa-search ml-1"></i>
+          </button>
+       	  <button type="button" class="btn btn-lg btn-light font-weight-bold btn-block rounded-pill" data-dismiss="modal">
+       	  		<span th:text="#{app.prov.cancelar}"></span>
+       	  		<i class="fas fa-times ml-1"></i>
+       	  </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

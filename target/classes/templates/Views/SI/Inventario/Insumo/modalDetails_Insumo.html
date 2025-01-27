@@ -1,0 +1,28 @@
+<!-- Modal -->
+<div class="modal fade" id="insumo-details" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header border-0">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+       	<input type="hidden" id="idInsumoModal" name="idInsumoModal"/>
+      </div>
+      <div class="modal-body row p-4">
+	      <div class="col">
+		      <h1 class="text-center" id="nombre"></h1>
+		      <h3 class="text-center text-secondary font-weight-light" id="precio"></h3>
+		      <hr>
+		      <p class="text-center"><span class="font-weight-bold">Categoria: </span><span id="categoria"></span></p>
+		      <p class="text-center"><span class="font-weight-bold">Proveedor: </span><span id="proveedor"></span></p>
+		      <p class="text-center"><span class="font-weight-bold">Estado: </span><span id="estado"></span></p>
+		      <hr>
+		      <button type="button" sec:authorize="hasRole('ROLE_ADMIN')" th:onclick="editInsumo()" class="btn btn-block btn-outline-secondary font-weight-bold rounded-pill">
+	      		<i class="fas fa-edit mr-1"></i>
+		      	Editar Insumo
+      		  </button>
+	      </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Ordenes | KangreSystem</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/indexPedido.css}">
+	<link rel="shotcut icon" th:href="@{/img/logosimbolo.png}">
+	<script src="https://kit.fontawesome.com/eb1bb051d4.js"></script>
+</head>
+<body>
+	<div class="container py-4">
+		 <div class="row">
+			<div class="col">
+				<div class="alert alert-success alert-dismissible fade show mt-2" role="alert" th:if="${success}">
+					<i class="far fa-check-circle mr-1"></i>
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					  <span aria-hidden="true">&times;</span>
+					</button>
+					<strong th:text="${success}"></strong>
+				</div>
+				<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" th:if="${error}">
+			      <i class="far fa-times-circle"></i>
+				  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				    <span aria-hidden="true">&times;</span>
+				  </button>
+				  <strong th:text="${error}"></strong>
+				</div>
+				<div class="alert alert-warning alert-dismissible fade show mt-2" role="alert" th:if="${warning}">
+				  <i class="fas fa-exclamation-circle mr-1"></i>
+				  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				    <span aria-hidden="true">&times;</span>
+				  </button>
+				  <strong th:text="${warning}"></strong>
+				</div>
+				<div class="alert alert-info alert-dismissible fade show mt-2" role="alert" th:if="${info}">
+				  <i class="fas fa-info-circle mr-1"></i>
+				  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				    <span aria-hidden="true">&times;</span>
+				  </button>
+				  <strong th:text="${info}"></strong>
+				</div>
+			</div>
+		</div>
+		<div class="display-4 text-center mt-4" th:text="#{app.orden.titulo}"></div>
+		<h1 class="text-center text-secondary" th:text="#{app.orden.index.cajero}"></h1>
+		<div class="row mt-4 justify-content-center">
+			<div class="col-8">
+				<ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
+					  <li class="nav-item">
+					    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#solicitadas" role="tab" aria-controls="solicitadas" aria-selected="true">[[#{app.orden.index.solicitadas}]]</a>
+					  </li>
+					  <li class="nav-item">
+					    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#preparadas" role="tab" aria-controls="preparadas" aria-selected="false">[[#{app.orden.index.preparadas}]]</a>
+					  </li>
+					  <li class="nav-item">
+					    <a class="nav-link" id="contact-tab" data-toggle="tab" href="#cobradas" role="tab" aria-controls="cobradas" aria-selected="false">[[#{app.orden.index.cobradas}]]</a>
+					  </li>
+					  <li class="nav-item">
+				    	<a class="nav-link" id="contact-tab" data-toggle="tab" href="#canceladas" role="tab" aria-controls="canceladas" aria-selected="false">[[#{app.orden.index.cancel}]]</a>
+					  </li>
+				</ul>
+				<div class="tab-content" id="myTabContent">
+				  <div class="tab-pane fade show active" id="solicitadas" role="tabpanel" aria-labelledby="solicitadas-tab">
+				  	<h1 class="text-center mt-3">[[#{app.orden.index.solicitadas}]]</h1>
+				  	<div class="row">
+					  	<div class="col">
+						  	<table class="table table-borderless table-hover text-center">
+							  <thead>
+							    <tr>
+							      <th scope="col">#</th>
+							      <th scope="col">[[#{app.index.alerta.fecha}]]</th>
+							      <th scope="col">[[#{app.orden.index.cajero}]]</th>
+							      <th scope="col">Total</th>
+							      <th scope="col">[[#{app.orden.index.prodcuto}]]</th>
+							    </tr>
+							  </thead>
+							  <tbody>
+							    <tr th:each="s:${solicitados}">
+							      <th scope="row" th:text="${s.numeroOrden}"></th>
+							      <td th:text="${#calendars.format(s.fecha, 'dd/MMMMM/yyyy')}" class="text-uppercase"></td>
+							      <td th:text="${s.empleado.user.nombres+' '+s.empleado.user.apellidos}"></td>
+							      <td th:text="${'$'+#numbers.formatDecimal(s.total, 0, 'POINT', 0, 'POINT')}"></td>
+							      <td>
+							      	<a th:href="@{/pedido/orden/cajero/detalles/}+${s.idPedido}" class="p-0">
+							      		<i class="fas fa-align-justify"></i>
+							      	</a>
+							      </td>
+							    </tr>
+							  </tbody>
+							</table>
+					  	</div>
+				  	</div>
+			  	  </div>
+				  <div class="tab-pane fade" id="preparadas" role="tabpanel" aria-labelledby="preparadas-tab">
+				  	<h1 class="text-center mt-3">[[#{app.orden.index.preparadas}]]</h1>
+				  	<div class="row">
+					  	<div class="col">
+						  	<table class="table table-borderless table-hover text-center">
+							  <thead>
+							    <tr>
+							      <th scope="col">#</th>
+							      <th scope="col">[[#{app.index.alerta.fecha}]]</th>
+							      <th scope="col">[[#{app.orden.index.cajero}]]</th>
+							      <th scope="col">Total</th>
+							      <th scope="col">[[#{app.orden.index.prodcuto}]]</th>
+							    </tr>
+							  </thead>
+							  <tbody>
+							    <tr th:each="p:${preparados}">
+							      <th scope="row" th:text="${p.numeroOrden}"></th>
+							      <td th:text="${#calendars.format(p.fecha, 'dd/MMMMM/yyyy')}" class="text-uppercase"></td>
+							      <td th:text="${p.empleado.user.nombres+' '+p.empleado.user.apellidos}"></td>
+							      <td th:text="${'$'+#numbers.formatDecimal(p.total, 0, 'POINT', 0, 'POINT')}"></td>
+							      <td>
+							      	<a th:href="@{/pedido/orden/cajero/detalles/}+${p.idPedido}" class="p-0">
+							      		<i class="fas fa-align-justify"></i>
+							      	</a>
+							      </td>
+							    </tr>
+							  </tbody>
+							</table>
+					  	</div>
+				  	</div>
+				  </div>
+				  <div class="tab-pane fade" id="cobradas" role="tabpanel" aria-labelledby="cobradas-tab">
+				  	<h1 class="text-center mt-3">[[#{app.orden.index.cobradas}]]</h1>
+				  	<div class="row">
+					  	<div class="col">
+						  	<table class="table table-borderless table-hover text-center">
+							  <thead>
+							    <tr>
+							      <th scope="col">#</th>
+							      <th scope="col">[[#{app.index.alerta.fecha}]]</th>
+							      <th scope="col">[[#{app.orden.index.cajero}]]</th>
+							      <th scope="col">Total</th>
+							      <th scope="col">[[#{app.orden.index.prodcuto}]]</th>
+							    </tr>
+							  </thead>
+							  <tbody>
+							    <tr th:each="c:${cobrados}">
+							      <th scope="row" th:text="${c.numeroOrden}"></th>
+							      <td th:text="${#calendars.format(c.fecha, 'dd/MMMMM/yyyy')}" class="text-uppercase"></td>
+							      <td th:text="${c.empleado.user.nombres+' '+c.empleado.user.apellidos}"></td>
+							      <td th:text="${'$'+#numbers.formatDecimal(c.total, 0, 'POINT', 0, 'POINT')}"></td>
+							      <td>
+							      	<a th:href="@{/pedido/orden/cajero/detalles/}+${c.idPedido}" class="p-0">
+							      		<i class="fas fa-align-justify"></i>
+							      	</a>
+							      </td>
+							    </tr>
+							  </tbody>
+							</table>
+					  	</div>
+				  	</div>
+				  </div>
+				  <div class="tab-pane fade" id="canceladas" role="tabpanel" aria-labelledby="canceladas-tab">
+				  	<h1 class="text-center mt-3">[[#{app.orden.index.cancel}]]</h1>
+				  	<div class="row">
+					  	<div class="col">
+						  	<table class="table table-borderless table-hover text-center">
+							  <thead>
+							    <tr>
+							      <th scope="col">#</th>
+							      <th scope="col">[[#{app.index.alerta.fecha}]]</th>
+							      <th scope="col">[[#{app.orden.index.cajero}]]</th>
+							      <th scope="col">Total</th>
+							      <th scope="col">[[#{app.orden.index.prodcuto}]]</th>
+							    </tr>
+							  </thead>
+							  <tbody>
+							    <tr th:each="can:${cancelados}">
+							      <th scope="row" th:text="${can.numeroOrden}"></th>
+							      <td th:text="${#calendars.format(can.fecha, 'dd/MMMMM/yyyy')}" class="text-uppercase"></td>
+							      <td th:text="${can.empleado.user.nombres+' '+can.empleado.user.apellidos}"></td>
+							      <td th:text="${'$'+#numbers.formatDecimal(can.total, 0, 'POINT', 0, 'POINT')}"></td>
+							      <td>
+							      	<a th:href="@{/pedido/orden/cajero/detalles/}+${can.idPedido}" class="p-0">
+							      		<i class="fas fa-align-justify"></i>
+							      	</a>
+							      </td>
+							    </tr>
+							  </tbody>
+							</table>
+					  	</div>
+				  	</div>
+				  </div>
+				</div>
+				<button type="button" th:onclick="goBack()" class="mt-2 btn btn-primary rounded-pill font-weight-bold">
+					<i class="fas fa-arrow-circle-left mr-1"></i>
+					<span th:text="#{apporden.index.boton.volver}"></span>
+				</button>
+			</div>
+		</div>
+   	</div>
+		
+	<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+	<script type="text/javascript" th:src="@{/js/popper.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+	
+	<script>
+		function goBack() {
+		  window.history.back();
+		}
+	</script>
+	
+</body>
+</html>

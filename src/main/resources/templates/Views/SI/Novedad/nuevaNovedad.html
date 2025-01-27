@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Compartir novedad | KangreSystem</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/dashboard.css}">
+	<link rel="shotcut icon" th:href="@{/img/logosimbolo.png}">
+	<script src="https://kit.fontawesome.com/eb1bb051d4.js"></script>
+</head>
+<body>
+	<header th:replace="plantillas/burguer :: header"></header>
+	<nav th:replace="plantillas/burguer :: navbar"></nav>
+	<div class="content mx-auto d-block">
+		<div class="alert alert-success alert-dismissible fade show mt-2" role="alert" th:if="${success}">
+		  <i class="far fa-check-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${success}"></strong>
+		</div>
+		<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" th:if="${error}">
+		  <i class="far fa-times-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${error}"></strong>
+		</div>
+		<div class="alert alert-warning alert-dismissible fade show mt-2" role="alert" th:if="${warning}">
+		  <i class="fas fa-exclamation-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${warning}"></strong>
+		</div>
+		<div class="alert alert-info alert-dismissible fade show mt-2" role="alert" th:if="${info}">
+		  <i class="fas fa-info-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${info}"></strong>
+		</div>
+	</div>
+	<div class="content mx-auto">
+		<h1 th:text="#{app.nueva.novedad}"class="text-center display-4 mt-4"></h1>
+		<hr>
+		<h2 class="text-center text-secondary font-weight-light my-4"></h2>
+		<div class="row justify-content-center d-flex">
+			<div class="col-5">
+				<label for="correo" th:text="#{app.nueva.destinatario}"></label>
+				<form th:action="@{/novedad/agregar-email}" method="post" class="form-row needs-validation" novalidate>
+				  <div class="col-9">
+				    <input type="email" th:value="${correo}" class="form-control" id="correo" name="correo" th:placeholder="#{app.nueva.agregar.correo}" required>
+				  	<div class="invalid-feedback">Debes agregar un correo electronico.</div>
+				  </div>
+				  
+				  <button type="submit" class="btn btn-outline-dark col-3">
+				  	<span th:text="#{app.nueva.boton.agregar}"></span>
+				  	<i class="fas fa-plus-circle"></i>
+			  	</button>
+				</form>
+				<hr>
+				<h3 class="font-weight-light text-center">[[#{app.nueva.correos}]]</h3>
+				<div th:each="c:${correos}" class="alert alert-success alert-dismissible fade show" role="alert">
+				  <span th:text="${c.correo}"></span>
+				  <a th:href="@{/novedad/quitar-email/}+${c.item - 1}" class="close" >
+				    <span aria-hidden="true">&times;</span>
+				  </a>
+				</div>
+			</div>
+			<div class="col-5">
+				<form method="POST" autocomplete="off" th:action="@{/novedad/nueva}" th:object="${novedad}" id="emailForm" class="needs-validation" novalidate enctype='multipart/form-data'>	
+		            <div class="form-group">
+		            	<label th:text="#{app.nueva.destinatario}"></label>
+		                <select class="custom-select" id="destinatarios" name="destinatarios">
+		                	<option th:value="''" th:text="''"/>
+		                	<option th:value="'ADMIN'" th:text="#{app.destinatario.admin}"/>
+		                	<option th:value="'CLIENTES'" th:text="#{app.destinatario.cliente}"/>
+		                	<option th:value="'EMPLEADOS'" th:text="#{app.destinatario.empleados}"/>
+		                	<option th:value="'PROVEEDORES'" th:text="#{app.destinatario.proveedores}"/>
+		                	<option th:value="'TODOS'" th:text="#{app.destinatarios.usuarios}"/>
+		                </select>
+		            </div>
+		            <div class="form-group">
+		            	<label th:text="#{app.nueva.asunto}"></label>
+		                <input type="text" th:field="*{asunto}" class="form-control form-control-lg" name="asunto" id="asunto" required/>
+		                <div class="invalid-feedback">Completa este campo.</div>
+		            </div>
+		            <div class="form-group">
+		            	<label th:text="#{app.nueva.mensaje}"></label>
+		                <textarea th:field="*{mensaje}" class="form-control form-control-lg" rows="5" id="mensaje" name="mensaje" required></textarea>
+		            	<div class="invalid-feedback">Completa este campo.</div>
+		            </div>
+		            <div class="custom-file mb-2">
+						  <input type="file" class="custom-file-input" name="file" th:field="*{file}" id="file">
+						  <label class="custom-file-label" for="customFile" th:text="#{app.nueva.archivo}"></label>
+					</div>
+		            <div>
+		                <button	 type="submit" class="btn float-right btn-outline-success rounded-pill font-weight-bold">
+		                	<span th:text="#{app.nueva.boton}"></span>
+	                		<i class="fas fa-share-alt ml-1"></i>
+	                	</button>
+		            </div>
+        		</form>
+			</div>
+		</div>
+		<hr>
+	</div>
+	<footer th:replace="plantillas/burguer :: footer"></footer>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
+	<script type="text/javascript">
+	
+	    $(document).ready(function () {
+	    	bsCustomFileInput.init()
+    	})
+	</script>
+	<script>
+		// Example starter JavaScript for disabling form submissions if there are invalid fields
+		(function() {
+		  'use strict';
+		  window.addEventListener('load', function() {
+		    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+		    var forms = document.getElementsByClassName('needs-validation');
+		    // Loop over them and prevent submission
+		    var validation = Array.prototype.filter.call(forms, function(form) {
+		      form.addEventListener('submit', function(event) {
+		        if (form.checkValidity() === false) {
+		          event.preventDefault();
+		          event.stopPropagation();
+		        }
+		        form.classList.add('was-validated');
+		      }, false);
+		    });
+		  }, false);
+		})();
+	</script>
+</body>
+</html>

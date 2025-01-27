@@ -1,0 +1,12 @@
+*{
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+}
+
+.jumbotron{
+	min-width: 350px;
+	box-shadow: 1px 1px 58px -16px rgba(120,120,120,1);
+	-webkit-box-shadow: 1px 1px 58px -16px rgba(120,120,120,1);
+	-moz-box-shadow: 1px 1px 58px -16px rgba(120,120,120,1);
+}

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Detalles kangrepuntos | KangreSystem</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/dashboard.css}">
+	<link rel="shotcut icon" th:href="@{/img/logosimbolo.png}">
+	<script src="https://kit.fontawesome.com/eb1bb051d4.js"></script>
+</head>
+<style>
+	.bg-primary, .bg-secondary, .bg-dark, .bg-info, .bg-warning, .bg-danger, .bg-success{
+		 opacity: 0.5;
+	}
+	.jumbotron{
+		border-radius: 15px;
+	}
+</style>
+<body>
+	<header th:replace="plantillas/burguer :: header"></header>
+	<nav th:replace="plantillas/burguer :: navbar"></nav>
+	<div class="content mx-auto">
+		<div class="alert alert-success alert-dismissible fade show mt-2" role="alert" th:if="${success}">
+			<i class="far fa-check-circle mr-1"></i>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+			<strong th:text="${success}"></strong>
+		</div>
+		<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" th:if="${error}">
+	      <i class="far fa-times-circle"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${error}"></strong>
+		</div>
+		<div class="alert alert-warning alert-dismissible fade show mt-2" role="alert" th:if="${warning}">
+		  <i class="fas fa-exclamation-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${warning}"></strong>
+		</div>
+		<div class="alert alert-info alert-dismissible fade show mt-2" role="alert" th:if="${info}">
+		  <i class="fas fa-info-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${info}"></strong>
+		</div>
+	</div>
+	<div class="content mx-auto">
+		<h1 th:text="'Mis Kangrepuntos'" class="text-center display-3 mt-5"></h1>
+		<hr>
+		<nav class="justify-content-center d-flex">
+		  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+		    <a class="nav-item nav-link active" id="nav-resumen-tab" data-toggle="tab" href="#nav-resumen" role="tab" aria-controls="nav-resumen" aria-selected="true">Resumen</a>
+		    <a class="nav-item nav-link" id="nav-disponibles-tab" data-toggle="tab" href="#nav-disponibles" role="tab" aria-controls="nav-disponibles" aria-selected="false">Disponibles</a>
+		    <a class="nav-item nav-link" id="nav-acumulados-tab" data-toggle="tab" href="#nav-acumulados" role="tab" aria-controls="nav-acumulados" aria-selected="false">Acumulados</a>
+		    <a class="nav-item nav-link" id="nav-redimidos-tab" data-toggle="tab" href="#nav-redimidos" role="tab" aria-controls="nav-redimidos" aria-selected="false">Redimidos</a>
+		    <a class="nav-item nav-link" id="nav-transferidos-tab" data-toggle="tab" href="#nav-transferidos" role="tab" aria-controls="nav-transferidos" aria-selected="false">Transferidos</a>
+		  </div>
+		</nav>
+		<div class="tab-content" id="nav-tabContent">
+		  <div class="tab-pane fade show active" id="nav-resumen" role="tabpanel" aria-labelledby="nav-resumen-tab">
+			<div class="row pt-4">
+				<div class="col-6 px-5">
+					<div class="jumbotron d-flex justify-content-between align-items-center bg-light py-3 px-4 mt-5">
+						<i class="fas fa-gift" style="font-size: 80px;"></i>
+						<h2 class="text-right">
+							<span class="display-3 font-weight-bold" th:text="${cliente.kangrepuntos}"></span>
+							<span class="nav-link text-dark px-0 font-weight-light">TOTAL KANGREPUNTOS</span>
+						</h2>
+					</div>
+					<div class="jumbotron d-flex justify-content-between align-items-center text-white bg-info py-3 px-4 mt-5">
+						<i class="fas fa-star" style="font-size: 80px;"></i>
+						<h2 class="text-right">
+							<span class="display-3 font-weight-bold" th:text="${favoritos}"></span>
+							<a th:href="@{/favorito/}" class="nav-link text-white px-0 font-weight-light">FAVORITOS AGREGADOS</a>
+						</h2>
+					</div>
+					<div class="jumbotron d-flex justify-content-between align-items-center text-white bg-danger py-3 px-4 mt-5">
+						<i class="fas fa-bomb" style="font-size: 80px;"></i>
+						<h2 class="text-right">
+							<span class="display-3 font-weight-bold" th:text="${aVencer.disponibles}"></span>
+							<span class="nav-link text-white px-0 font-weight-light" th:text="${aVencer.fechaVencimiento}"></span>
+							<span class="nav-link text-white px-0 font-weight-light">PROXIMOS A VENCER</span>
+						</h2>
+					</div>
+				</div>
+				<div class="col-6 align-items-end d-flex">
+					<img th:src="@{/img/resumenPuntos.jpg}" class="img-fluid">
+				</div>
+			</div>
+		  </div>
+		  <div class="tab-pane fade" id="nav-disponibles" role="tabpanel" aria-labelledby="nav-disponibles-tab">
+		  	<hr>
+  			<div class="row justify-content-center">
+	  			<div class="col-8">
+	  				<table class="table table-borderless table-hover text-center">
+					  <thead>
+					    <tr>
+					      <th scope="col">Trxn</th>
+					      <th scope="col">Fecha</th>
+					      <th scope="col">Disponibles</th>
+					      <th scope="col">Vencimiento</th>
+					    </tr>
+					  </thead>
+					  <tbody>
+					    <tr th:each="d:${disponibles}">
+					      <th scope="row" th:text="${d.idTrxn}"></th>
+					      <td th:text="${d.acumulados}"></td>
+					      <td th:text="${d.disponibles}"></td>
+					      <td th:text="${d.fechaVencimiento}"></td>
+					    </tr>
+					  </tbody>
+					</table>
+	  			</div>
+	  		</div>
+		  </div>
+		  <div class="tab-pane fade" id="nav-acumulados" role="tabpanel" aria-labelledby="nav-acumulados-tab">
+	  		<hr>
+  			<div class="row justify-content-center">
+	  			<div class="col-8">
+	  				<table class="table table-borderless table-hover text-center">
+					  <thead>
+					    <tr>
+					      <th scope="col">Trxn</th>
+					      <th scope="col">Fecha</th>
+					      <th scope="col">Acumulados</th>
+					      <th scope="col">Disponibles</th>
+					      <th scope="col">Vencimiento</th>
+					    </tr>
+					  </thead>
+					  <tbody>
+					    <tr th:each="a:${acumulados}">
+					      <th scope="row" th:text="${a.idTrxn}"></th>
+					      <td th:text="${a.fecha}"></td>
+					      <td th:text="${a.acumulados}"></td>
+					      <td th:text="${a.disponibles}"></td>
+					      <td th:text="${a.fechaVencimiento}"></td>
+					    </tr>
+					  </tbody>
+					</table>
+	  			</div>
+	  		</div>
+		  </div>
+		  <div class="tab-pane fade" id="nav-redimidos" role="tabpanel" aria-labelledby="nav-redimidos-tab">
+		  	<hr>
+  			<div class="row justify-content-center">
+	  			<div class="col-8">
+	  				<table class="table table-borderless table-hover text-center">
+					  <thead>
+					    <tr>
+					      <th scope="col">Trxn</th>
+					      <th scope="col">Fecha</th>
+					      <th scope="col">Trxn acumulado</th>
+					      <th scope="col">Redimidos</th>
+					    </tr>
+					  </thead>
+					  <tbody>
+					    <tr th:each="r:${redenciones}">
+					      <th scope="row" th:text="${r.idTrxn}"></th>
+					      <td th:text="${r.fecha}"></td>
+					      <td th:text="${r.acumulado.idTrxn}"></td>
+					      <td th:text="${r.redimidos}"></td>
+					    </tr>
+					  </tbody>
+					</table>
+	  			</div>
+	  		</div>
+		  </div>
+		  <div class="tab-pane fade" id="nav-transferidos" role="tabpanel" aria-labelledby="nav-transferidos-tab">
+		  	<hr>
+  			<div class="row justify-content-center">
+	  			<div class="col-8">
+	  				<table class="table table-borderless table-hover text-center">
+					  <thead>
+					    <tr>
+					      <th scope="col">Trxn</th>
+					      <th scope="col">Fecha</th>
+					      <th scope="col">Trxn acumulado</th>
+					      <th scope="col">Favorito</th>
+					      <th scope="col">Transferidos</th>
+					    </tr>
+					  </thead>
+					  <tbody>
+					    <tr th:each="t:${transferencias}">
+					      <th scope="row" th:text="${t.idTrxn}"></th>
+					      <td th:text="${t.fecha}"></td>
+					      <td th:text="${t.acumulado.idTrxn}"></td>
+					      <td th:text="${t.favorito.favorito.user.nombres+' '+t.favorito.favorito.user.apellidos}"></td>
+					      <td th:text="${t.transferidos}"></td>
+					    </tr>
+					  </tbody>
+					</table>
+	  			</div>
+	  		</div>
+		  </div>
+		</div>
+	</div>
+	
+	<footer th:replace="plantillas/burguer :: footer"></footer>	
+	
+	<script type="text/javascript">
+	
+	    function clearSearch() {
+	        window.location = "[[@{/proveedor/}]]";
+	    }
+	   
+	    function confirmDelete(id){
+	    	$('#deleteModal').modal('show');
+	    	$("#idProveedor").val(id);
+	    }
+	    
+	    function deleteProveedor(){
+	    	var id = $("#idProveedor").val();
+	        window.location = "delete/"+id;
+	    }
+	    
+	    function editProveedor(){
+	    	var id = $("#idProveedorModal").val();
+	        window.location = "/proveedor/edit/"+id;
+	    }
+	    
+	    function insumosProveedor(){
+	    	var nit = $("#proveedor-details #nitProveedorModalD").val();
+	        window.location = "/proveedor/insumos/"+nit;
+	    }
+	    
+		$('document').ready(function(){
+    		
+    		$('[data-toggle="tooltip"]').tooltip();
+    		
+    		$('.table .btn-edit').on('click', function(){
+    			var idProveedor = $(this).parent().find('#idProveedor').val();
+    			$.ajax({
+    				type: 'GET',
+    				url: '/proveedor/details/'+idProveedor,
+    				success: function(proveedor){
+    					$('#proveedor-details #idProveedorModal').val(proveedor.idProveedor);
+    					$('#proveedor-details #nitProveedorModalD').val(proveedor.nitProveedor);
+    					$('#proveedor-details #nitProveedor').text(proveedor.nitProveedor);
+    					$('#proveedor-details #nombre').text(proveedor.nombre);
+    					$('#proveedor-details #telefono').text(proveedor.telefono);
+    					$('#proveedor-details #celular').text(proveedor.celular);
+    					$('#proveedor-details #email').text(proveedor.email);
+    					$('#proveedor-details #direccion').text(proveedor.direccion);
+    					$('#proveedor-details #categoria').text(proveedor.categoria.categoria);
+    					$('#proveedor-details #enabled').text(proveedor.enabled);
+    					$('#proveedor-details #ciudad').text(proveedor.ciudad);
+    					$('#proveedor-details #logo').attr('src', '/Imagenes/'+proveedor.logo);
+    				}
+    			});
+    		});	
+    		
+    	});
+	</script>
+	
+	<div th:include="Views/SI/Proveedores/modalDeleteP.html" th:remove="tag"></div>			
+	<div th:include="Views/SI/Proveedores/modalFilter.html" th:remove="tag"></div>			
+	<div th:include="Views/SI/Proveedores/modalDetailsP.html" th:remove="tag"></div>			
+</body>
+</html>

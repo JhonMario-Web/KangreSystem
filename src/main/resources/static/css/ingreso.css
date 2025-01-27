@@ -1,0 +1,93 @@
+body{
+	overflow-x: hidden;
+  	font-size: 0.9rem;
+}
+.form-group{
+  text-align: center;
+}
+input[type="text"]{
+  background: white;
+
+}
+.ingreso img{
+  max-width: 400px;
+	width: 100%;
+  margin: 20px 0;
+}
+.ingreso hr{
+  margin: 10px 0;
+}
+.ingreso h1{
+  font-size: 1.3rem;
+}
+.jumbotron{
+  background: rgba(0,0,0,0.06);
+  padding: 20px;
+  margin: 10px 50px;
+  width: 400px;
+	max-width: 570px;
+}
+.enlaceRegistro>a{
+  text-decoration: none;
+  margin-left: 5px;
+  font-weight: 700;
+}
+.form-group label{
+  font-size: 15px;
+}
+.password{
+  border-right: none;
+}
+.btn-ojo{
+  height: 100%;
+  display: flex;
+  align-content: center;
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.2);
+  border-left: none;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  cursor: pointer;
+}
+.ojo{
+  display: flex;
+  align-self: center;
+  font-size: 25px;
+  color: darkgray;
+}
+.ojo:hover{
+  color: rgba(0, 0, 0, 0.5);
+}
+
+/*---MEDIAQUERIES---*/
+
+/*Extra small devices (portrait phones, less than 576px)
+No media query for `xs` since this is the default in Bootstrap*/
+
+/*Small devices (landscape phones, 576px and up)*/
+@media (min-width: 576px) {
+  body{
+    font-size: 1rem;
+  }
+  .ingreso h1{
+    font-size: 1.9rem;
+  }
+}
+
+
+/*Medium devices (tablets, 768px and up)*/
+@media (min-width: 768px) {
+
+}
+
+
+/*Large devices (desktops, 992px and up)*/
+@media (min-width: 992px) {
+
+}
+
+
+/*Extra large devices (large desktops, 1200px and up)*/
+@media (min-width: 1200px) {
+
+}

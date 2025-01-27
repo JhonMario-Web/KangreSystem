@@ -1,0 +1,59 @@
+<!-- Modal -->
+<head>
+	<meta charset="UTF-8">
+</head>
+<div class="modal fade" id="cant-insumo-averia" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header border-0">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body row p-4">
+	      <div class="col">
+		      <h1 class="text-center text-black-50" id="nombreInsumoText"></h1>
+		      <h2 class="text-center font-weight-bold" id="categoriaInsumoText"></h2>
+		      <h2 class="text-center text-success font-weight-light" id="precioInsumoText"></h2>
+		      <hr>
+		      <form autocomplete="off" th:action="@{/inventario/averia/agregar-item-list}" th:object="${detalle}" method="post" class="needs-validation form-row" novalidate>
+		      	<input type="hidden" id="idInsumoMC" name="idInsumoMC" th:field="*{insumo.idInsumo}"/>
+		      	<div class="form-group col-12">
+		      		<label for="causa">Causa</label>
+		      		<select class="custom-select" id="causa" name="causa" th:field="*{causa}" required>
+		      			<option th:text="''" th:value="''">
+		      			<option th:value="'VENCIMIENTO'" th:text="'Vencimiento'">
+		      			<option th:value="'DANO HUMANO'" th:text="'Daño humano'">
+		      			<option th:value="'SANEO'" th:text="'Saneo'">
+		      		</select>
+		      		<div class="invalid-feedback">Debe seleccionar una causa.</div>
+		      	</div>
+		      	<div class="form-group col-12">
+		      		<label for="cantIngrediente" th:text="#{app.pedido.modal.cantidad}"></label>
+		      		<input type="number" class="form-control" th:field="*{cantidad}" id="cantProducto" 
+		      		name="cantProducto" min="1" max="50" required>
+		      		<div class="invalid-feedback">Debe ingresar una cantidad con rango entre 1 - 50 unidades.</div>
+		      	</div>
+		      	<div class="form-group col-6">
+		      		<label for="fechaVencimiento">Fecha vencimiento</label>
+		      		<input type="date" class="form-control" id="fechaVencimiento" name="fechaVencimiento" 
+		      		th:field="*{fechaVencimiento}" required>
+		      	</div>
+		      	<div class="form-group col-6">
+		      		<label for="lote">Lote</label>
+		      		<input type="text" class="form-control text-uppercase" id="lote" name="lote" required th:field="*{lote}">
+		      	</div>
+	      		<button type="submit" class="btn btn-block btn-primary rounded-pill font-weight-bold">
+		      		<i class="fas fa-check-circle mr-1"></i>
+		      		<span th:text="#{app.pedido.modal.boton}"></span>
+	      		</button>
+	      		<a href="" class="btn btn-light rounded-pill font-weight-bold btn-block" data-dismiss="modal">
+		        	<i class="fas fa-times mr-1"></i>
+		        	<span th:text=#{app.boton.cancelar}></span>
+       			</a>
+		      </form>   
+	      </div>
+      </div>
+    </div>
+  </div>
+</div>
