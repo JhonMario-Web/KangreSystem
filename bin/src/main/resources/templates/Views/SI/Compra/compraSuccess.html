@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Compra existosa! | KangreSystem</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/dashboard.css}">
+	<link rel="shotcut icon" th:href="@{/img/logosimbolo.png}">
+	<script src="https://kit.fontawesome.com/eb1bb051d4.js"></script>
+</head>
+<body>
+	<header th:replace="plantillas/burguer :: header"></header>
+	<nav th:replace="plantillas/burguer :: navbar"></nav>
+	<div class="content mx-auto">
+		<div class="alert alert-success alert-dismissible fade show mt-2" role="alert" th:if="${success}">
+			<i class="far fa-check-circle mr-1"></i>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+			<strong th:text="${success}"></strong>
+		</div>
+		<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" th:if="${error}">
+	      <i class="far fa-times-circle"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${error}"></strong>
+		</div>
+		<div class="alert alert-warning alert-dismissible fade show mt-2" role="alert" th:if="${warning}">
+		  <i class="fas fa-exclamation-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${warning}"></strong>
+		</div>
+		<div class="alert alert-info alert-dismissible fade show mt-2" role="alert" th:if="${info}">
+		  <i class="fas fa-info-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${info}"></strong>
+		</div>
+	</div>
+	<div class="content mx-auto">
+		<div class="row justify-content-center">
+			<h1 th:text="'Compra solicitada correctamente!'" class="text-center display-3 mt-5"></h1>
+			
+			<div class="col-8">
+				<img th:src="@{/img/proveedor.jpg}" class="img-fluid">
+				<h2 th:text="'Que deseas hacer?'" class="text-center font-weight-light text-muted"></h2>
+			</div>
+			
+			<div class="col-8 justify-content-center d-flex mt-3">
+				<a th:href="@{/}" class="btn btn-light mx-2 btn-lg rounded-pill font-weight-bold">Inicio</a>
+				<a th:href="@{/proveedor/servicios/compra/}" class="btn btn-outline-danger mx-2 btn-lg rounded-pill font-weight-bold">Compras</a>
+				<a th:href="@{/proveedor/servicios}" class="btn btn-outline-primary mx-2 btn-lg rounded-pill font-weight-bold">Servicios</a>
+				<a th:href="@{/proveedor/servicios}" class="btn btn-outline-dark mx-2 btn-lg rounded-pill font-weight-bold">Nueva compra</a>
+			</div>
+		</div>
+	</div>
+	
+	<footer th:replace="plantillas/burguer :: footer"></footer>	
+	
+	<script type="text/javascript">
+	
+	    function clearSearch() {
+	        window.location = "[[@{/proveedor/}]]";
+	    }
+	   
+	    function confirmDelete(id){
+	    	$('#deleteModalProducto').modal('show');
+	    	$("#idProductoMD").val(id);
+	    }
+	    
+	    function deleteProducto(){
+	    	var id = $("#idProductoMD").val();
+	        window.location = "/producto/delete/"+id;
+	    }
+	    
+	    function editProducto(){
+	    	var id = $("#idProductoModal").val();
+	        window.location = "/producto/edit/"+id;
+	    }
+	    
+	    function editIngredientes(){
+	    	var id = $("#idProductoModal").val();
+	        window.location = "/ingrediente/editar/"+id;
+	    }
+	    
+		$('document').ready(function(){
+    		
+    		$('[data-toggle="tooltip"]').tooltip();
+    		
+    		$('.table .btn-edit').on('click', function(){
+    			var idProducto = $(this).parent().find('#idProducto').val();
+    			$.ajax({
+    				type: 'GET',
+    				url: '/producto/details/'+idProducto,
+    				success: function(producto){
+    					$('#producto-details #idProductoModal').val(producto.idProducto);
+    					$('#producto-details #nombre').text(producto.nombre);
+    					$('#producto-details #codBarra').text(producto.codBarra);
+    					$('#producto-details #precio').text(producto.precio);
+    					$('#producto-details #categoria').text(producto.categoria.categoria);
+    					$('#producto-details #estado').text(producto.estado);
+    					$('#producto-details #detalle').text(producto.detalle);
+    					$('#producto-details #foto').attr('src', '/Imagenes/'+producto.foto);
+    				}
+    			});
+    		});	
+    		
+    	});
+	</script>			
+</body>
+</html>

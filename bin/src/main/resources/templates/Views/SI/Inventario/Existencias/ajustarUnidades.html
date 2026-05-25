@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Insumo | KangreSystem</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/dashboard.css}">
+	<link rel="shotcut icon" th:href="@{/img/logosimbolo.png}">
+	<script src="https://kit.fontawesome.com/eb1bb051d4.js"></script>
+	
+</head>
+<body>
+	<header th:replace="plantillas/burguer :: header"></header>
+	<nav th:replace="plantillas/burguer :: navbar"></nav>
+	<div class="content mx-auto">
+		<div class="alert alert-success alert-dismissible fade show mt-2" role="alert" th:if="${success}">
+		  <i class="far fa-check-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${success}"></strong>
+		</div>
+		<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" th:if="${error}">
+		  <i class="far fa-times-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${error}"></strong>
+		</div>
+		<div class="alert alert-warning alert-dismissible fade show mt-2" role="alert" th:if="${warning}">
+		  <i class="fas fa-exclamation-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${warning}"></strong>
+		</div>
+		<div class="alert alert-info alert-dismissible fade show mt-2" role="alert" th:if="${info}">
+		  <i class="fas fa-info-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${info}"></strong>
+		</div>
+	</div>
+	<div class="content mx-auto">
+		<h1 th:text="'Ajustar unidades'" class="text-center display-3 mt-5"></h1>
+		<h1 th:text="${nombre}" class="text-center text-secondary"></h1>
+		<hr>
+		<div class="row d-flex justify-content-center align-items-center">
+			<div class="col-6">
+				<img th:src="@{/img/insumos.png}" class="img-fluid my-2">
+				<form th:action="@{/inventario/existencias/ajustar}" th:object="${insumo}" name="formRegistro" id="formRegistro" method="post" class="needs-validation" novalidate>
+					<div id="alerta" class=""></div>
+					<input type="hidden" th:field="*{idInsumo}"/>			
+					<input type="hidden" th:field="*{categoria.idCategoria}"/>			
+					<input type="hidden" th:field="*{nombre}"/>			
+					<input type="hidden" th:field="*{precio}"/>			
+					<input type="hidden" th:field="*{proveedor.idProveedor}"/>			
+					<input type="hidden" th:field="*{unidadMedida}"/>			
+					<input type="hidden" th:field="*{devolucion}"/>			
+					<div class="row">
+						<div class="col-6 form-group">
+							<label for="nombre" th:text="#{app.prov.nombre}"></label>
+							<input type="text" th:field="*{nombre}" id="nombre" name="nombre" class="form-control" maxlength="50" disabled required>
+							<div class="invalid-feedback">[[#{app.prov.completar}]]</div>
+						</div>
+						<div class="col-6 form-group">
+							<label for="precio" th:text="#{app.insumos.precio}"></label>
+						    <input type="number" th:field="*{precio}" class="form-control" id="precio" name="precio" required disabled/>
+  							<div class="invalid-feedback">[[#{app.prov.completar}]]</div>
+  						</div>
+						<div class="col-6 form-group">
+							<label for="precio" th:text="'Stock Actual'"></label>
+						    <input type="text" th:field="*{stockActual}" class="form-control" id="stockActual" name="stockActual" required/>
+  							<div class="invalid-feedback">[[#{app.prov.completar}]]</div>
+  						</div>
+						<div class="col-6 form-group">
+							<label for="precio" th:text="'Stock maximo'"></label>
+						    <input type="number" th:field="*{stockMax}" class="form-control" id="stockMax" name="stockMax" required/>
+  							<div class="invalid-feedback">[[#{app.prov.completar}]]</div>
+  						</div>
+						<div class="col-12 form-group">
+							<button type="submit" id="btn-enviar" name="btn-enviar" class="btn btn-lg float-right btn-outline-success font-weight-bold rounded-pill">
+								<span th:text="#{app.boton.guardar}"></span>
+								<i class="fas fa-check-circle ml-1"></i>
+							</button>	
+						</div>
+					</div>
+					
+				</form>
+			</div>
+		</div>
+		<hr>
+	</div>
+	<footer th:replace="plantillas/burguer :: footer"></footer>
+	<script type="text/javascript" th:src="@{/js/registroProducto.js}"></script>
+</body>
+</html>

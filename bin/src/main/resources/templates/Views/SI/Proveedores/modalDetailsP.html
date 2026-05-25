@@ -1,0 +1,38 @@
+<!-- Modal -->
+<div class="modal fade" id="proveedor-details" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">[[#{app.detalles}]]</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+       	<input type="hidden" id="idProveedorModal" name="idProveedorModal"/>
+       	<input type="hidden" id="nitProveedorModalD">
+        
+      </div>
+      <div class="modal-body row p-4">
+	      <div class="col">
+		      <img src="" alt="Logo Proveedor" class="img-fluid mb-3 rounded d-block mx-auto" style="width:200px; height: auto;" id="logo" name="logo">
+		      <h1 class="text-center display-4" id="nombre"></h1>
+		      <h3 class="text-center text-secondary font-weight-light" id="nitProveedor"></h3>
+		      
+		      <p class="text-center text-lowercase" id="email"></p>
+		       <h3>
+		      	<a href="#" th:onclick="insumosProveedor()" class="nav-link text-center font-weight-light">Insumos distribuidos</a>
+		      </h3>
+		      <hr>
+		      <p class="text-center"><span class="font-weight-bold">[[#{app.prov.categoria}]] </span><span id="categoria"></span></p>
+		      <p class="text-center"><span class="font-weight-bold">[[#{app.direccion}]] </span><span id="direccion"></span> - <span id="ciudad"></span></p>
+		      <p class="text-center"><span class="font-weight-bold">[[#{app.prov.numeros}]] </span> <span id="celular"></span> - <span id="telefono"></span></p>
+		      <p class="text-center"><span class="font-weight-bold">[[#{app.prov.estado}]] </span><span id="enabled"></span></p>
+		      <hr>
+		      <button type="button" th:onclick="editProveedor()" class="btn btn-block btn-outline-secondary font-weight-bold btn-lg rounded-pill">
+		      	Editar proveedor
+		      	<i class="fas fa-edit ml-2"></i>
+	      	</button>
+	      </div>
+      </div>
+    </div>
+  </div>
+</div>

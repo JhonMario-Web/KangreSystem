@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+	<meta charset="UTF-8">
+	<title>Mi perfil | KangreSystem</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/dashboard.css}">
+	<link rel="shotcut icon" th:href="@{/img/logosimbolo.png}">
+	<script src="https://kit.fontawesome.com/eb1bb051d4.js"></script>
+</head>
+<body>
+	<header th:replace="plantillas/burguer :: header"></header>
+	<nav th:replace="plantillas/burguer :: navbar"></nav>
+	<div class="content mx-auto">
+		<div class="alert alert-success alert-dismissible fade show mt-2" role="alert" th:if="${success}">
+			<i class="far fa-check-circle mr-1"></i>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+			<strong th:text="${success}"></strong>
+		</div>
+		<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" th:if="${error}">
+	      <i class="far fa-times-circle"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${error}"></strong>
+		</div>
+		<div class="alert alert-warning alert-dismissible fade show mt-2" role="alert" th:if="${warning}">
+		  <i class="fas fa-exclamation-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${warning}"></strong>
+		</div>
+		<div class="alert alert-info alert-dismissible fade show mt-2" role="alert" th:if="${info}">
+		  <i class="fas fa-info-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${info}"></strong>
+		</div>
+	</div>
+	<div class="content mx-auto">
+		<h1 th:text="'Mi perfil'" class="text-center display-4 mt-4"></h1>
+		<hr>
+		<h4 class="text-center">
+			<span th:text="${usuario.nombres+' '+usuario.apellidos+' | '}" class="font-weight-bold"></span>
+			<span sec:authentication="principal.authorities" class="text-black-50 font-weight-light"></span>
+		</h4>
+		<hr>
+		<div class="row justify-content-center">
+			<div class="col-5">
+				<img th:src="@{/img/miPerfil.jpg}" class="img-fluid">
+			</div>
+			<div class="col-5">
+				<form class="form-row" th:object="${usuario}" th:action="@{/mi-perfil/datos-basicos}" method="post">
+					<input type="hidden" th:field="*{idUser}">
+					<input type="hidden" th:field="*{username}">
+					<input type="hidden" th:field="*{password}">
+					<input type="hidden" th:field="*{passwordPuntos}">
+					<input type="hidden" th:field="*{tipoDoc}">
+					<input type="hidden" th:field="*{numeroDoc}">
+					<input type="hidden" th:field="*{genero}">
+					<input type="hidden" th:field="*{fechaNac}">
+					<input type="hidden" th:field="*{fechaRegistro}">
+					<input type="hidden" th:field="*{edad}">
+					<input type="hidden" th:field="*{enabled}">
+					<input type="hidden" th:field="*{terminos}">
+					<div class="form-group col-12">
+						<label for="nombres">Nombres</label>
+						<input type="text" id="nombres" name="nombres" th:field="*{nombres}" class="form-control" required>
+					</div>
+					<div class="form-group col-12">
+						<label for="apellidos">Apellidos</label>
+						<input type="text" id="apellidos" name="apellidos" th:field="*{apellidos}" class="form-control" required>
+					</div>
+					<div class="form-group col-6">
+						<label for="celular">Celular</label>
+						<input type="text" id="celular" name="celular" th:field="*{celular}" class="form-control" required>
+					</div>
+					<div class="form-group col-6">
+						<label for="telefono">Telefono</label>
+						<input type="text" id="telefono" name="telefono" th:field="*{telefono}" class="form-control" required>
+					</div>
+					<div class="form-group col-12">
+						<label for="direccion">Direccion</label>
+						<input type="text" id="direccion" name="direccion" th:field="*{direccion}" class="form-control" required>
+					</div>
+					<div class="form-group col-6">
+						<label for="ciudad">Ciudad</label>
+						<select class="custom-select" th:field="*{ciudad}" id="ciudad" name="ciudad" required>
+							<option th:value="''" th:text="''">
+							<option th:value="'BOGOTA'" th:text="'Bogotá'">
+							<option th:value="'CHIA'" th:text="'Chía'">
+						</select>
+					</div>
+					<div class="form-group col-6">
+						<label for="">Pais de origen</label>
+						<select class="custom-select" th:field="*{pais.idPais}" id="pais" name="pais" required>
+							<option th:value="''" th:text="''">
+							<option th:each="p:${paises}" th:value="${p.idPais}" th:text="${p.pais}">
+						</select>
+					</div>
+					<div class="form-group col-12">
+						<label for="">Correo electronico</label>
+						<input type="email" id="email" name="email" th:field="*{email}" class="form-control" required>
+					</div>
+					<div class="form-group col-12">
+						<button type="submit" class="btn btn-danger font-weight-bold rounded-pill btn-block">
+							<i class="fas fa-check-circle mr-1"></i>
+							Guardar cambios
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<footer th:replace="plantillas/burguer :: footer"></footer>	
+</body>
+</html>

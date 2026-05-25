@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Registro | KangreSystem</title>
+	<script src="https://kit.fontawesome.com/eb1bb051d4.js"></script>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/dashboard.css}">
+	<link rel="stylesheet" th:href="@{/css/registro.css}">
+	<link rel="shotcut icon" th:href="@{/img/logosimbolo.png}">
+</head>
+<body>
+	<div class="content">
+		<div class="jumbotron ingreso mx-auto d-block">
+		<p th:text="${error}"></p>
+			<div class="row">
+				<div class="col logo">
+					<img th:src="@{/img/logoMonocro.png}" alt="Logo kangreSystem" class="img-fluid d-block mx-auto" title="Logo KangreSystem">
+					<hr>
+					<h1 class="font-weight-light text-center text-success">New Record </h1>
+					<hr>
+					<form th:action="@{/user/asignar-username}" th:object="${user}" method="post" name="formRegistro" id="formRegistro">
+						
+						<div class="form-row">
+							<div class="col-12">
+								<div class="form-group">
+									<label for="nombres">Username<span class="text-danger">*</span></label>
+									<input type="text" th:field="*{username}" id="nombres" name="nombres" class="form-control text-capitalize" placeholder="Nombres completos">
+									<input type="hidden" th:field="*{persona.idPersona}"/>
+									<input type="hidden" th:field="*{idUser}"/>
+								</div>
+							</div>
+							<div class="col-12">
+								<div class="form-group">
+									<label for="apellidos">Password<span class="text-danger">*</span></label>
+									<input th:field="*{password}" type="text" id="apellidos" name="apellidos" class="form-control" placeholder="Ej: Messi gonzalez"  pattern="[A-Za-z ]{2-50}" maxlength="50">
+									
+								</div>
+							</div>
+							
+							<div class="col-12">
+								<div class="form-group">
+									<label for="apellidos">Confirmar password<span class="text-danger">*</span></label>
+									<input th:field="*{confirmPassword}" type="text" id="apellidos" name="apellidos" class="form-control" placeholder="Ej: Messi gonzalez"  pattern="[A-Za-z ]{2-50}" maxlength="50">
+									
+								</div>
+							</div>
+						</div>
+						<input type="submit" class="btn btn-success" value="Enviar">
+					</form>
+					<a th:href="@{/index}" class="nav-link text-center  text-secondary">Volver al inicio</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

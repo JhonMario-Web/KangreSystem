@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Sucursales | KangreSystem</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/dashboard.css}">
+	<link rel="shotcut icon" th:href="@{/img/logosimbolo.png}">
+	<script src="https://kit.fontawesome.com/eb1bb051d4.js"></script>
+</head>
+<body>
+	<header th:replace="plantillas/burguer :: header"></header>
+	<nav th:replace="plantillas/burguer :: navbar"></nav>
+	<div class="content mx-auto">
+		<div class="alert alert-success alert-dismissible fade show mt-2" role="alert" th:if="${success}">
+		  <i class="far fa-check-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${success}"></strong>
+		</div>
+		<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" th:if="${error}">
+		  <i class="far fa-times-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${error}"></strong>
+		</div>
+		<div class="alert alert-warning alert-dismissible fade show mt-2" role="alert" th:if="${warning}">
+		  <i class="fas fa-exclamation-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${warning}"></strong>
+		</div>
+		<div class="alert alert-info alert-dismissible fade show mt-2" role="alert" th:if="${info}">
+		  <i class="fas fa-info-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${info}"></strong>
+		</div>
+	</div>
+	<div class="content mx-auto">
+		<h1 class="text-center display-4 mt-4" th:text="#{app.sucursales.titulo}"></h1>
+		<h1 class="text-center text-secondary">La Hamburgueseria</h1>
+		<hr>
+		<div class="row mt-4">
+			<div class="col-4" th:each="s:${sucursales}">
+				<div class="jumbotron py-4 bg-light border" style="min-height: 400px; border-radius: 20px;">
+					<div class="d-block mt-auto">
+						<h2 th:text="${s.nombre}" class="font-weight-light text-center text-capitalize m-0"></h2>
+						<p th:text="${s.direccion}" class="text-uppercase text-center">
+						<hr>
+						<p class="text-center mb-0"><span th:text="${s.celular}"></span> - <span th:text="${s.telefono}"></span></p>
+						<p class="text-center"><span th:text="${s.horario}" class="text-primary text-uppercase"></span> - <span th:text="${s.ciudad}" class="font-weight-bold"></span></p>
+						<img th:src="@{'/img/sucursales/' + ${s.foto}}" th:alt="${s.foto}" class="img-fluid mb-2">
+					</div>
+				</div>
+			</div>
+		</div>
+		<hr>
+		<h1 class="display-4 text-center">Ubicación</h1>
+		<div class="row mt-4 mb-4">
+			<div class="col embed-responsive embed-responsive-16by9 ">
+				<iframe class="embed-responsive-item" src="https://maps.google.com/maps?q=laHamburgueseriaBogota&t=&z=13&ie=UTF8&iwloc=&output=embed"></iframe>
+			</div>
+		</div>
+	</div>
+	<footer th:replace="plantillas/burguer :: footer"></footer>
+</body>
+</html>

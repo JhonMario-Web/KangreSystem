@@ -1,0 +1,27 @@
+<!-- Modal -->
+<div class="modal fade" id="insumo-details" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Detalles</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+       	<input type="hidden" id="idInsumoModal" name="idInsumoModal"/>
+      </div>
+      <div class="modal-body row p-4">
+	      <div class="col">
+		      <h1 class="text-center display-4" id="nombre"></h1>
+		      <h3 class="text-center text-secondary font-weight-light" id="precio"></h3>
+		      <hr>
+		      <p class="text-center"><span class="font-weight-bold">Categoria: </span><span id="categoria"></span></p>
+		      <p class="text-center"><span class="font-weight-bold">Proveedor: </span><span id="proveedor"></span></p>
+		      <p class="text-center"><span class="font-weight-bold">Unidad de medida: </span> <span id="unidadMedida"></span></p>
+		      <p class="text-center"><span class="font-weight-bold">Estado: </span><span id="estado"></span></p>
+		      <hr>
+		      <button type="button" th:onclick="editInsumo()" class="btn btn-lg btn-block btn-outline-secondary font-weight-bold rounded-pill">Editar Insumo<i class="fas fa-edit ml-2"></i></button>
+	      </div>
+      </div>
+    </div>
+  </div>
+</div>

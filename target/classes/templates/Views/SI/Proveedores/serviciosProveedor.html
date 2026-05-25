@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Nuestro menú | KangreSystem</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/dashboard.css}">
+	<link rel="shotcut icon" th:href="@{/img/logosimbolo.png}">
+	<script src="https://kit.fontawesome.com/eb1bb051d4.js"></script>
+</head>
+<style>
+	.jumbotron{
+		border-radius: 15px;
+	}
+</style>
+<body>
+	<header th:replace="plantillas/burguer :: header"></header>
+	<nav th:replace="plantillas/burguer :: navbar"></nav>
+	<div class="content mx-auto">
+		<div class="alert alert-success alert-dismissible fade show mt-2" role="alert" th:if="${success}">
+			<i class="far fa-check-circle mr-1"></i>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+			<strong th:text="${success}"></strong>
+		</div>
+		<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" th:if="${error}">
+	      <i class="far fa-times-circle"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${error}"></strong>
+		</div>
+		<div class="alert alert-warning alert-dismissible fade show mt-2" role="alert" th:if="${warning}">
+		  <i class="fas fa-exclamation-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${warning}"></strong>
+		</div>
+		<div class="alert alert-info alert-dismissible fade show mt-2" role="alert" th:if="${info}">
+		  <i class="fas fa-info-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${info}"></strong>
+		</div>
+	</div>
+	<div class="content mx-auto">
+		<h1 th:text="#{app.prov.serv}" class="text-center display-3 mt-5"></h1>
+		<hr>
+		<div class="row">
+			<div class="col-4" th:each="p:${proveedores}">
+				<div class="jumbotron py-4 px-5">
+					<img th:src="@{'/img/' + ${p.logo}}" class="img-fluid">
+					<p th:text="${p.nombre}" class="text-center text-secondary font-weight-bold mb-0"></p>
+					<p th:text="${'NIT: '+p.nitProveedor}" class="text-center text-secondary"></p>
+					<a th:href="@{/proveedor/servicios/compra/}+${p.nitProveedor}" class="btn btn-outline-success rounded-pill font-weight-bold btn-block">
+						<i class="fas fa-shopping-cart mr-1"></i>
+						<span th:text="#{app.prov.serv.comprar}"></span>
+					</a>
+					<a th:href="@{/proveedor/servicios/devolucion/}+${p.nitProveedor}" class="btn btn-outline-danger rounded-pill font-weight-bold btn-block">
+						<i class="fas fa-undo-alt mr-1"></i>
+						<span th:text="#{app.prov.serv.devolver}"></span>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<footer th:replace="plantillas/burguer :: footer"></footer>	
+	
+	<script type="text/javascript">
+	
+	    function clearSearch() {
+	        window.location = "[[@{/proveedor/}]]";
+	    }
+	   
+	    function confirmDelete(id){
+	    	$('#deleteModal').modal('show');
+	    	$("#idProveedor").val(id);
+	    }
+	    
+	    function deleteProveedor(){
+	    	var id = $("#idProveedor").val();
+	        window.location = "delete/"+id;
+	    }
+	    
+	    function editProveedor(){
+	    	var id = $("#idProveedorModal").val();
+	        window.location = "/proveedor/edit/"+id;
+	    }
+	    
+	    function insumosProveedor(){
+	    	var nit = $("#proveedor-details #nitProveedorModalD").val();
+	        window.location = "/proveedor/insumos/"+nit;
+	    }
+	    
+		$('document').ready(function(){
+    		
+    		$('[data-toggle="tooltip"]').tooltip();
+    		
+    		$('.table .btn-edit').on('click', function(){
+    			var idProveedor = $(this).parent().find('#idProveedor').val();
+    			$.ajax({
+    				type: 'GET',
+    				url: '/proveedor/details/'+idProveedor,
+    				success: function(proveedor){
+    					$('#proveedor-details #idProveedorModal').val(proveedor.idProveedor);
+    					$('#proveedor-details #nitProveedorModalD').val(proveedor.nitProveedor);
+    					$('#proveedor-details #nitProveedor').text(proveedor.nitProveedor);
+    					$('#proveedor-details #nombre').text(proveedor.nombre);
+    					$('#proveedor-details #telefono').text(proveedor.telefono);
+    					$('#proveedor-details #celular').text(proveedor.celular);
+    					$('#proveedor-details #email').text(proveedor.email);
+    					$('#proveedor-details #direccion').text(proveedor.direccion);
+    					$('#proveedor-details #categoria').text(proveedor.categoria.categoria);
+    					$('#proveedor-details #enabled').text(proveedor.enabled);
+    					$('#proveedor-details #ciudad').text(proveedor.ciudad);
+    					$('#proveedor-details #logo').attr('src', '/Imagenes/'+proveedor.logo);
+    				}
+    			});
+    		});	
+    		
+    	});
+	</script>			
+</body>
+</html>

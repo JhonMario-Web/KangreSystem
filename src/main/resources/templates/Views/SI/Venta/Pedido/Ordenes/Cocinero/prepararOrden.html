@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Ordenes | KangreSystem</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/dashboard.css}">
+	<link rel="shotcut icon" th:href="@{/img/logosimbolo.png}">
+	<script src="https://kit.fontawesome.com/eb1bb051d4.js"></script>
+</head>
+<body>
+	<header th:replace="plantillas/burguer :: header"></header>
+	<nav th:replace="plantillas/burguer :: navbar"></nav>
+	<div class="content mx-auto">
+		<div class="alert alert-success alert-dismissible fade show mt-2" role="alert" th:if="${success}">
+			<i class="far fa-check-circle mr-1"></i>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+			<strong th:text="${success}"></strong>
+		</div>
+		<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" th:if="${error}">
+	      <i class="far fa-times-circle"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${error}"></strong>
+		</div>
+		<div class="alert alert-warning alert-dismissible fade show mt-2" role="alert" th:if="${warning}">
+		  <i class="fas fa-exclamation-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${warning}"></strong>
+		</div>
+		<div class="alert alert-info alert-dismissible fade show mt-2" role="alert" th:if="${info}">
+		  <i class="fas fa-info-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${info}"></strong>
+		</div>
+	</div>
+	<div class="content mx-auto">
+		<div class="display-3 text-center mt-4" th:text="'Preparar orden'"></div>
+		<div class="display-4 text-center text-secondary" th:text="'Orden numero '+${orden.numeroOrden}"></div>
+		<div class="row justify-content-center">
+			<div class="col-8">
+				<hr>
+				<h1 class="text-center">[[#{app.preparar.titulo}]]</h1>
+				<hr>
+				<table class="table table-borderless text-center table-hover">
+				  <thead>
+				    <tr>
+				      <th scope="col">ID</th>
+				      <th scope="col">[[#{app.preparar.prod}]]</th>
+				      <th scope="col">[[#{app.preparar.precio}]]</th>
+				      <th scope="col">[[#{app.preparar.cantidad}]]</th>
+				      <th scope="col">[[#{app.preparar.ingredientes}]]</th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				    <tr th:each="d:${detalles}">
+				      <th scope="row" th:text="${d.producto.idProducto}"></th>
+				      <td th:text="${d.producto.nombre}"></td>
+				      <td th:text="${'$'+#numbers.formatDecimal(d.producto.precio, 0, 'POINT', 0, 'POINT')}"></td>
+				      <td th:text="${d.cantidad}"></td>
+				      <td>
+				      	<a th:href="@{/ingrediente/producto/}+${d.producto.idProducto}" class="">
+				      		<i class="fas fa-align-justify"></i>
+				      	</a>
+				      </td>
+				    </tr>
+				  </tbody>
+				</table>
+				<hr>
+				<button type="button" th:onclick="goBack()" class="btn btn-primary rounded-pill font-weight-bold">
+					<i class="fas fa-arrow-circle-left mr-1"></i>
+					<span th:text="#{app.error.400.boton}"></span>
+				</button>
+				<a href="#modalConfirmDespachar" data-toggle="modal" class="btn btn-success rounded-pill float-right font-weight-bold">
+					<span th:text="#{app.preparar.boton}"></span>
+					<i class="fas fa-check-circle ml-1"></i>
+				</a>
+			</div>
+		</div>
+	</div>
+	<footer th:replace="plantillas/burguer :: footer"></footer>
+	
+	<div th:include="Views/SI/Venta/Pedido/Ordenes/Cocinero/modalConfirmDespachar.html" th:remove="tag"></div>
+	
+	<script>
+		function goBack() {
+		  window.history.back();
+		}
+		
+		function despacharOrden() {
+			  window.location = "/pedido/orden/cocinero/despachar"
+		}
+	</script>
+
+</body>
+</html>

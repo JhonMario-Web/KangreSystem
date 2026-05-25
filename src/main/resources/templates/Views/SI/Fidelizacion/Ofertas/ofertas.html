@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Ofertas | KangreSystem</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/dashboard.css}">
+	<link rel="shotcut icon" th:href="@{/img/logosimbolo.png}">
+	<script src="https://kit.fontawesome.com/eb1bb051d4.js"></script>
+</head>
+<body>
+	<header th:replace="plantillas/burguer :: header"></header>
+	<nav th:replace="plantillas/burguer :: navbar"></nav>
+	<div class="content mx-auto">
+		<div class="alert alert-success alert-dismissible fade show mt-2" role="alert" th:if="${success}">
+		  <i class="far fa-check-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${success}"></strong>
+		</div>
+		<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" th:if="${error}">
+		  <i class="far fa-times-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${error}"></strong>
+		</div>
+		<div class="alert alert-warning alert-dismissible fade show mt-2" role="alert" th:if="${warning}">
+		  <i class="fas fa-exclamation-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${warning}"></strong>
+		</div>
+		<div class="alert alert-info alert-dismissible fade show mt-2" role="alert" th:if="${info}">
+		  <i class="fas fa-info-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${info}"></strong>
+		</div>
+	</div>
+	<div class="content mx-auto">
+		<h1 th:text="#{app.nav.fidelizacion.ofertas}" class="text-center display-4 mt-4"></h1>
+		<div class="justify-content-center d-flex mb-4">
+			<button type="button" data-toggle="modal" data-target="#modalFilterOfertas" class="btn col-3 btn-light border border-secondary rounded-pill" title="Buscar / filtrar">
+				<span th:text="#{app.prov.busc}"></span>
+				<i class="fas fa-search ml-2"></i>
+			</button>
+		</div>
+		<div class="justify-content-center d-flex">
+			<div class="btn-group">
+				<a class="btn btn-light border border-secondary font-weight-bold text-secondary" th:href="@{/oferta/pdf}">[[#{app.prov.exp}]] <i class="far fa-file-pdf ml-1 text-dark"></i></a>
+				<a class="btn btn-light border border-secondary font-weight-bold text-secondary" th:href="@{/oferta/(format=xlsx)}">[[#{app.prov.exl}]] <i class="far fa-file-excel ml-1 text-dark"></i></a>
+				<a class="btn btn-light border border-secondary font-weight-bold text-secondary" th:href="@{/oferta/compartir}">[[#{app.prov.nueva}]] <i class="fas fa-plus-circle ml-1 text-dark"></i></a>
+				<a class="btn btn-light border border-secondary font-weight-bold text-secondary" th:href="@{/oferta/limpiar}">[[#{app.prov.filt}]]<i class="fas fa-backspace ml-1 text-dark"></i></a>
+			</div>
+		</div>
+	</div>
+	<div class="content mx-auto">
+		<table class="table text-center table-hover">
+	  		<thead class="thead-light">
+			    <tr>
+			      <th scope="col">ID</th>
+			      <th scope="col">[[#{app.prov.lista.nombre}]]</th>
+			      <th scope="col">[[#{app.ofertas.inicio}]]</th>
+			      <th scope="col">[[#{app.ofertas.fin}]]</th>
+			      <th scope="col">[[#{app.ofertas.creacion}]]</th>
+			      <th scope="col">[[#{app.inven.compras.estado}]]</th>
+			      <th scope="col"></th>
+			    </tr>
+	  		</thead>
+			<tbody>
+			    <tr th:each="o:${ofertas}">
+			      <th scope="row" th:text="${o.idOferta}"></th>
+			      <td th:text="${o.nombre}"></td>
+			      <td th:text="${#calendars.format(o.fechaInicio, 'dd/MMM/yyyy')}" class="text-uppercase"></td>
+			      <td th:text="${#calendars.format(o.fechaFin, 'dd/MMM/yyyy')}" class="text-uppercase"></td>
+			      <td th:text="${#calendars.format(o.fechaRegistro, 'dd/MMM/yyyy')}" class="text-uppercase"></td>
+			      <td>
+		      		<div class="disabled border-0" th:classappend="${o.enabled ? 'btn-outline-success' : 'btn-outline-dark'}">
+		      			<i th:classappend="${o.enabled ? 'fa-toggle-on' : 'fa-toggle-off'}" class="fas"></i>
+		      		</div>
+			      </td>
+			       <td class="text-right btn-group">
+			       	<a href="#oferta-descripcion" data-toggle="modal" class="btn-edit mx-2 text-decoration-none" title="Eliminar">
+		      			<i class="fas fa-ellipsis-h" data-toggle="tooltip" data-placement="top" title="Descripcion de oferta"></i>
+		      			<input type="hidden" th:value="${o.idOferta}" id="idOferta" name="idOferta">
+	      			</a>
+	      			|
+		      		<a href="#" th:onclick="'javascript:confirmDelete(\'' + ${o.idOferta} + '\' );'" class="text-danger text-decoration-none mx-2" title="Eliminar">
+		      			<i class="fas fa-trash" data-toggle="tooltip" data-placement="top" title="Eliminar oferta"></i>
+	      			</a>
+			       </td>
+			    </tr>
+			</tbody>
+		</table>
+	</div>
+	<footer th:replace="plantillas/burguer :: footer"></footer>	
+	
+	<script type="text/javascript">
+	
+	    function clearSearch() {
+	        window.location = "[[@{/rol/}]]";
+	    }
+	   
+	    function confirmDelete(id){
+	    	$('#deleteModalOferta').modal('show');
+	    	$("#idOfertaMD").val(id);
+	    }
+	    
+	    function deleteOferta(){
+	    	var id = $("#idOfertaMD").val();
+	        window.location = "/oferta/delete/"+id;
+	    }
+	    
+		$('document').ready(function(){
+    		
+    		$('[data-toggle="tooltip"]').tooltip();
+    		
+    		$('.table .btn-edit').on('click', function(){
+    			var idOferta = $(this).parent().find('#idOferta').val();
+    			$.ajax({
+    				type: 'GET',
+    				url: '/oferta/details/'+idOferta,
+    				success: function(oferta){
+    					$('#oferta-descripcion #descripcion').text(oferta.descripcion);
+    				}
+    			});
+    		});	
+    		
+    	});
+	</script>
+		
+	<div th:include="/Views/SI/Fidelizacion/Ofertas/modalDeleteOferta.html" th:remove="tag"></div>	
+	<div th:include="/Views/SI/Fidelizacion/Ofertas/modalDescripOferta.html" th:remove="tag"></div>	
+	<div th:include="/Views/SI/Fidelizacion/Ofertas/modalFilterOferta.html" th:remove="tag"></div>	
+</body>
+</html>

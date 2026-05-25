@@ -1,0 +1,32 @@
+<!-- Modal -->
+<div class="modal fade" id="add-cliente-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header border-0">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      	<h1 class="text-center font-weight-light">Agregar cliente</h1>
+      <div class="modal-body row p-4">
+	      <div class="col">
+		      <form autocomplete="off" th:action="@{/pedido/pago/agregar-cliente}" method="post" class="needs-validation" novalidate>
+		      	<div class="form-group">
+		      		<label for="numeroDoc" th:text="#{app.pedido.modal.doc}"></label>
+		      		<input type="text" class="form-control form-control-lg" id="numeroDoc" name="numeroDoc" required>
+		      		<div class="invalid-feedback">Ingrese un numero de documento.</div>
+		      	</div>
+		      	<button type="submit" class="btn btn-block btn-primary rounded-pill font-weight-bold">
+		      		<i class="fas fa-check-circle mr-1"></i>
+		      		<span th:text="#{app.pedido.modal.boton}"></span>
+	      		</button>
+	      		<a href="" class="btn btn-light rounded-pill font-weight-bold btn-block" data-dismiss="modal">
+		        	<i class="fas fa-times mr-1"></i>
+		        	<span th:text=#{app.boton.cancelar}></span>
+       			</a>
+		      </form>   
+	      </div>
+      </div>
+    </div>
+  </div>
+</div>

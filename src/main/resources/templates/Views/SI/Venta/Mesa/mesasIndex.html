@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Novedades | KangreSystem</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/dashboard.css}">
+	<link rel="shotcut icon" th:href="@{/img/logosimbolo.png}">
+	<script src="https://kit.fontawesome.com/eb1bb051d4.js"></script>
+</head>
+<body>
+	<header th:replace="plantillas/burguer :: header"></header>
+	<nav th:replace="plantillas/burguer :: navbar"></nav>
+	<div class="content mx-auto">
+		<div class="alert alert-success alert-dismissible fade show mt-2" role="alert" th:if="${success}">
+			<i class="far fa-check-circle mr-1"></i>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+			<strong th:text="${success}"></strong>
+		</div>
+		<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" th:if="${error}">
+	      <i class="far fa-times-circle"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${error}"></strong>
+		</div>
+		<div class="alert alert-warning alert-dismissible fade show mt-2" role="alert" th:if="${warning}">
+		  <i class="fas fa-exclamation-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${warning}"></strong>
+		</div>
+		<div class="alert alert-info alert-dismissible fade show mt-2" role="alert" th:if="${info}">
+		  <i class="fas fa-info-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${info}"></strong>
+		</div>
+	</div>
+	<div class="content mx-auto">
+		<h1 th:text="#{app.mesas.titulo}" class="text-center display-4 mt-4"></h1>
+		<hr>
+		<div class="row">
+			<div class="col-3" th:each="m:${mesas}">
+				<div class="jumbotron p-4" style="border-radius: 20px;">
+					<h4 class="text-center" th:text="${m.numeroMesa}"></h4>
+					<hr>
+					<div th:text="${m.capacidad+' PERSONAS'}" class="text-center font-weight-light"></div>
+					<hr>
+					<a href="" class="btn disabled btn-block rounded-pill font-weight-bold"
+					th:classappend="${m.estado == 'OCUPADA' ? 'btn-danger' : 'btn-success'}">
+						<i class="fas mr-1" th:classappend="${m.estado == 'OCUPADA' ? 'fa-minus-circle' : 'fa-check-circle'}"></i>
+						<span th:text="${m.estado}"></span>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<footer th:replace="plantillas/burguer :: footer"></footer>	
+	
+	<script type="text/javascript">
+	   
+	    function confirmDelete(id){
+	    	$('#deleteModalNovedad').modal('show');
+	    	$("#idNovedadMD").val(id);
+	    }
+	    
+	    function deleteNovedad(){
+	    	var id = $("#idNovedadMD").val();
+	        window.location = "/novedad/delete/"+id;
+	    }
+	    
+	    function editProducto(){
+	    	var id = $("#idProductoModal").val();
+	        window.location = "/producto/edit/"+id;
+	    }
+	    
+	    function editIngredientes(){
+	    	var id = $("#idProductoModal").val();
+	        window.location = "/ingrediente/editar/"+id;
+	    }
+	    
+		$('document').ready(function(){
+    		
+    		$('[data-toggle="tooltip"]').tooltip();
+    		
+    		$('.table .btn-mensaje').on('click', function(){
+    			var idNovedad = $(this).parent().find('#idNovedad').val();
+    			$.ajax({
+    				type: 'GET',
+    				url: '/novedad/mensaje/'+idNovedad,
+    				success: function(novedad){
+    					$('#modalMensajeNovedad #mensajeNovedad').text(novedad.mensaje);
+    					$('#modalMensajeNovedad #destNovedad').text(novedad.destinatarios);
+    				}
+    			});
+    		});	
+    		
+    	});
+	</script>			
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Insumos | KangreSystem</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/dashboard.css}">
+	<link rel="shotcut icon" th:href="@{/img/logosimbolo.png}">
+	<script src="https://kit.fontawesome.com/eb1bb051d4.js"></script>
+</head>
+<body>
+	<header th:replace="plantillas/burguer :: header"></header>
+	<nav th:replace="plantillas/burguer :: navbar"></nav>
+	<div class="content mx-auto">
+		<div class="alert alert-success alert-dismissible fade show mt-2" role="alert" th:if="${success}">
+		  <i class="far fa-check-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${success}"></strong>
+		</div>
+		<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" th:if="${error}">
+		  <i class="far fa-times-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${error}"></strong>
+		</div>
+		<div class="alert alert-warning alert-dismissible fade show mt-2" role="alert" th:if="${warning}">
+		  <i class="fas fa-exclamation-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${warning}"></strong>
+		</div>
+		<div class="alert alert-info alert-dismissible fade show mt-2" role="alert" th:if="${info}">
+		  <i class="fas fa-info-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${info}"></strong>
+		</div>
+	</div>
+	<div class="container">
+		<h1 th:text="${titulo}" class="text-center display-3 my-5"></h1>
+		<div class="row">
+			<div class="col-auto">
+				<img th:src="@{/img/upload.jpg}" class="mx-auto d-block" width="400"/>
+				<form th:action="@{/ingrediente/cargar-info}" th:object="${ingrediente}" method="post" enctype='multipart/form-data'>
+					<div class="custom-file">
+						  <input type="file" class="custom-file-input" name="file" id="file" th:field="*{file}" required>
+						  <label class="custom-file-label" for="customFile">Escoger archivo (excel)</label>
+					</div>
+					<button type="submit" class="btn btn-danger font-weight-bold btn-block my-4 btn-lg rounded-pill">
+						Subir archivo
+						<i class="fas fa-cloud-upload-alt ml-1"></i>
+					</button>
+				</form>
+			</div>
+			<div class="col ml-4">
+				<div class="jumbotron mx-auto d-block">
+				    
+				    <span class="">La funcion <strong>Cargar ingredientes</strong> le permite al usuario cargar 
+				    informacion directamente en la base de datos, para realizar este proceso correctamente se debe seguir
+					las siguientes recomendaciones:</span>
+				    <hr class="my-4">
+				    <ul class="ml-4">
+					  <li type="disc">El archivo debe ser tipo excel (xls, xlsx).</li><br>
+					  <li type="disc">El archivo no debe tener celdas en blanco.</li><br>
+					  <li type="disc">No debe haber dos registro con el id_insumo e id_producto iguales, esto no es permitido!</li><br>
+					  <li type="disc">El orden las columnas debe corresponder con el siguiente:<br>
+					  	(id_producto, id_insumo, cantidad).
+					  </li><br>
+					  <li type="disc">No insertar el nombre de las columnas, el contenido debe ser solo datos.</li><br>
+					  <li type="disc">Todas las celdas deben estar en el formato 'General'.</li><br>
+					  
+					</ul>
+				   
+				</div>
+			</div>
+		</div>
+		
+	</div>
+	
+	<footer th:replace="plantillas/burguer :: footer"></footer>	
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
+	<script type="text/javascript">
+	    function clearSearch() {
+	        window.location = "[[@{/proveedor/}]]";
+	    }
+	    
+	    $(document).ready(function () {
+	    	bsCustomFileInput.init()
+    	})
+	</script>		
+</body>
+</html>

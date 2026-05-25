@@ -1,0 +1,40 @@
+<head>
+	<meta charset="UTF-8">
+</head>
+<div class="modal fade" id="modalConfirmLlegada" tabindex="-1" role="dialog" aria-labelledby="deleteModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header border-0">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body text-center">
+      	<h1 class="text-black-50">¿Estas seguro de continuar?</h1>
+      	<hr>
+      	<h3 class="text-danger font-weight-light" th:if="${cantidadIgual == false || precioIgual == false || insumosFaltantes == false}">Se encontraron estas novedades:</h3>
+      	<h3 class="text-success font-weight-light" th:unless="${cantidadIgual == false || precioIgual == false || insumosFaltantes == false}">No se encontraron novedades</h3>
+   		<hr>
+   		<h5 th:if="${cantidadIgual == false}">Cantidades diferentes</h5>
+   		<h5 th:if="${precioIgual == false}">Precios diferentes</h5>
+   		<h5 th:if="${insumosFaltantes == false}">Insumos faltantes</h5>
+   		<hr th:if="${ cantidadIgual == false || precioIgual == false || insumosFaltantes == false}">
+      	<form th:object="${llegada}" th:action="@{/proveedor/servicios/compra/recibir/insumos-recibidos}" method="post">
+      		<div class="form-group" th:if="${ cantidadIgual == false || precioIgual == false || insumosFaltantes == false}">
+      			<textarea rows="4" class="form-control" th:field="*{novedad}" id="novedad" name="novedad" placeholder="Describe las novedades aqui" onresize="false"></textarea>
+      		</div>
+      		<button type="submit" class="btn btn-danger rounded-pill font-weight-bold btn-block">
+	        	<i class="fas fa-check mr-1"></i>
+	        	<span th:text="#{app.boton.aceptar}"></span>
+        	</button>
+      	</form>
+        <input type="hidden" id="idCompraMD" name="idCompraMD"/>
+        <a href="#" class="btn btn-light rounded-pill font-weight-bold btn-block mt-2" data-dismiss="modal">
+        	<i class="fas fa-times mr-1"></i>
+        	<span th:text=#{app.boton.cancelar}></span>
+       </a>
+      </div>
+      
+    </div>
+  </div>
+</div>

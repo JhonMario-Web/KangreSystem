@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Compartir oferta | KangreSystem</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/dashboard.css}">
+	<link rel="shotcut icon" th:href="@{/img/logosimbolo.png}">
+	<script src="https://kit.fontawesome.com/eb1bb051d4.js"></script>
+</head>
+<body>
+	<header th:replace="plantillas/burguer :: header"></header>
+	<nav th:replace="plantillas/burguer :: navbar"></nav>
+	<div class="content mx-auto">
+		<div class="alert alert-success alert-dismissible fade show mt-2" role="alert" th:if="${success}">
+		  <i class="far fa-check-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${success}"></strong>
+		</div>
+		<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" th:if="${error}">
+		  <i class="far fa-times-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${error}"></strong>
+		</div>
+		<div class="alert alert-warning alert-dismissible fade show mt-2" role="alert" th:if="${warning}">
+		  <i class="fas fa-exclamation-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${warning}"></strong>
+		</div>
+		<div class="alert alert-info alert-dismissible fade show mt-2" role="alert" th:if="${info}">
+		  <i class="fas fa-info-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${info}"></strong>
+		</div>
+	</div>
+	<div class="container">
+		<h1 th:text="#{app.ofertas.compartir}" class="text-center display-4 mt-5"></h1>
+		<hr>
+		<div class="row d-flex justify-content-center">
+			<img th:src="@{/img/ofertas.png}" class="mx-auto d-block" width="680" style="border-radius: 70px;"/>
+			<div class="col-7">
+				<hr>
+				<form th:action="@{/oferta/compartir}" th:object="${oferta}" method="post" enctype='multipart/form-data' class="needs-validation" novalidate>
+					<input type="hidden" th:field="*{idOferta}">
+					<div class="row">
+						<div class="form-group col-12">
+							<label for="nombre" th:text=#{app.prov.nombre}></label>
+							<input type="text" class="form-control" th:field="*{nombre}" name="nombre" id="nombre" required>
+							<div class="invalid-feedback">[[#{app.prov.completar}]]</div>
+						</div>
+						<div class="form-group col-6">
+							<label for="fechaInicio" th:text=#{app.ofertas.inicio.crear}></label>
+							<input type="date" class="form-control" th:field="*{fechaInicio}" name="fechaInicio" id="fechaInicio" required>
+							<div class="invalid-feedback">[[#{app.prov.completar}]]</div>
+						</div>
+						<div class="form-group col-6">
+							<label for="fechaFin" th:text=#{app.ofertas.fin.crear}></label>
+							<input type="date" class="form-control" th:field="*{fechaFin}" name="fechaFin" id="fechaFin" required>
+							<div class="invalid-feedback">[[#{app.prov.completar}]]</div>
+						</div>
+						<div class="form-group col-12">
+							<label for="descripcion" th:text=#{app.ofertas.descripcion}></label>
+							<textarea class="form-control" rows="5" th:field="*{descripcion}" name="descripcion" id="descripcion" required></textarea>
+							<div class="invalid-feedback">[[#{app.prov.completar}]]</div>
+						</div>
+					</div>
+					<label class="" for="" th:text=#{app.ofertas.archivo}></label>
+					<div class="custom-file">
+						  <input type="file" class="custom-file-input" th:field="*{file}" name="file" id="file">
+						  <label class="custom-file-label" for="customFile">[[#{app.ofertas.archivo.escoger}]]</label>
+					</div>
+					<button type="submit" class="btn btn-outline-success font-weight-bold rounded-pill btn-lg float-right my-4">
+						<span th:text=#{app.ofertas.nueva.boton}></span>
+						<i class="fas fa-share-alt ml-1"></i>
+					</button>
+				</form>
+			</div>
+		</div>
+		
+	</div>
+	
+	<footer th:replace="plantillas/burguer :: footer"></footer>	
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
+	<script type="text/javascript">
+	
+	(function() {
+		  'use strict';
+		  window.addEventListener('load', function() {
+		    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+		    var forms = document.getElementsByClassName('needs-validation');
+		    // Loop over them and prevent submission
+		    var validation = Array.prototype.filter.call(forms, function(form) {
+		      form.addEventListener('submit', function(event) {
+		        if (form.checkValidity() === false) {
+		          event.preventDefault();
+		          event.stopPropagation();
+		        }
+		        form.classList.add('was-validated');
+		      }, false);
+		    });
+		  }, false);
+		})();
+	    function clearSearch() {
+	        window.location = "[[@{/proveedor/}]]";
+	    }
+	    
+	    $(document).ready(function () {
+	    	bsCustomFileInput.init()
+    	})
+    	
+    	
+	</script>		
+</body>
+</html>

@@ -1,0 +1,43 @@
+body{
+	font-family: 'Open sans',sans-serif;
+	overflow-x: hidden;
+	font-size: 0.9rem;
+}
+.jumbotron{
+	background: rgba(0,0,0,0.06);
+	padding: 20px;
+	margin: 10px 50px;
+	width: 400px;
+	max-width: 570px;
+}
+.ingreso img{
+	width: 400px;
+  margin: 20px 0;
+}
+.ingreso hr{
+  margin: 10px 0;
+}
+.ingreso h1{
+  font-size: 1.3rem;
+}
+.btn-group{
+  width: 100%;
+}
+
+/*---MEDIAQUERIES---*/
+/*// Extra small devices (portrait phones, less than 576px)
+// No media query for `xs` since this is the default in Bootstrap*/
+
+/*// Small devices (landscape phones, 576px and up)*/
+@media (min-width: 576px) { 
+body{
+    font-size: 1rem;
+  }
+  .jumbotron{
+    padding: 20px 40px
+  }
+  .ingreso h1{
+  font-size: 1.5rem;
+}
+}
+

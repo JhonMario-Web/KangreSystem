@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Insumos | KangreSystem</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/dashboard.css}">
+	<link rel="shotcut icon" th:href="@{/img/logosimbolo.png}">
+	<script src="https://kit.fontawesome.com/eb1bb051d4.js"></script>
+</head>
+<body>
+	<header th:replace="plantillas/burguer :: header"></header>
+	<nav th:replace="plantillas/burguer :: navbar"></nav>
+	<div class="content mx-auto">
+		<div class="alert alert-success alert-dismissible fade show mt-2" role="alert" th:if="${success}">
+		  <i class="far fa-check-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${success}"></strong>
+		</div>
+		<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" th:if="${error}">
+		  <i class="far fa-times-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${error}"></strong>
+		</div>
+		<div class="alert alert-warning alert-dismissible fade show mt-2" role="alert" th:if="${warning}">
+		  <i class="fas fa-exclamation-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${warning}"></strong>
+		</div>
+		<div class="alert alert-info alert-dismissible fade show mt-2" role="alert" th:if="${info}">
+		  <i class="fas fa-info-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${info}"></strong>
+		</div>
+	</div>
+	<div class="content mx-auto">
+		<h1 th:text="#{app.insumos}" class="text-center display-3 mt-5"></h1>
+		<div class="justify-content-center d-flex mb-4">
+			<button type="button" data-toggle="modal" data-target="#modalFilter" class="btn col-3 btn-light border border-secondary rounded-pill" title="Buscar / filtrar">
+				<span th:text="#{app.prov.busc}"></span>
+				<i class="fas fa-search ml-2"></i>
+			</button>
+		</div>
+		<div class="justify-content-center d-flex">
+			<div class="btn-group">
+				<a class="btn btn-light border border-secondary font-weight-bold text-secondary" th:href="@{/insumo/pdf}">[[#{app.prov.exp}]]<i class="far fa-file-pdf ml-1 text-dark"></i></a>
+				<a class="btn btn-light border border-secondary font-weight-bold text-secondary" th:href="@{/insumo/(format=xlsx)}">[[#{app.prov.exl}]] <i class="far fa-file-excel ml-1 text-dark"></i></a>
+				<a class="btn btn-light border border-secondary font-weight-bold text-secondary" th:href="@{/insumo/cargar-info}">[[#{app.prov.dat}]]<i class="far fa-arrow-alt-circle-up ml-1 text-dark"></i></a>
+				<a class="btn btn-light border border-secondary font-weight-bold text-secondary" th:href="@{/insumo/agregar}">[[#{app.prov.nuevo}]]<i class="fas fa-plus-circle ml-1 text-dark"></i></a>
+				<a class="btn btn-light border border-secondary font-weight-bold text-secondary" th:href="@{/insumo/limpiar}">[[#{app.prov.filt}]]<i class="fas fa-backspace ml-1 text-dark"></i></a>
+			</div>
+		</div>
+	</div>
+	<div class="content mx-auto">
+		<table class="table text-center">
+	  		<thead class="thead-light">
+			    <tr>
+			      <th scope="col">ID</th>
+			      <th scope="col">[[#{app.prov.lista.nombre}]]</th>
+			      <th scope="col">[[#{app.insumos.precio}]]</th>
+			      <th scope="col">[[#{app.prov.lista.categoria}]]</th>
+			      <th scope="col">[[#{app.prov.lista.estado}]]</th>
+			      <th scope="col">Devolucion</th>
+			      <th scope="col" class="text-center"></th>
+			    </tr>
+	  		</thead>
+			<tbody>
+			    <tr th:each="i:${insumos}">
+			      <th scope="row">
+				      	<a href="#insumo-details"  data-toggle="modal" class="btn-edit font-weight-bold text-info text-decoration-none p-0" th:text="${i.idInsumo}"></a>
+				      	<input type="hidden" th:value="${i.idInsumo}" id="idInsumo" name="idInsumo">
+			      </th>
+			      <td th:text="${i.nombre}"></td>
+			      <td th:text="${'$'+i.precio}"></td>
+			      <td th:text="${i.categoria.categoria}"></td>
+			      <td>
+		      		  <div  class="badge p-2 badge-pill bagde-light border border-dark" th:text="${i.estado}"></div>
+			      </td>
+			      <td>
+			      	<i class="fas" th:classappend="${i.devolucion == true ? 'fa-check-circle text-success' : 'fa-times-circle text-danger'}"></i>
+			      </td>
+			      <td class="text-center">
+			      	  <a href="#" th:onclick="'javascript:confirmDelete(\'' + ${i.idInsumo} + '\' );'" class="p-0 text-danger" title="Eliminar"><i class="fas fa-trash"></i></a>
+			      </td>
+			    </tr>
+			</tbody>
+		</table>
+	</div>
+	<footer th:replace="plantillas/burguer :: footer"></footer>	
+	
+	<script type="text/javascript">
+	
+	    function clearSearch() {
+	        window.location = "[[@{/insumo/}]]";
+	    }
+	   
+	    function confirmDelete(id){
+	    	$('#deleteModalInsumo').modal('show');
+	    	$("#idInsumo").val(id);
+	    }
+	    
+	    function deleteInsumo(){
+	    	var id = $("#idInsumo").val();
+	        window.location = "delete/"+id;
+	    }
+	    
+	    function editInsumo(){
+	    	var id = $("#idInsumoModal").val();
+	        window.location = "edit/"+id;
+	    }
+	    
+		$('document').ready(function(){
+    		
+    		$('[data-toggle="tooltip"]').tooltip();
+    		
+    		$('.table .btn-edit').on('click', function(){
+    			var idInsumo = $(this).parent().find('#idInsumo').val();
+    			$.ajax({
+    				type: 'GET',
+    				url: '/insumo/details/'+idInsumo,
+    				success: function(insumo){
+    					$('#insumo-details #idInsumoModal').val(insumo.idInsumo);
+    					$('#insumo-details #nombre').text(insumo.nombre);
+    					$('#insumo-details #stockActual').text(insumo.stockActual);
+    					$('#insumo-details #stockMax').text(insumo.stockMax);
+    					$('#insumo-details #entradas').text(insumo.entradas);
+    					$('#insumo-details #salidas').text(insumo.salidas);
+    					$('#insumo-details #categoria').text(insumo.categoria.categoria);
+    					$('#insumo-details #estado').text(insumo.estado);
+    					$('#insumo-details #unidadMedida').text(insumo.unidadMedida);
+    					$('#insumo-details #caducidad').text(insumo.caducidad);
+    					$('#insumo-details #proveedor').text(insumo.proveedor.nombre);
+    					$('#insumo-details #precio').text('$'+insumo.precio);
+    				}
+    			});
+    		});	
+    		
+    	});
+	</script>
+	
+	<div th:include="Views/SI/Inventario/Insumo/modalDelete_Insumo.html" th:remove="tag"></div>			
+	<div th:include="Views/SI/Inventario/Insumo/modalFilter_Insumo.html" th:remove="tag"></div>			
+	<div th:include="Views/SI/Inventario/Insumo/modalDetails_Insumo.html" th:remove="tag"></div>			
+</body>
+</html>

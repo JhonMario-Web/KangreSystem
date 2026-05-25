@@ -1,0 +1,36 @@
+<!-- Modal -->
+<div class="modal fade" id="select-fav-transferencia" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header border-0">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body row">
+	      <div class="col">
+		      <h1 class="text-center font-weight-light text-secondary">Seleccione un favorito</h1>
+		      <h3 class="text-center font-weight-light text-danger" th:if="${favoritos.isEmpty()}">No tiene favoritos agregados</h3>
+		      <hr>
+		      <form th:if="${!favoritos.isEmpty()}" th:action="@{/favorito/transferencia/nueva}" th:object="${puntoTransferido}" method="post" class="needs-validation" novalidate>
+		      	<input type="hidden" id="idTrxnAcumMF" name="idTrxnAcumMF"/>
+		      	<div class="form-group">
+		      		<select class="custom-select custom-select-lg" th:field="*{favorito.idFavorito}" id="favorito" name="favorito" required>
+		      			<option th:text="''" th:value="''">
+		      			<option th:each="f:${favoritos}" th:text="${f.favorito.user.nombres}+' '+${f.favorito.user.apellidos}" th:value="${f.idFavorito}">
+		      		</select>
+		      	</div>
+		      	<button type="submit" class="btn btn-block btn-primary rounded-pill font-weight-bold">
+		      		<i class="fas fa-check-circle mr-1"></i>
+		      		<span th:text="#{app.pedido.modal.boton}"></span>
+	      		</button>
+		      </form>   
+	      		 <button type="button" class="btn btn-light font-weight-bold btn-block rounded-pill" data-dismiss="modal">
+	       	  		<i class="fas fa-times mr-1"></i>
+	       	  		<span th:text="#{app.prov.cancelar}"></span>
+       	  		</button>
+	      </div>
+      </div>
+    </div>
+  </div>
+</div>

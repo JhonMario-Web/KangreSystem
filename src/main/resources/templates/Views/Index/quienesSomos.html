@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Quienes somos | KangreSystem</title>
+	<script src="https://kit.fontawesome.com/eb1bb051d4.js"></script>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/dashboard.css}">
+	<link rel="stylesheet" th:href="@{/css/quienesSomos.css}">
+	<link rel="shotcut icon" th:href="@{/img/logosimbolo.png}">
+</head>
+<body>
+	
+	<header th:replace="plantillas/burguer :: header"></header>
+	
+	<nav th:replace="plantillas/burguer :: navbar"></nav>
+	
+	<div class="container">
+			<h6 class="display-4 text-center mt-4" id="item1">Quienes somos</h6>
+			<hr>
+			<div class="row my-2">
+				<div class="col ">
+					<img th:src="@{/img/aboutUs.jpg}" class="img-fluid">
+				</div>
+				<div class="col ">				
+					
+					<p class="text-justify">Somos una empresa solida e integral que busca minimizar las perdidas economicas maximizando
+					 y perfeccionando los procesos de los clientes publicos y privados, ofreciendoles soluciones tecnologicas en un 
+					 mercado empresarial complejo, dinamico y competitivo, que exige visiones estrategicas integrales y especializadas 
+					 para garantizar su permanencia y viabilidad en el futuro.</p>
+					 
+					 <p> Si bien estamos basados en Colombia, nuestros profesionales han desarrollado diversas soluciones y proyectos en 
+					 Latinoamerika, Estados Unidos, Europa y Asia</p>
+				</div>
+			</div>
+			
+		</div>
+	
+	<footer th:replace="plantillas/burguer :: footer"></footer>
+	
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Favoritos | KangreSystem</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/dashboard.css}">
+	<link rel="shotcut icon" th:href="@{/img/logosimbolo.png}">
+	<script src="https://kit.fontawesome.com/eb1bb051d4.js"></script>
+</head>
+<body>
+	<header th:replace="plantillas/burguer :: header"></header>
+	<nav th:replace="plantillas/burguer :: navbar"></nav>
+	<div class="content mx-auto">
+		<div class="alert alert-success alert-dismissible fade show mt-2" role="alert" th:if="${success}">
+		  <i class="far fa-check-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${success}"></strong>
+		</div>
+		<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" th:if="${error}">
+		  <i class="far fa-times-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${error}"></strong>
+		</div>
+		<div class="alert alert-warning alert-dismissible fade show mt-2" role="alert" th:if="${warning}">
+		  <i class="fas fa-exclamation-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${warning}"></strong>
+		</div>
+		<div class="alert alert-info alert-dismissible fade show mt-2" role="alert" th:if="${info}">
+		  <i class="fas fa-info-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${info}"></strong>
+		</div>
+	</div>
+	<div class="content mx-auto">
+		<h1 th:text="'Mis favoritos'" class="text-center display-4 mt-5"></h1>
+		<hr>
+		<div class="row justify-content-center">
+			<div class="col-8">
+				<img th:src="@{/img/favorito.jpg}" class="img-fluid"/>
+				<div class="jumbotron py-4 bg-light">
+					<p class="font-weight-bold">Con tus favoritos puedes transferir Kangrepuntos, para asi poder redimirlos en cualquiera de nuestros restaurantes.</p>
+					<hr>
+					<p>Puedes agregar hasta 5 (cinco) favoritos.</p>
+					<p><span>Espacios disponibles:</span> <span th:text="${5 - size}"></span></p>
+				</div>
+				<hr>
+				<div th:each="f:${favoritos}" class="alert alert-warning alert-dismissible fade show" role="alert">
+				  <strong th:text="${f.favorito.user.nombres}+' '+${f.favorito.user.apellidos}"></strong> 
+				  <a href="#" class="close" th:onclick="'javascript:confirmDelete(\'' + ${f.favorito.user.idUser} + '\' );'">
+				    <span aria-hidden="true">&times;</span>
+				  </a>
+				</div>
+				<hr>
+				<button type="button"  class="btn btn-lg float-right btn-outline-success my-4 rounded-pill font-weight-bold" data-toggle="modal" data-target="#agregarFavoritoModal">
+					<i class="fas fa-plus-circle"></i>
+					<span th:text="'Agregar'"></span>
+				</button>
+			</div>
+		</div>
+		
+	</div>
+	
+	<footer th:replace="plantillas/burguer :: footer"></footer>
+	<script type="text/javascript">
+	
+	function confirmDelete(id){
+    	$('#modalDeleteFavorito').modal('show');
+    	$("#idFavoritoMD").val(id);
+    }
+    
+    function deleteFavorito(){
+    	var id = $("#idFavoritoMD").val();
+        window.location = "/favorito/quitar/"+id;
+    }
+	
+	(function() {
+		  'use strict';
+		  window.addEventListener('load', function() {
+		    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+		    var forms = document.getElementsByClassName('needs-validation');
+		    // Loop over them and prevent submission
+		    var validation = Array.prototype.filter.call(forms, function(form) {
+		      form.addEventListener('submit', function(event) {
+		        if (form.checkValidity() === false) {
+		          event.preventDefault();
+		          event.stopPropagation();
+		        }
+		        form.classList.add('was-validated');
+		      }, false);
+		    });
+		  }, false);
+		})();
+    	
+	</script>
+	
+	<div th:include="/Views/SI/Fidelizacion/Favorito/modalAgregarFavorito.html" th:remove="tag"></div>
+	<div th:include="/Views/SI/Fidelizacion/Favorito/modalDeleteFavorito.html" th:remove="tag"></div>
+</body>
+</html>

@@ -1,0 +1,47 @@
+*{
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0; 
+}
+
+body{
+	overflow-x: hidden;
+}
+
+.jumbotron{
+	padding-bottom: 15px;
+	width: 400px;
+	box-shadow: 1px 1px 58px -16px rgba(120,120,120,1);
+	-webkit-box-shadow: 1px 1px 58px -16px rgba(120,120,120,1);
+	-moz-box-shadow: 1px 1px 58px -16px rgba(120,120,120,1);
+}
+
+.input{
+	border-radius: 12px;
+	height: 45px;
+	border: 2px solid rgba(0,0,0,0.2);
+	color: rgba(0,0,0,0.2);
+	font-weight: bold;
+	width: 85%;
+}
+
+.boton-entrar{
+	width: 85%;
+	font-weight: bold;
+	font-size: 20px;
+	color: white;
+	border-radius: 25px;
+}
+
+.boton-registro{
+	width: 85%;
+	font-weight: lighter;
+	font-size: 20px;
+	border-radius: 25px;
+}
+
+.content{
+	width: 85%;
+}
+
+

@@ -1,0 +1,53 @@
+<div class="modal fade" id="modalFilter" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content p-4">
+      <div class="modal-header border-0">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      <h1 class="text-center font-weight-light">[[#{app.prov.filtro}]]</h1>
+      	<hr>
+        <form autocomplete="off" th:action="@{/proveedor/}" method="post">
+          <div class="form-group">
+            <label for="nitProveedor" class="col-form-label">Nit</label>
+            <input type="text" class="form-control" id="nitProveedor" name="nitProveedor" >
+          </div>
+          <hr>
+          <div class="form-group">
+            <label for="categoria" class="col-form-label" th:text="#{app.prov.lista.categoria}"></label>
+            <select class="custom-select" id="categoria" name="categoria">
+            	<option th:value="''" th:text="''"/>
+            	<option th:each="c:${categorias}" th:value="${c.idCategoria}" th:text="${c.categoria}"/>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="ciudad" class="col-form-label" th:text="#{app.prov.lista.ciudad}"></label>
+            <select class="custom-select" id="ciudad" name="ciudad">
+            	<option th:value="''" th:text="''"/>
+            	<option th:value="'BOGOTA'" th:text="'Bogotá'"/>
+            	<option th:value="'CHIA'" th:text="'Chia'"/>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="enabled" class="col-form-label" th:text="#{app.prov.lista.estado}"></label>
+            <select class="custom-select" id="enabled" name="estado">
+            	<option th:value="''" th:text="''"/>
+            	<option th:value="'true'" th:text="'Activo'"/>
+            	<option th:value="'false'" th:text="'Inactivo'"/>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary font-weight-bold btn-block rounded-pill">
+      			<i class="fas fa-search mr-1"></i>
+      			<span th:text="#{app.prov.buscar}"></span>
+          </button>
+       	  <button type="button" class="btn btn-light font-weight-bold btn-block rounded-pill" data-dismiss="modal">
+       	  		<i class="fas fa-times mr-1"></i>
+       	  		<span th:text="#{app.prov.cancelar}"></span>
+       	  </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

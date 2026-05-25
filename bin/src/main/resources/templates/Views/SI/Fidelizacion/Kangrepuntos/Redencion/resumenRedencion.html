@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Cambio | KangreSystem</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/indexPedido.css}">
+	<link rel="shotcut icon" th:href="@{/img/logosimbolo.png}">
+	<script src="https://kit.fontawesome.com/eb1bb051d4.js"></script>
+</head>
+<body>
+	<div class="container py-4">
+		 <div class="row">
+			<div class="col">
+				<div class="alert alert-success alert-dismissible fade show mt-2" role="alert" th:if="${success}">
+					<i class="far fa-check-circle mr-1"></i>
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					  <span aria-hidden="true">&times;</span>
+					</button>
+					<strong th:text="${success}"></strong>
+				</div>
+				<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" th:if="${error}">
+			      <i class="far fa-times-circle"></i>
+				  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				    <span aria-hidden="true">&times;</span>
+				  </button>
+				  <strong th:text="${error}"></strong>
+				</div>
+				<div class="alert alert-warning alert-dismissible fade show mt-2" role="alert" th:if="${warning}">
+				  <i class="fas fa-exclamation-circle mr-1"></i>
+				  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				    <span aria-hidden="true">&times;</span>
+				  </button>
+				  <strong th:text="${warning}"></strong>
+				</div>
+				<div class="alert alert-info alert-dismissible fade show mt-2" role="alert" th:if="${info}">
+				  <i class="fas fa-info-circle mr-1"></i>
+				  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				    <span aria-hidden="true">&times;</span>
+				  </button>
+				  <strong th:text="${info}"></strong>
+				</div>
+			</div>
+		</div>
+		<div class="display-3 text-center mt-4" th:text="'Gracias por redimir tu compra!'"></div>
+		<div class="row mt-5 justify-content-center">
+			<div class="col-10">
+				<img th:src="@{/img/kangrepuntos.jpg}" class="img-fluid">
+				<div class="display-4 text-center text-danger" th:text="'Sigue disfrutando tus kangrepuntos!'"></div>
+				<hr>
+				<div class="jumbotron py-3 px-4 mt-5 bg-light">
+					<h2 class="justify-content-between d-flex font-weight-light"><span th:text="Subtotal"></span><span th:text="${'$'+pedido.subtotal}"></span></h2>
+					<h2 class="justify-content-between d-flex font-weight-light"><span th:text="I.V.A"></span><span th:text="${'$'+iva}"></span></h2>
+					<h2 class="justify-content-between d-flex font-weight-light"><span th:text="Total"></span><span th:text="${'$'+pedido.total}"></span></h2>
+					<hr>
+					<h2 class="justify-content-between d-flex font-weight-light"><span th:text="Acumulados"></span><span th:text="${pedido.kangrepuntos}"></span></h2>
+					<h2 class="justify-content-between d-flex font-weight-light"><span th:text="'Redimidos'"></span> <span th:text="${redimidos}"></span></h2>
+					<h2 class="justify-content-between d-flex font-weight-light"><span th:text="'Valor redimido'"></span> <span th:text="${'$'+vlrRedimido}"></span></h2>
+					<hr>
+					<h2 class="justify-content-between d-flex font-weight-light"><span th:text="'Disponibles'"></span> <span th:text="${pedido.cliente.kangrepuntos}"></span></h2>
+					<h2 class="justify-content-between d-flex font-weight-light"><span th:text="'Por vencer'"></span> <span th:text="${porVencer.disponibles}"></span></h2>
+					<h2 class="justify-content-between d-flex font-weight-light"><span th:text="'Fecha vencimiento'"></span> <span th:text="${porVencer.fechaVencimiento}"></span></h2>
+				</div>
+			</div>
+		</div>
+		<div class="row justify-content-center">
+			<div class="col-10 justify-content-between d-flex">
+				 <a th:href="@{/pedido/}" class="btn btn-lg btn-outline-primary font-weight-bold rounded-pill border-0">
+				 	<i class="fas fa-arrow-circle-left"></i>
+				 	<span th:text="#{app.efectivo.volver}"></span>
+			 	</a>
+				 <button type="button" class="btn btn-lg btn-outline-success font-weight-bold rounded-pill">
+				 	<span th:text="#{app.efectivo.pdf}"></span>
+				 	<i class="fas fa-print"></i>
+			 	</button>
+			</div>
+		</div>
+   	</div>
+		
+	<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+	<script type="text/javascript" th:src="@{/js/popper.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+</body>
+</html>

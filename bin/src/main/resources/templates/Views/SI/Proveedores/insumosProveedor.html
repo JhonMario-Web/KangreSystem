@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Catalogo de insumos | KangreSystem</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/dashboard.css}">
+	<link rel="shotcut icon" th:href="@{/img/logosimbolo.png}">
+	<script src="https://kit.fontawesome.com/eb1bb051d4.js"></script>
+</head>
+<body>
+	<header th:replace="plantillas/burguer :: header"></header>
+	<nav th:replace="plantillas/burguer :: navbar"></nav>
+	<div class="content mx-auto">
+		<div class="alert alert-success alert-dismissible fade show mt-2" role="alert" th:if="${success}">
+			<i class="far fa-check-circle mr-1"></i>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+			<strong th:text="${success}"></strong>
+		</div>
+		<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" th:if="${error}">
+	      <i class="far fa-times-circle"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${error}"></strong>
+		</div>
+		<div class="alert alert-warning alert-dismissible fade show mt-2" role="alert" th:if="${warning}">
+		  <i class="fas fa-exclamation-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${warning}"></strong>
+		</div>
+		<div class="alert alert-info alert-dismissible fade show mt-2" role="alert" th:if="${info}">
+		  <i class="fas fa-info-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${info}"></strong>
+		</div>
+	</div>
+	<div class="content mx-auto">
+		<h1 th:text="'Catalogo de insumos'" class="text-center display-3 mt-5 mb-4"></h1>
+		<div class="justify-content-center d-flex">
+			<div class="btn-group">
+				<a class="btn btn-light border border-secondary font-weight-bold text-secondary" th:href="@{/proveedor/pdf}">[[#{app.prov.exp}]]<i class="far fa-file-pdf ml-1 text-dark"></i></a>
+				<a class="btn btn-light border border-secondary font-weight-bold text-secondary" th:href="@{/proveedor/(format=xlsx)}">[[#{app.prov.exl}]]<i class="far fa-file-excel ml-1 text-dark"></i></a>
+			</div>
+		</div>
+	</div>
+	<div class="content mx-auto">
+		<table class="table table-hover text-center">
+		  <thead class="bg-light">
+		    <tr>
+		      <th scope="col">ID</th>
+		      <th scope="col">Insumo</th>
+		      <th scope="col">Precio</th>
+		      <th scope="col">Estado</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		    <tr th:each="ip:${insumosProv}">
+		      <th scope="row" th:text="${ip.idInsumo}"></th>
+		      <td th:text="${ip.nombre}"></td>
+		      <td th:text="${'$'+ip.precio}"></td>
+		      <td th:text="${ip.estado}"></td>
+		    </tr>
+		  </tbody>
+		</table>
+	</div>
+	<footer th:replace="plantillas/burguer :: footer"></footer>	
+</body>
+</html>

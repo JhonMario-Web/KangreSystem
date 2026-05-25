@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Roles y permisos | KangreSystem</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/dashboard.css}">
+	<link rel="shotcut icon" th:href="@{/img/logosimbolo.png}">
+	<script src="https://kit.fontawesome.com/eb1bb051d4.js"></script>
+</head>
+<body>
+	<header th:replace="plantillas/burguer :: header"></header>
+	<nav th:replace="plantillas/burguer :: navbar"></nav>
+	<div class="content mx-auto">
+		<div class="alert alert-success alert-dismissible fade show mt-2" role="alert" th:if="${success}">
+		  <i class="far fa-check-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${success}"></strong>
+		</div>
+		<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" th:if="${error}">
+		  <i class="far fa-times-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${error}"></strong>
+		</div>
+		<div class="alert alert-warning alert-dismissible fade show mt-2" role="alert" th:if="${warning}">
+		  <i class="fas fa-exclamation-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${warning}"></strong>
+		</div>
+		<div class="alert alert-info alert-dismissible fade show mt-2" role="alert" th:if="${info}">
+		  <i class="fas fa-info-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${info}"></strong>
+		</div>
+	</div>
+	<div class="content mx-auto">
+		<h1 th:text="#{app.nav.usuario.rol}" class="text-center display-3 mt-5"></h1>
+		<div class="justify-content-center d-flex mb-4">
+			<button type="button" data-toggle="modal" data-target="#modalFilter" class="btn col-3 btn-light border border-secondary rounded-pill" title="Buscar / filtrar">
+				<span th:text="#{app.prov.busc}"></span>
+				<i class="fas fa-search ml-2"></i></button>
+		</div>
+		<div class="justify-content-center d-flex">
+			<div class="btn-group">
+				<a class="btn btn-light border border-secondary font-weight-bold text-secondary" th:href="@{/rol/pdf}">[[#{app.prov.exp}]] <i class="far fa-file-pdf ml-1 text-dark"></i></a>
+				<a class="btn btn-light border border-secondary font-weight-bold text-secondary" th:href="@{/rol/(format=xlsx)}">[[#{app.prov.exl}]] <i class="far fa-file-excel ml-1 text-dark"></i></a>
+				<a class="btn btn-light border border-secondary font-weight-bold text-secondary" th:href="@{/rol/limpiar}">Limpiar filtro<i class="fas fa-backspace ml-1 text-dark"></i></a>
+			</div>
+		</div>
+	</div>
+	<div class="content mx-auto">
+		<table class="table" th:classappend="${tabla}">
+	  		<thead class="thead-light">
+			    <tr>
+			      <th scope="col">ID</th>
+			      <th scope="col">ID User</th>
+			      <th scope="col">Username</th>
+			      <th scope="col">[[#{app.prov.lista.nombre}]]</th>
+			      <th scope="col">Rol</th>
+			      <th scope="col">[[#{app.empleados.fecha}]]</th>
+			      <th scope="col" class="text-center"></th>
+			    </tr>
+	  		</thead>
+			<tbody>
+			    <tr th:each="r:${roles}">
+			      <th scope="row" th:text="${r.idRol}"></th>
+			      <td th:text="${r.user.idUser}"></td>
+			      <td th:text="${r.user.username}"></td>
+			      <td th:text="${r.user.nombres} + ' ' + ${r.user.apellidos}"></td>
+			      <td th:text="${r.rol}"></td>
+			      <td th:text="${r.fechaRegistro}" class="text-center"></td>
+			      <td class="text-center">
+			      	<a href="#" th:onclick="'javascript:confirmDelete(\'' + ${r.idRol} + '\' );'" class="nav-link text-danger" title="Eliminar"><i class="fas fa-trash"></i></a>
+			      </td>  
+			    </tr>
+			</tbody>
+		</table>
+	</div>
+	<footer th:replace="plantillas/burguer :: footer"></footer>	
+	
+	<script type="text/javascript">
+	
+	    function clearSearch() {
+	        window.location = "[[@{/rol/}]]";
+	    }
+	   
+	    function confirmDelete(id){
+	    	$('#deleteModal').modal('show');
+	    	$("#idRol").val(id);
+	    }
+	    
+	    function deleteRol(){
+	    	var id = $("#idRol").val();
+	        window.location = "delete/"+id;
+	    }
+	    
+	    function agregarRol(){
+	    	var id = $("#idRolModal").val();
+	        window.location = "agregar/"+id;
+	    }
+	</script>
+	
+	<div th:include="Views/SI/Rol/modalDeleteRol.html" th:remove="tag"></div>	
+	<div th:include="Views/SI/Rol/modalFilterRoles.html" th:remove="tag"></div>	
+</body>
+</html>

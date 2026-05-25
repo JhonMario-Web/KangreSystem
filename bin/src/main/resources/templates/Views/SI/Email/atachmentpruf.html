@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Registro | KangreSystem</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/dashboard.css}">
+	<link rel="stylesheet" th:href="@{/css/registro.css}">
+	<link rel="shotcut icon" th:href="@{/img/logosimbolo.png}">
+	<script src="https://kit.fontawesome.com/eb1bb051d4.js"></script>
+</head>
+<body>
+	<header th:replace="plantillas/burguer :: header"></header>
+	<nav th:replace="plantillas/burguer :: navbar"></nav>
+	<div class="content mx-auto d-block">
+		<div class="alert alert-success alert-dismissible fade show mt-3" role="alert" th:if="${success != null}">
+		  <strong>CORRECTO:</strong> <span th:text="${success}"></span>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		</div>
+		<div class="alert alert-info alert-dismissible fade show mt-3 " role="alert" th:if="${info != null}">
+		  <strong>INFORMACION:</strong> <span th:text="${info}"></span>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		</div>
+		<div class="alert alert-danger alert-dismissible fade show mt-3" role="alert" th:if="${error != null}">
+		  <strong>ERROR</strong> <span th:text="${error}"></span>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		</div>
+		<div class="alert alert-warning alert-dismissible fade show mt-3" role="alert" th:if="${warning != null}">
+		  <strong>ATENCION:</strong> <span th:text="${warning}"></span>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		</div>
+	</div>
+	<div class="container">
+		<h1 th:text="${titulo}"class="text-center display-4 mt-4"></h1>
+		<hr>
+		<h2 class="text-center text-secondary font-weight-light my-4"></h2>
+		<div class="row">
+			<div class="col">
+				<form method="POST" th:action="@{/novedad/prueba}" th:object="${mail}" id="emailForm" class="container"
+					enctype="multipart/form-data">
+		            <div class="destinatarios align-items-center d-flex justify-content-center">
+		            	<div class="form-check form-check-inline">
+						  <input th:value="'true'" class="form-check-input" type="checkbox" id="clientes" name="clientes">
+						  <label class="form-check-label" for="clientes">Clientes</label>
+						</div>
+						<div class="form-check form-check-inline">
+						  <input th:value="'true'" class="form-check-input" type="checkbox" id="empleados" name="empleados">
+						  <label class="form-check-label" for="empleados">Empleados</label>
+						</div>
+						<div class="form-check form-check-inline">
+						  <input th:value="'true'" class="form-check-input" type="checkbox" id="proveedores" name="proveedores">
+						  <label class="form-check-label" for="proveedores">Proveedores</label>
+						</div>
+		            </div>	
+		            <div class="form-group">
+		            	<label for="correo"></label>
+		                <input type="email" class="form-control form-control-lg" id="correo" name="correo" placeholder="Correo electronico"/>
+		            </div>
+		            <div class="form-group">
+		            	<label for="asunto"></label>
+		                <input type="text" class="form-control form-control-lg" name="asunto" id="asunto" placeholder="Asunto"/>
+		            </div>
+		            <div class="form-group">
+		            	<label for="mensaje"></label>
+		                <textarea class="form-control form-control-lg" rows="5" name="mensaje" placeholder="Mensaje"></textarea>
+		            </div>
+		            <div class="form-group">
+		            	<label for="archivo"></label>
+		                <input type="file" class="form-control-sm" name="archivo" id="archivo" />
+		            </div>
+		            <div style="margin-bottom: 10px">
+		                <button type="submit" class="btn btn-block btn-lg btn-success">Enviar</button>
+		            </div>
+        		</form>
+			</div>
+		</div>
+		<hr>
+	</div>
+	<footer th:replace="plantillas/burguer :: footer"></footer>
+</body>
+</html>

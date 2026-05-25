@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Compras recibidas | KangreSystem</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/dashboard.css}">
+	<link rel="shotcut icon" th:href="@{/img/logosimbolo.png}">
+	<script src="https://kit.fontawesome.com/eb1bb051d4.js"></script>
+</head>
+<body>
+	<header th:replace="plantillas/burguer :: header"></header>
+	<nav th:replace="plantillas/burguer :: navbar"></nav>
+	<div class="content mx-auto">
+		<div class="alert alert-success alert-dismissible fade show mt-2" role="alert" th:if="${success}">
+			<i class="far fa-check-circle mr-1"></i>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+			<strong th:text="${success}"></strong>
+		</div>
+		<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" th:if="${error}">
+	      <i class="far fa-times-circle"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${error}"></strong>
+		</div>
+		<div class="alert alert-warning alert-dismissible fade show mt-2" role="alert" th:if="${warning}">
+		  <i class="fas fa-exclamation-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${warning}"></strong>
+		</div>
+		<div class="alert alert-info alert-dismissible fade show mt-2" role="alert" th:if="${info}">
+		  <i class="fas fa-info-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${info}"></strong>
+		</div>
+	</div>
+	<div class="content mx-auto">
+		<h1 th:text="'Compras recibidas'" class="text-center display-4 mt-4"></h1>
+		<div class="justify-content-center d-flex mb-4">
+			<button type="button" data-toggle="modal" data-target="#modalFilterLlegadaCompras" class="btn col-3 btn-light border border-secondary rounded-pill" title="Buscar / filtrar">
+				<span th:text="#{app.prov.busc}"></span>
+				<i class="fas fa-search ml-2"></i>
+			</button>
+		</div>
+		<div class="justify-content-center d-flex">
+			<div class="btn-group">
+				<a class="btn btn-light border border-secondary font-weight-bold text-secondary" th:href="@{/proveedor/servicios/compra/pdf}">[[#{app.prov.exp}]]<i class="far fa-file-pdf ml-1 text-dark"></i></a>
+				<a class="btn btn-light border border-secondary font-weight-bold text-secondary" th:href="@{/proveedor/servicios/compra/recibir/(format=xlsx)}">[[#{app.prov.exl}]]<i class="far fa-file-excel ml-1 text-dark"></i></a>
+				<a class="btn btn-light border border-secondary font-weight-bold text-secondary" th:href="@{/proveedor/servicios/compra/recibir/nueva}">Recibir nueva<i class="fas fa-plus-circle ml-1 text-dark"></i></a>
+				<a class="btn btn-light border border-secondary font-weight-bold text-secondary" th:href="@{/proveedor/servicios/compra/recibir/limpiar-filtro}">[[#{app.prov.filt}]]<i class="fas fa-backspace ml-1 text-dark"></i></a>
+			</div>
+		</div>
+	</div>
+	<div class="content mx-auto">
+		<table class="table table-hover text-center">
+	  		<thead class="thead-light">
+			    <tr>
+			      <th scope="col">ID</th>
+			      <th scope="col">Numero</th>
+			      <th scope="col">Fecha</th>
+			      <th scope="col">Proveedor</th>
+			      <th scope="col">Valor</th>
+			      <th scope="col"></th>
+			    </tr>
+	  		</thead>
+			<tbody>
+			    <tr th:each="l:${llegadas}">
+			      <th scope="row" th:text="${l.idLlegada}"></th>
+			      <td th:text="${l.numeroLlegada}"></td>
+			      <td th:text="${#calendars.format(l.fecha, 'dd/MMMMM/yyyy')}" class="text-uppercase"></td>
+			      <td th:text="${l.proveedor == null ? 'RECIBIDA EN CERO' : l.proveedor.nombre}"></td>
+			      <td th:text="${'$'+#numbers.formatDecimal(l.total, 0, 'POINT', 0, 'POINT')}"></td>
+			      <td>
+			      	<a href="#modalNovedadLlegada" data-toggle="modal" class="mx-2 p-0 text-decoration-none btn-novedad">
+			      		<i class="far fa-newspaper" data-toggle="tooltip" data-placement="top" title="Ver novedades"></i>
+			      		<input type="hidden" th:value="${l.idLlegada}" id="idLlegada" name="idLlegada">
+			      	</a>
+			      	<a href="#" th:onclick="'javascript:confirmCancel(\'' + ${l.idLlegada} + '\' );'" class="text-danger mx-2 p-0 text-decoration-none">
+			      		<i class="fas fa-times-circle" data-toggle="tooltip" data-placement="top" title="Cancelar llegada"></i>
+			      	</a>
+			      </td> 
+			    </tr>
+			</tbody>
+		</table>
+	</div>
+	<footer th:replace="plantillas/burguer :: footer"></footer>	
+	
+	<script type="text/javascript">
+	   
+	    function confirmCancel(id){
+	    	$('#deleteCancelLlegada').modal('show');
+	    	$("#idLlegadaMD").val(id);
+	    }
+	    
+	    function cancelLlegada(){
+	    	var id = $("#idLlegadaMD").val();
+	        window.location = "/proveedor/servicios/compra/recibir/cancelar/"+id;
+	    }
+	    
+		$('document').ready(function(){
+    		
+    		$('[data-toggle="tooltip"]').tooltip();
+    		
+    		$('.table .btn-novedad').on('click', function(){
+    			var idLlegada = $(this).parent().find('#idLlegada').val();
+    			$.ajax({
+    				type: 'GET',
+    				url: '/proveedor/servicios/compra/recibir/novedad/'+idLlegada,
+    				success: function(llegada){
+    					$('#modalNovedadLlegada #novedadModal').text(llegada.novedad);
+    				}
+    			});
+    		});	
+    		
+    	});
+	</script>
+			
+	<div th:include="Views/SI/Compra/Llegada/modalFilterLlegadaCompras.html" th:remove="tag"></div>
+	<div th:include="Views/SI/Compra/Llegada/modalNovedadLlegada.html" th:remove="tag"></div>
+	<div th:include="Views/SI/Compra/Llegada/modalCancelLlegada.html" th:remove="tag"></div>
+		
+</body>
+</html>

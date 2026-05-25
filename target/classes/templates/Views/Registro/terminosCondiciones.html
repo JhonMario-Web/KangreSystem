@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Registro | KangreSystem</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/dashboard.css}">
+	<link rel="stylesheet" th:href="@{/css/registro.css}">
+	<link rel="shotcut icon" th:href="@{/img/logosimbolo.png}">
+	<script src="https://kit.fontawesome.com/eb1bb051d4.js"></script>
+</head>
+<body>
+	<header th:replace="plantillas/burguer :: header"></header>
+	<nav th:replace="plantillas/burguer :: navbar"></nav>
+	<div class="content mx-auto">
+		<div class="alert alert-success alert-dismissible fade show mt-2" role="alert" th:if="${success}">
+		  <i class="far fa-check-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${success}"></strong>
+		</div>
+		<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" th:if="${error}">
+		  <i class="far fa-times-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${error}"></strong>
+		</div>
+		<div class="alert alert-warning alert-dismissible fade show mt-2" role="alert" th:if="${warning}">
+		  <i class="fas fa-exclamation-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${warning}"></strong>
+		</div>
+		<div class="alert alert-info alert-dismissible fade show mt-2" role="alert" th:if="${info}">
+		  <i class="fas fa-info-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${info}"></strong>
+		</div>
+	</div>
+	<div class="container">
+		<h1 th:text="#{app.registro}" class="text-center display-4 mt-4"></h1>
+		<div class="row indice mx-auto border border-success mt-3">
+			<div class="col bg-success"></div>
+			<div class="col bg-success"></div>
+			<div class="col"></div>
+			<div class="col"></div>
+		</div>
+		<hr>
+		<h2 th:text="#{app.reg.term}" class="text-center text-secondary font-weight-light my-4"></h2>
+		<div class="row justify-content-center">
+			<div class="col-10">
+				<div id="alerta" class=""></div>
+				<div class="terminos">
+					<p class="text-justify" th:text="${terminos}">
+				</div>
+				
+				<form th:action="@{/sign-up/terminos-condiciones}" th:object="${user}" name="formRegistro" id="formRegistro" method="post" class="needs-validation" novalidate>
+					<input type="hidden" th:value="${user.idUser}" th:field="*{idUser}"/>
+					<input type="hidden" th:value="${user.username}" th:field="*{username}"/>
+					<input type="hidden" th:value="${user.password}" th:field="*{password}"/>
+					<input type="hidden" th:value="${user.numeroDoc}" th:field="*{numeroDoc}"/>
+					<input type="hidden" th:value="${user.tipoDoc}" th:field="*{tipoDoc}"/>
+					<input type="hidden" th:value="${user.nombres}" th:field="*{nombres}"/>
+					<input type="hidden" th:value="${user.apellidos}" th:field="*{apellidos}"/>
+					<input type="hidden" th:value="${user.celular}" th:field="*{celular}"/>
+					<input type="hidden" th:value="${user.genero}" th:field="*{genero}"/>
+					<input type="hidden" th:value="${user.telefono}" th:field="*{telefono}"/>
+					<input type="hidden" th:value="${user.direccion}" th:field="*{direccion}"/>
+					<input type="hidden" th:value="${user.ciudad}" th:field="*{ciudad}"/>
+					<input type="hidden" th:value="${user.email}" th:field="*{email}"/>
+					<input type="hidden" th:value="${user.edad}" th:field="*{edad}"/>
+					<input type="hidden" th:value="${user.pais.idPais}" th:field="*{pais.idPais}"/>
+					<input type="hidden" th:value="${user.enabled}" th:field="*{enabled}"/>
+					<input type="hidden" th:value="${user.fechaNac}" th:field="*{fechaNac}"/>
+					<input type="hidden" th:value="${user.fechaRegistro}" th:field="*{fechaRegistro}"/>
+					<div class="form-check ml-2 mt-2">
+					    <input th:value="'true'" th:field="*{terminos}" type="checkbox" class="form-check-input" id="terminos" name="terminos" required>
+					    <label class="form-check-label font-weight-bold" for="terminos" th:text="#{app.reg.acep}"></label>
+					</div>
+					<button type="submit" id="btn-enviar" name="btn-enviar" class="btn btn-success float-right rounded-pill font-weight-bold">
+					<span th:text="#{app.reg.term.siguiente}"></span>
+						<i class="fas fa-chevron-circle-right"></i>
+					</button>
+				</form>
+			</div>
+			
+		</div>
+		<hr>
+	</div>
+	<footer th:replace="plantillas/burguer :: footer"></footer>
+	<script type="text/javascript" th:src="@{/js/terminos.js}"></script>
+</body>
+</html>

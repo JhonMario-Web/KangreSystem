@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Compra recibida! | KangreSystem</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/dashboard.css}">
+	<link rel="shotcut icon" th:href="@{/img/logosimbolo.png}">
+	<script src="https://kit.fontawesome.com/eb1bb051d4.js"></script>
+</head>
+<style>
+	.jumbotron{
+		border-radius: 15px;
+	}
+</style>
+<body>
+	<header th:replace="plantillas/burguer :: header"></header>
+	<nav th:replace="plantillas/burguer :: navbar"></nav>
+	<div class="content mx-auto">
+		<div class="alert alert-success alert-dismissible fade show mt-2" role="alert" th:if="${success}">
+			<i class="far fa-check-circle mr-1"></i>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+			<strong th:text="${success}"></strong>
+		</div>
+		<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" th:if="${error}">
+	      <i class="far fa-times-circle"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${error}"></strong>
+		</div>
+		<div class="alert alert-warning alert-dismissible fade show mt-2" role="alert" th:if="${warning}">
+		  <i class="fas fa-exclamation-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${warning}"></strong>
+		</div>
+		<div class="alert alert-info alert-dismissible fade show mt-2" role="alert" th:if="${info}">
+		  <i class="fas fa-info-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${info}"></strong>
+		</div>
+	</div>
+	<div class="content mx-auto">
+		<div class="row justify-content-center">
+			<div class="display-4 mt-4">Compra recibida correctamente!</div>
+			<div class="col-6">
+				<img th:src="@{/img/compraSuccess.jpg}" class="img-fluid">
+				<h2 th:text="'Que deseas hacer?'" class="text-center font-weight-light text-muted"></h2>
+			</div>
+		</div>
+		<div class="row justify-content-center">
+			<div class="col-6 justify-content-center d-flex mt-3">
+				<a th:href="@{/}" class="btn btn-light mx-2 btn-lg rounded-pill font-weight-bold">Inicio</a>
+				<a th:href="@{/proveedor/servicios/compra/}" class="btn btn-outline-danger mx-2 btn-lg rounded-pill font-weight-bold">Compras</a>
+				<a th:href="@{/proveedor/servicios}" class="btn btn-outline-primary mx-2 btn-lg rounded-pill font-weight-bold">Servicios</a>
+				<a th:href="@{/proveedor/servicios/compra/recibir/nueva}" class="btn btn-outline-dark mx-2 btn-lg rounded-pill font-weight-bold">Recibir compra</a>
+			</div>
+		</div>
+	</div>
+	<footer th:replace="plantillas/burguer :: footer"></footer>	
+	
+	<script type="text/javascript">
+	
+	    function clearSearch() {
+	        window.location = "[[@{/proveedor/}]]";
+	    }
+	   
+	    function confirmDelete(id){
+	    	$('#deleteModalCompra').modal('show');
+	    	$("#idCompraMD").val(id);
+	    }
+	    
+	    function deleteCompra(){
+	    	var id = $("#idCompraMD").val();
+	        window.location = "/proveedor/servicios/compra/delete/"+id;
+	    }
+	    
+	    function editProveedor(){
+	    	var id = $("#idProveedorModal").val();
+	        window.location = "/proveedor/edit/"+id;
+	    }
+	    
+	    function insumosProveedor(){
+	    	var nit = $("#proveedor-details #nitProveedorModalD").val();
+	        window.location = "/proveedor/insumos/"+nit;
+	    }
+	    
+		$('document').ready(function(){
+    		
+    		$('[data-toggle="tooltip"]').tooltip();
+    		
+    		$('.table .btn-vencimiento').on('click', function(){
+    			var idInsumo = $(this).parent().find('#idInsumo').val();
+    			$.ajax({
+    				type: 'GET',
+    				url: '/proveedor/servicios/compra/recibir/insumo-details/'+idInsumo,
+    				success: function(insumo){
+    					$('#fecha-vencimiento-insumo #idInsumoMFV').val(insumo.idInsumo);
+    					$('#fecha-vencimiento-insumo #nombreInsumoText').text(insumo.nombre);
+    					$('#fecha-vencimiento-insumo #precioInsumoText').text('$'+insumo.precio);
+    				}
+    			});
+    		});	
+    		
+    	});
+	</script>			
+</body>
+</html>

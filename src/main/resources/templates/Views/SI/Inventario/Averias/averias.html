@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Averias | KangreSystem</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/dashboard.css}">
+	<link rel="shotcut icon" th:href="@{/img/logosimbolo.png}">
+	<script src="https://kit.fontawesome.com/eb1bb051d4.js"></script>
+</head>
+<body>
+	<header th:replace="plantillas/burguer :: header"></header>
+	<nav th:replace="plantillas/burguer :: navbar"></nav>
+	<div class="content mx-auto">
+		<div class="alert alert-success alert-dismissible fade show mt-2" role="alert" th:if="${success}">
+			<i class="far fa-check-circle mr-1"></i>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+			<strong th:text="${success}"></strong>
+		</div>
+		<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" th:if="${error}">
+	      <i class="far fa-times-circle"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${error}"></strong>
+		</div>
+		<div class="alert alert-warning alert-dismissible fade show mt-2" role="alert" th:if="${warning}">
+		  <i class="fas fa-exclamation-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${warning}"></strong>
+		</div>
+		<div class="alert alert-info alert-dismissible fade show mt-2" role="alert" th:if="${info}">
+		  <i class="fas fa-info-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${info}"></strong>
+		</div>
+	</div>
+	<div class="content mx-auto">
+		<h1 th:text="'Averias'" class="text-center display-4 mt-4"></h1>
+		<div class="justify-content-center d-flex mb-4">
+			<button type="button" data-toggle="modal" data-target="#modalFilterAveria" class="btn col-3 btn-light border border-secondary rounded-pill" title="Buscar / filtrar">
+				<span th:text="#{app.prov.busc}"></span>
+				<i class="fas fa-search ml-2"></i>
+			</button>
+		</div>
+		<div class="justify-content-center d-flex">
+			<div class="btn-group">
+				<a class="btn btn-light border border-secondary font-weight-bold text-secondary" th:href="@{/inventario/averia/pdf}">[[#{app.prov.exp}]]<i class="far fa-file-pdf ml-1 text-dark"></i></a>
+				<a class="btn btn-light border border-secondary font-weight-bold text-secondary" th:href="@{/inventario/averia/(format=xlsx)}">[[#{app.prov.exl}]]<i class="far fa-file-excel ml-1 text-dark"></i></a>
+				<a class="btn btn-light border border-secondary font-weight-bold text-secondary" th:href="@{/inventario/averia/nueva}">Nueva averia<i class="fas fa-plus-circle ml-1 text-dark"></i></a>
+				<a class="btn btn-light border border-secondary font-weight-bold text-secondary" th:href="@{/inventario/averia/limpiar}">[[#{app.prov.filt}]]<i class="fas fa-backspace ml-1 text-dark"></i></a>
+			</div>
+		</div>
+	</div>
+	<div class="content mx-auto">
+		<table class="table text-center table-hover">
+	  		<thead class="thead-light">
+			    <tr>
+			      <th scope="col">ID</th>
+			      <th scope="col">[[#{app.averia.numero}]]</th>
+			      <th scope="col">[[#{app.averia.fecha}]]</th>
+			      <th scope="col">Total</th>
+			      <th scope="col">[[#{app.averia.admin}]]</th>
+			      <th scope="col"></th>
+			    </tr>
+	  		</thead>
+			<tbody>
+			    <tr th:each="a:${averias}">
+			      <th scope="row" th:text="${a.idAveria}"></th>
+			      <td th:text="${a.numeroAveria}"></td>
+			      <td th:text="${#calendars.format(a.fecha, 'dd/MMMMM/yyyy')}" class="text-uppercase"></td>
+			      <td th:text="${'$'+#numbers.formatDecimal(a.total, 0, 'POINT', 0, 'POINT')}"></td>
+			      <td th:text="${a.admin.user.nombres}+' '+${a.admin.user.apellidos}"></td>
+			      <td>
+		      		<a th:href="@{/inventario/averia/detalles/}+${a.idAveria}" class="text-decoration-none" data-toggle="tooltip" data-placement="top" title="Insumos agregados">
+		      			<i class="fas fa-align-justify mx-2"></i>
+		      		</a>
+		      		<a href="#" th:onclick="'javascript:confirmDelete(\'' + ${a.idAveria} + '\' );'" class="text-danger text-decoration-none" data-toggle="tooltip" data-placement="top" title="Cancelar averia">
+		      			<i class="fas fa-times-circle mx-2"></i>
+	      			</a>
+			      </td>  
+			    </tr>
+			</tbody>
+		</table>
+	</div>
+	<footer th:replace="plantillas/burguer :: footer"></footer>	
+	
+	<script type="text/javascript">
+	   
+	    function confirmDelete(id){
+	    	$('#deleteModalAveria').modal('show');
+	    	$("#idAveriaMD").val(id);
+	    }
+	    
+	    function deleteAveria(){
+	    	var id = $("#idAveriaMD").val();
+	        window.location = "/inventario/averia/delete/"+id;
+	    }
+	    
+		$('document').ready(function(){
+    		
+    		$('[data-toggle="tooltip"]').tooltip();
+    		
+    		$('.table .btn-edit').on('click', function(){
+    			var idProducto = $(this).parent().find('#idProducto').val();
+    			$.ajax({
+    				type: 'GET',
+    				url: '/producto/details/'+idProducto,
+    				success: function(producto){
+    					$('#producto-details #idProductoModal').val(producto.idProducto);
+    					$('#producto-details #nombre').text(producto.nombre);
+    					$('#producto-details #codBarra').text(producto.codBarra);
+    					$('#producto-details #precio').text(producto.precio);
+    					$('#producto-details #categoria').text(producto.categoria.categoria);
+    					$('#producto-details #estado').text(producto.estado);
+    					$('#producto-details #detalle').text(producto.detalle);
+    					$('#producto-details #foto').attr('src', '/Imagenes/'+producto.foto);
+    				}
+    			});
+    		});	
+    		
+    	});
+	</script>
+	
+	<div th:include="Views/SI/Inventario/Averias/modalDeleteAveria.html" th:remove="tag"></div>	
+	<div th:include="Views/SI/Inventario/Averias/modalFilterAverias.html" th:remove="tag"></div>			
+	<div th:include="Views/SI/Inventario/Averias/modalDetailsAveria.html" th:remove="tag"></div>			
+</body>
+</html>

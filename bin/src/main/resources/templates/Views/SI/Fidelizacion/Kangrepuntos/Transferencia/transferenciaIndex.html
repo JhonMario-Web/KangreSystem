@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Transferencia | KangreSystem</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/dashboard.css}">
+	<link rel="shotcut icon" th:href="@{/img/logosimbolo.png}">
+	<script src="https://kit.fontawesome.com/eb1bb051d4.js"></script>
+</head>
+<body>
+	<header th:replace="plantillas/burguer :: header"></header>
+	<nav th:replace="plantillas/burguer :: navbar"></nav>
+	<div class="content mx-auto">
+		<div class="alert alert-success alert-dismissible fade show mt-2" role="alert" th:if="${success}">
+			<i class="far fa-check-circle mr-1"></i>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+			<strong th:text="${success}"></strong>
+		</div>
+		<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" th:if="${error}">
+	      <i class="far fa-times-circle"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${error}"></strong>
+		</div>
+		<div class="alert alert-warning alert-dismissible fade show mt-2" role="alert" th:if="${warning}">
+		  <i class="fas fa-exclamation-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${warning}"></strong>
+		</div>
+		<div class="alert alert-info alert-dismissible fade show mt-2" role="alert" th:if="${info}">
+		  <i class="fas fa-info-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${info}"></strong>
+		</div>
+	</div>
+	<div class="content mx-auto">
+		<h1 th:text="'Transferencia kangrepuntos'" class="text-center display-3 mt-5"></h1>
+		<hr>
+		<div class="row justify-content-center">
+			<div class="col-10">
+				<img th:src="@{/img/transferencias.jpg}" class="img-fluid">
+			</div>
+			<div class="col-8">
+				<h1 class="text-secondary" th:if="${transferencia == null}" >Transacciones disponibles</h1>
+				<hr th:if="${transferencia == null && acumulados == null}">
+				<table class="table table-borderless text-center table-hover" th:if="${transferencia == null}">
+				  <thead class="bg-light">
+				    <tr>
+				      <th scope="col">Trxn</th>
+				      <th scope="col">Fecha</th>
+				      <th scope="col">Disponibles</th>
+				      <th scope="col">Vencimiento</th>
+				      <th scope="col"></th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				    <tr th:each="a:${acumulados}">
+				      <th scope="row" th:text="${a.idTrxn}"></th>
+				      <td th:text="${a.fecha}"></td>
+				      <td th:text="${a.disponibles}"></td>
+				      <td th:text="${a.fechaVencimiento}"></td>
+				      <td>
+				      	<a href="#" th:onclick="'javascript:addFavoriteDialog(\'' + ${a.idTrxn} + '\' );'" class="nav-link text-success p-0 btn-add">
+				      		<i class="fas fa-plus-circle"></i>
+				      		<input type="hidden" id="idTrxnAcum" name="idTrxnAcum" th:value="${a.idTrxn}">
+				      	</a>
+				      </td>
+				    </tr>
+				  </tbody>
+				</table>
+				<hr th:if="${transferencia == null}">
+				<div class="jumbotron bg-light py-4 px-5" style="border-radius: 15px;" th:if="${transferencia}">
+					<h1 class="text-secondary font-weight-light text-center">Transferencia</h1>
+					<hr>
+					<h4 class="d-flex justify-content-between"><span>Cliente destino</span><span th:text="${transferencia.favorito.favorito.user.nombres+' '+transferencia.favorito.favorito.user.apellidos}"></span></h4>
+					<h4 class="d-flex justify-content-between"><span>Trxn a transferir</span><span th:text="${transferencia.acumulado.idTrxn}"></span></h4>
+					<h4 class="d-flex justify-content-between"><span>Puntos a transferir</span><span th:text="${transferencia.acumulado.disponibles}"></span></h4>
+					<h4 class="d-flex justify-content-between"><span>Fecha vencimiento</span><span th:text="${transferencia.acumulado.fechaVencimiento}"></span></h4>
+				</div>
+				<a th:href="@{/favorito/transferencia/cancelar}" th:classappend="${transferencia == null ? 'disabled' : ''}" class="btn btn-outline-danger btn-lg rounded-pill font-weight-bold">
+					<i class="fas fa-times-circle mr-1"></i>
+					Cancelar redencion
+				</a>
+				<a th:href="@{/favorito/transferencia/transferir}" th:classappend="${transferencia == null ? 'disabled' : ''}" class="btn btn-outline-success float-right btn-lg rounded-pill font-weight-bold">
+					Transferir
+					<i class="fas fa-check-circle ml-1"></i>
+				</a>
+			</div>
+			
+		</div>
+	</div>
+	
+	<footer th:replace="plantillas/burguer :: footer"></footer>	
+	
+	<script type="text/javascript">
+	
+	    function clearSearch() {
+	        window.location = "[[@{/proveedor/}]]";
+	    }
+	   
+	    function addFavoriteDialog(id){
+	    	$('#select-fav-transferencia').modal('show');
+	    	$("#idTrxnAcumMF").val(id);
+	    }
+	    
+	    
+	    function editProducto(){
+	    	var id = $("#idProductoModal").val();
+	        window.location = "/producto/edit/"+id;
+	    }
+	    
+	    function editIngredientes(){
+	    	var id = $("#idProductoModal").val();
+	        window.location = "/ingrediente/editar/"+id;
+	    }
+	    
+		$('document').ready(function(){
+    		
+    		$('[data-toggle="tooltip"]').tooltip();
+    		
+    		$('.table .btn-add').on('click', function(){
+    			var idTrxnAcum = $(this).parent().find('#idTrxnAcum').val();
+    			$.ajax({
+    				type: 'GET',
+    				url: '/producto/details/'+idProducto,
+    				success: function(producto){
+    					$('#producto-details #idProductoModal').val(producto.idProducto);
+    					$('#producto-details #nombre').text(producto.nombre);
+    					$('#producto-details #codBarra').text(producto.codBarra);
+    					$('#producto-details #precio').text(producto.precio);
+    					$('#producto-details #categoria').text(producto.categoria.categoria);
+    					$('#producto-details #estado').text(producto.estado);
+    					$('#producto-details #detalle').text(producto.detalle);
+    					$('#producto-details #foto').attr('src', '/Imagenes/'+producto.foto);
+    				}
+    			});
+    		});	
+    		
+    	});
+	</script>
+	
+	<div th:include="Views/SI/Fidelizacion/Kangrepuntos/Transferencia/modalSelectFavorito.html" th:remove="tag"></div>		
+</body>
+</html>

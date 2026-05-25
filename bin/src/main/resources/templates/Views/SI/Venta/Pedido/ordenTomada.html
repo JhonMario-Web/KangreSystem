@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Pedidos | KangreSystem</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/dashboard.css}">
+	<link rel="shotcut icon" th:href="@{/img/logosimbolo.png}">
+	<script src="https://kit.fontawesome.com/eb1bb051d4.js"></script>
+</head>
+<body>
+	<div class="content mx-auto">
+		<div class="alert alert-success alert-dismissible fade show mt-2" role="alert" th:if="${success}">
+			<i class="far fa-check-circle mr-1"></i>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+			<strong th:text="${success}"></strong>
+		</div>
+		<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" th:if="${error}">
+	      <i class="far fa-times-circle"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${error}"></strong>
+		</div>
+		<div class="alert alert-warning alert-dismissible fade show mt-2" role="alert" th:if="${warning}">
+		  <i class="fas fa-exclamation-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${warning}"></strong>
+		</div>
+		<div class="alert alert-info alert-dismissible fade show mt-2" role="alert" th:if="${info}">
+		  <i class="fas fa-info-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${info}"></strong>
+		</div>
+	</div>
+	<div class="content mx-auto">
+		<h1 th:text="'Orden tomada correctamente!'" class="text-center display-3 mt-5"></h1>
+		<div class="row justify-content-center py-4">
+			<div class="col-8">
+				<div class="jumbotron bg-light p-5">
+					<h2 class="justify-content-between d-flex font-weight-light">
+						<span>Numero orden</span><span th:text="${pedido.numeroPedido}"></span>
+					</h2>
+					<h2 class="justify-content-between d-flex font-weight-light">
+						<span>Total</span><span th:text="${'$'+pedido.total}"></span>
+					</h2>
+					<h2 class="justify-content-between d-flex font-weight-light">
+						<span>Cajero</span><span th:text="${pedido.empleado.user.nombres+' '+pedido.empleado.user.apellidos}"></span>
+					</h2>
+					<hr>
+					<h2 class="text-center mb-3">Productos agregados</h2>
+					<h5 class="justify-content-between d-flex" th:each="d:${detalles}">
+						<span th:text="${d.producto.nombre}"></span><span th:text="${d.cantidad}"></span>
+					</h5>
+				</div>
+				<a th:href="@{/pedido/}" class="btn btn-block btn-lg btn-danger rounded-pill font-weight-bold">Tomar otra orden</a>
+				<a th:href="@{/}" class="btn btn-block btn-lg btn-light rounded-pill font-weight-bold">Ir al inicio</a>
+			</div>
+		</div>
+	</div>
+	
+	<script type="text/javascript">
+	   
+	    function confirmDelete(id){
+	    	$('#deleteModalPedido').modal('show');
+	    	$("#idPedidoMD").val(id);
+	    }
+	    
+	    
+	    function deletePedido(){
+	    	var id = $("#idPedidoMD").val();
+	        window.location = "/pedido/delete/"+id;
+	    }
+	    
+		$('document').ready(function(){
+    		
+    		$('[data-toggle="tooltip"]').tooltip();
+    		
+    		$('.table .btn-edit').on('click', function(){
+    			var idProveedor = $(this).parent().find('#idProveedor').val();
+    			$.ajax({
+    				type: 'GET',
+    				url: '/proveedor/details/'+idProveedor,
+    				success: function(proveedor){
+    					$('#proveedor-details #idProveedorModal').val(proveedor.idProveedor);
+    					$('#proveedor-details #nitProveedor').text(proveedor.nitProveedor);
+    					$('#proveedor-details #nombre').text(proveedor.nombre);
+    					$('#proveedor-details #telefono').text(proveedor.telefono);
+    					$('#proveedor-details #celular').text(proveedor.celular);
+    					$('#proveedor-details #email').text(proveedor.email);
+    					$('#proveedor-details #direccion').text(proveedor.direccion);
+    					$('#proveedor-details #categoria').text(proveedor.categoria.categoria);
+    					$('#proveedor-details #enabled').text(proveedor.enabled);
+    					$('#proveedor-details #ciudad').text(proveedor.ciudad);
+    					$('#proveedor-details #logo').attr('src', '/Imagenes/'+proveedor.logo);
+    				}
+    			});
+    		});	
+    		
+    	});
+	</script>
+	
+	<div th:include="Views/SI/Venta/Pedido/modalDeletePedido.html" th:remove="tag"></div>			
+	<div th:include="Views/SI/Venta/Pedido/modalFilterPedidos.html" th:remove="tag"></div>		
+</body>
+</html>

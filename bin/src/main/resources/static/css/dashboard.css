@@ -1,0 +1,188 @@
+*{
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	
+}
+
+body{
+	overflow-x: hidden;
+}
+
+.cabecera{
+	margin: 15px 0px 10px 0px;
+	border: 1px solid rgba(0,0,0,.1);
+	padding: 15px 0;
+	margin-bottom: 10px;
+	border-top-left-radius: 80px;
+	border-top-right-radius: 80px;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	height: 150px;
+	width: 87%;
+	-webkit-box-shadow: inset -1px 220px 74px -78px rgba(251,212,83,1);
+	-moz-box-shadow: inset -1px 220px 74px -78px rgba(251,212,83,1);
+	box-shadow: inset -1px 220px 74px -78px rgba(251,212,83,1);
+}
+
+.buscador::placeholder{
+	color: 2px solid rgba(0,0,0,0.5);
+}
+
+input:focus::placeholder {
+	color: transparent;
+}
+
+.buscador{
+	border-radius: 20px;
+	border: 2px solid rgba(0,0,0,0.5);
+	font-size: 14px;
+	font-weight: lighter;
+	color: black;
+	background: none;
+	text-align: center;
+}
+
+.iconHeader{
+	margin-top: 10px;
+}
+
+.iconHeader a i{
+	font-size: 25px;
+	
+}
+
+.iconHeader a{
+	text-decoration: none;
+	margin: 0 10px;
+}
+
+.iconHeader a i:hover{
+	transition: all 0.5s ease;
+	border-bottom: 2px solid rgba(255,255,255,0.7);
+	color: rgba(0,0,0,0.8);
+}
+
+/* .barra-menu{
+	position: -webkit-sticky;
+	position: sticky;
+	top: 0px;
+} */
+
+ul, ol{
+	list-style: none;
+}
+
+.navbar-opciones > ul > li > ul{
+	border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 10px;
+	background: #970D0B;
+}
+
+.navbar-opciones ul li > a{
+	background-color: transparent;
+	color: rgba(255,255,255,0.7);
+	text-decoration: none;
+	display: block;
+	height: 100%;
+	padding: 15px 0px;
+}
+
+.navbar-opciones ul li a:hover{
+	color: #fff;
+}
+
+.navbar-opciones ul li ul li ul{
+	border-bottom-right-radius: 10px;
+	background: #B02322;
+}
+
+.navbar-opciones  ul li ul li a{
+	padding: 10px 15px;
+}
+
+
+.navbar-opciones > li{
+	float: left;
+}
+
+.navbar-opciones li ul{
+	display: none;
+	position: absolute;
+	min-width: 180px;
+}
+
+.navbar-opciones li:hover > ul{
+	display: block;
+
+}
+
+.navbar-opciones li ul li{
+	position: relative;
+}
+
+.navbar-opciones li ul li ul{
+	right: -180px;
+	top: 0px; 
+}
+
+.content{
+	width: 85%;
+}
+
+.queso{
+	width: 100%;
+	height: 8px;
+	width: 87%;
+	background: #E3B90C;
+	margin-top: 2px ;
+}
+
+.lechuga{
+	width: 100%;
+	height: 11px;
+	background: #209E20;
+	width: 87%;
+	margin-bottom: 2px;
+	border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 10px;
+}
+
+.footer{
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	border-bottom-left-radius: 30px;
+	border-bottom-right-radius: 30px;
+	height: auto;
+	width: 87%;
+	-webkit-box-shadow: inset -1px -220px 74px -116px rgba(251,212,83,1);
+	-moz-box-shadow: inset -1px -220px 74px -116px rgba(251,212,83,1);
+	box-shadow: inset -1px -220px 74px -116px rgba(251,212,83,1);
+}
+
+.iconos-footer a{
+	text-decoration: none;
+	color: rgba(0,0,0,.5);
+	font-size: 30px;
+	margin: 0 10px;
+}
+
+.iconos-footer a .facebook:hover{
+	color: #3b5998;
+	transition: all 0.5s ease-in-out;
+}
+
+.iconos-footer a .twitter:hover{
+	color: #00acee;
+	transition: all 0.5s ease-in-out;
+}
+
+.iconos-footer a .whatsapp:hover{
+	color: #00BB2D;
+	transition: all 0.5s ease-in-out;
+}
+
+.iconos-footer a .instagram:hover{
+	color: #8134AF;
+	transition: all 0.5s ease-in-out;
+}

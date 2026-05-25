@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Proveedores | KangreSystem</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/dashboard.css}">
+	<link rel="shotcut icon" th:href="@{/img/logosimbolo.png}">
+	<script src="https://kit.fontawesome.com/eb1bb051d4.js"></script>
+</head>
+<body>
+	<header th:replace="plantillas/burguer :: header"></header>
+	<nav th:replace="plantillas/burguer :: navbar"></nav>
+	<div class="content mx-auto">
+		<div class="alert alert-success alert-dismissible fade show mt-2" role="alert" th:if="${success}">
+			<i class="far fa-check-circle mr-1"></i>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+			<strong th:text="${success}"></strong>
+		</div>
+		<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" th:if="${error}">
+	      <i class="far fa-times-circle"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${error}"></strong>
+		</div>
+		<div class="alert alert-warning alert-dismissible fade show mt-2" role="alert" th:if="${warning}">
+		  <i class="fas fa-exclamation-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${warning}"></strong>
+		</div>
+		<div class="alert alert-info alert-dismissible fade show mt-2" role="alert" th:if="${info}">
+		  <i class="fas fa-info-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${info}"></strong>
+		</div>
+	</div>
+	<div class="content mx-auto">
+		<h1 th:text="#{app.nav.prov}" class="text-center display-4 mt-4"></h1>
+		<div class="justify-content-center d-flex mb-4">
+			<button type="button" data-toggle="modal" data-target="#modalFilter" class="btn col-3 btn-light border border-secondary rounded-pill" title="Buscar / filtrar">
+				<span th:text="#{app.prov.busc}"></span>
+				<i class="fas fa-search ml-2"></i>
+			</button>
+		</div>
+		<div class="justify-content-center d-flex">
+			<div class="btn-group">
+				<a class="btn btn-light border border-secondary font-weight-bold text-secondary" th:href="@{/proveedor/pdf}">[[#{app.prov.exp}]]<i class="far fa-file-pdf ml-1 text-dark"></i></a>
+				<a class="btn btn-light border border-secondary font-weight-bold text-secondary" th:href="@{/proveedor/(format=xlsx)}">[[#{app.prov.exl}]]<i class="far fa-file-excel ml-1 text-dark"></i></a>
+				<a class="btn btn-light border border-secondary font-weight-bold text-secondary" th:href="@{/proveedor/cargar-info}">[[#{app.prov.dat}]]<i class="far fa-arrow-alt-circle-up ml-1 text-dark"></i></a>
+				<a class="btn btn-light border border-secondary font-weight-bold text-secondary" th:href="@{/proveedor/agregar}">[[#{app.prov.nuevo}]]<i class="fas fa-plus-circle ml-1 text-dark"></i></a>
+				<a class="btn btn-light border border-secondary font-weight-bold text-secondary" th:href="@{/proveedor/limpiar}">[[#{app.prov.filt}]]<i class="fas fa-backspace ml-1 text-dark"></i></a>
+			</div>
+		</div>
+	</div>
+	<div class="content mx-auto">
+		<table class="table table-hover text-center">
+	  		<thead class="thead-light">
+			    <tr>
+			      <th scope="col">ID</th>
+			      <th scope="col">Nit</th>
+			      <th scope="col">[[#{app.prov.lista.nombre}]]</th>
+			      <th scope="col">[[#{app.prov.lista.categoria}]]</th>
+			      <th scope="col">[[#{app.prov.lista.estado}]]</th>
+			      <th scope="col"></th>
+			    </tr>
+	  		</thead>
+			<tbody>
+			    <tr th:each="p:${proveedores}">
+			      <th scope="row">
+				      	<a href="#proveedor-details"  data-toggle="modal" class="text-decoration-none text-info font-weight-bold btn-edit" th:text="${p.idProveedor}"></a>
+				      	<input type="hidden" th:value="${p.idProveedor}" id="idProveedor" name="idProveedor">
+			      </th>
+			      <td th:text="${p.nitProveedor}"></td>
+			      <td th:text="${p.nombre}"></td>
+			      <td th:text="${p.categoria.categoria}"></td>
+			      <td>
+		      		<a href="#" class="text-decoration-none nav-link p-0 mx-2 disabled" th:classappend="${p.enabled ? 'text-success' : 'text-dark'}">
+		      			<i th:classappend="${p.enabled ? 'fa-toggle-on' : 'fa-toggle-off'}" class="fas"></i>
+		      		</a>
+			      </td> 
+			      <td>
+			      	<a href="#" th:onclick="'javascript:confirmDelete(\'' + ${p.idProveedor} + '\' );'" class="text-danger text-decoration-none mx-2 p-0" title="Eliminar">
+		      			<i class="fas fa-trash"></i>
+	      			</a>
+			      </td>
+			    </tr>
+			</tbody>
+		</table>
+	</div>
+	<footer th:replace="plantillas/burguer :: footer"></footer>	
+	
+	<script type="text/javascript">
+	
+	    function clearSearch() {
+	        window.location = "[[@{/proveedor/}]]";
+	    }
+	   
+	    function confirmDelete(id){
+	    	$('#deleteModal').modal('show');
+	    	$("#idProveedor").val(id);
+	    }
+	    
+	    function deleteProveedor(){
+	    	var id = $("#idProveedor").val();
+	        window.location = "delete/"+id;
+	    }
+	    
+	    function editProveedor(){
+	    	var id = $("#idProveedorModal").val();
+	        window.location = "/proveedor/edit/"+id;
+	    }
+	    
+	    function insumosProveedor(){
+	    	var nit = $("#proveedor-details #nitProveedorModalD").val();
+	        window.location = "/proveedor/insumos/"+nit;
+	    }
+	    
+		$('document').ready(function(){
+    		
+    		$('[data-toggle="tooltip"]').tooltip();
+    		
+    		$('.table .btn-edit').on('click', function(){
+    			var idProveedor = $(this).parent().find('#idProveedor').val();
+    			$.ajax({
+    				type: 'GET',
+    				url: '/proveedor/details/'+idProveedor,
+    				success: function(proveedor){
+    					$('#proveedor-details #idProveedorModal').val(proveedor.idProveedor);
+    					$('#proveedor-details #nitProveedorModalD').val(proveedor.nitProveedor);
+    					$('#proveedor-details #nitProveedor').text(proveedor.nitProveedor);
+    					$('#proveedor-details #nombre').text(proveedor.nombre);
+    					$('#proveedor-details #telefono').text(proveedor.telefono);
+    					$('#proveedor-details #celular').text(proveedor.celular);
+    					$('#proveedor-details #email').text(proveedor.email);
+    					$('#proveedor-details #direccion').text(proveedor.direccion);
+    					$('#proveedor-details #categoria').text(proveedor.categoria.categoria);
+    					$('#proveedor-details #enabled').text(proveedor.enabled);
+    					$('#proveedor-details #ciudad').text(proveedor.ciudad);
+    					$('#proveedor-details #logo').attr('src', '/img/'+proveedor.logo);
+    				}
+    			});
+    		});	
+    		
+    	});
+	</script>
+	
+	<div th:include="Views/SI/Proveedores/modalDeleteP.html" th:remove="tag"></div>			
+	<div th:include="Views/SI/Proveedores/modalFilter.html" th:remove="tag"></div>			
+	<div th:include="Views/SI/Proveedores/modalDetailsP.html" th:remove="tag"></div>			
+</body>
+</html>

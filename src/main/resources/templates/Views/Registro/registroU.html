@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Registro | KangreSystem</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/dashboard.css}">
+	<link rel="stylesheet" th:href="@{/css/registro.css}">
+	<link rel="shotcut icon" th:href="@{/img/logosimbolo.png}">
+	<script src="https://kit.fontawesome.com/eb1bb051d4.js"></script>
+	
+</head>
+<body>
+	<header th:replace="plantillas/burguer :: header"></header>
+	<nav th:replace="plantillas/burguer :: navbar"></nav>
+	<div class="content mx-auto">
+		<div class="alert alert-success alert-dismissible fade show mt-2" role="alert" th:if="${success}">
+		  <i class="far fa-check-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${success}"></strong>
+		</div>
+		<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" th:if="${error}">
+		  <i class="far fa-times-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${error}"></strong>
+		</div>
+		<div class="alert alert-warning alert-dismissible fade show mt-2" role="alert" th:if="${warning}">
+		  <i class="fas fa-exclamation-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${warning}"></strong>
+		</div>
+		<div class="alert alert-info alert-dismissible fade show mt-2" role="alert" th:if="${info}">
+		  <i class="fas fa-info-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${info}"></strong>
+		</div>
+	</div>
+	<div class="container">
+		<h1 th:text="#{app.registro}" class="text-center display-4 mt-4"></h1>
+		<div class="row indice mx-auto border border-success mt-3">
+			<div class="col bg-success"></div>
+			<div class="col"></div>
+			<div class="col"></div>
+			<div class="col"></div>
+		</div>
+		<hr>
+		<h2 th:text="#{app.reg.info_personal}" class="text-center text-secondary font-weight-light my-4"></h2>
+		<div class="row">
+			<div class="col">
+				<form autocomplete="off" th:action="@{/sign-up/personal-info}" th:object="${user}" name="formRegistro" id="formRegistro" method="post" class="needs-validation" novalidate>
+					<div id="alerta" class=""></div>
+					<input type="hidden" th:field="*{idUser}"/>					
+					<div class="row">
+						<div class="col-12 mb-4">
+							<label for="nombres" th:text="#{app.reg.nombre}"></label>
+							<input type="text" th:field="*{nombres}" id="nombres" name="nombres" class="form-control form-control-lg" pattern="[A-Za-z ]{2,50}" maxlength="50" required>
+							<div class="invalid-feedback">[[#{app.prov.completar}]]</div>
+						</div>
+						<div class="col-12 mb-4">
+							<label for="apellidos" th:text="#{app.reg.apellido}"></label>
+							<input type="text" th:field="*{apellidos}" id="apellidos" name="apellidos" class="form-control form-control-lg"  pattern="[A-Za-z ]{2,50}" maxlength="50" required>
+							<div class="invalid-feedback">[[#{app.prov.completar}]]</div>
+						</div>
+						<div class="col-6 mb-4">
+							<label for="tipoDocumento" th:text="#{app.reg.doc}"></label>
+							<select th:field="*{tipoDoc}" id="tipoDocumento" name="tipoDocumento" class="custom-select custom-select-lg" required>
+								<option th:value="''" th:text="''"/>
+								<option th:value="CC" th:text="'Cedula de ciudadania(CC)'"/>
+								<option th:value="CE" th:text="'Cedula de extranjeria(CE)'"/>
+								<option th:value="PA" th:text="'Pasaporte(PA)'"/>
+							</select>
+							<div class="invalid-feedback">[[#{app.prov.completar}]]</div>
+						</div>
+						<div class="col-6 mb-4">
+							<label for="numeroDoc" th:text="#{app.reg.doc_num}"></label>
+							<input type="number" th:field="*{numeroDoc}" id="numeroDoc" name="numeroDoc" class="form-control form-control-lg" pattern="[0-9]{2,15}" maxlength="15" required>
+							<div class="invalid-feedback">[[#{app.prov.completar}]]</div>
+						</div>
+						<div class="col-12 mb-4">
+							<label for="direccion" th:text="#{app.reg.dir}"></label>
+							<input type="text" th:field="*{direccion}" id="direccion" name="direccion" class="form-control form-control-lg" maxlength="150" required>
+							<div class="invalid-feedback">[[#{app.prov.completar}]]</div>
+						</div>
+						<div class="col-6 mb-4">
+							<label for="ciudad" th:text="#{app.reg.ciudad}"></label>
+							<select th:field="*{ciudad}" name="ciudad" id="ciudad" class="custom-select custom-select-lg" required>
+								<option th:value="''" th:text="''"/>
+								<option th:value="BOGOTA" th:text="'Bogotá D.C'"/>
+								<option th:value="CHIA" th:text="'Chía'"/>
+							</select>
+							<div class="invalid-feedback">[[#{app.prov.completar}]]</div>
+						</div>
+						<div class="col-6 mb-4">
+							<div class="row">
+								<div class="col text-center">
+									<label class="" for="masculino" th:text="#{app.reg.hom}"></label>
+									<input th:field="*{genero}" th:value="M" type="radio" id="masculino" name="genero" class="" required>
+									
+								</div>
+								<div class="col text-center">
+									<label class="" for="femenino" th:text="#{app.reg.muj}"></label>
+									<input th:field="*{genero}" th:value="F" type="radio" id="femenino" name="genero" class="" required>
+								</div>
+							</div>
+						</div>
+						<div class="col-12 mb-4">
+							<label for="email" th:text="#{app.reg.correo}"></label>
+							<input th:field="*{email}" type="email" id="email" name="email" class="form-control form-control-lg" required>
+							<div class="invalid-feedback">[[#{app.prov.completar}]]</div>
+						</div>
+						<div class="col-6 mb-4">
+							<label for="fechaNac" th:text="#{app.reg.fecha}"></label>
+							<input type="date" th:field="*{fechaNac}" class="form-control form-control-lg" id="fechaNac" name="fechaNac" required>
+							<div class="invalid-feedback">[[#{app.prov.completar}]]</div>
+						</div>
+						<div class="col-6 mb-4">
+							<label for="pais" th:text="#{app.reg.pais}"></label>
+							<select th:field="*{pais.idPais}" id="pais" name="pais" class="custom-select custom-select-lg" required>
+								<option th:value="''" th:text="''"/>
+								<option th:each="p:${paises}" th:value="${p.idPais}" th:text="${p.pais}"/>
+							</select>
+							<div class="invalid-feedback">[[#{app.prov.completar}]]</div>
+						</div>
+						<div class="col-12 mb-4">
+							<label for="confirmEmail" th:text="#{app.reg.conf_correo}"></label>
+							<input th:field="*{confirmEmail}" type="email" id="confirmEmail" name="confirmEmail" class="form-control form-control-lg" required>
+							<div class="invalid-feedback">[[#{app.prov.completar}]]</div>
+						</div>
+						<div class="col-6 mb-4">
+							<label for="celular" th:text="#{app.reg.cel}"></label>
+							<input th:field="*{celular}" type="number" id="celular" name="celular" class="form-control form-control-lg" maxlength="10" required>
+							<div class="invalid-feedback">[[#{app.prov.completar}]]</div>
+						</div>
+ 						<div class="col-6 mb-4">
+ 							<label for="telefono" th:text="#{app.reg.tel}"></label>
+							<input th:field="*{telefono}" type="number" id="telefono" name="telefono" class="form-control form-control-lg" maxlength="10">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col botones justify-content-between d-flex">
+							<a th:href="@{/sign-up/limpiar}" class="btn btn-outline-secondary rounded-pill font-weight-bold" th:text="#{app.reg.limpiar}"></a>
+							<button type="submit" id="btn-enviar" name="btn-enviar" class="btn btn-success rounded-pill font-weight-bold">
+								<span th:text="#{app.reg.siguiente}"></span>
+								<i class="fas fa-chevron-circle-right"></i>
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<hr>
+	</div>
+	<footer th:replace="plantillas/burguer :: footer"></footer>
+	<script type="text/javascript" th:src="@{/js/registro.js}"></script>
+</body>
+</html>

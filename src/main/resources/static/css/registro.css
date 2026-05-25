@@ -1,0 +1,42 @@
+body{
+	overflow-x: hidden;
+}
+.container{
+	width:50%;
+}
+
+.indice{
+	width: 20%;
+	height: 10px;
+	border-radius: 5px;
+	border: 1px solid gray;
+}
+
+input[type=text], .custom-select, input[type=date], input[type=email], input[type=password], 
+select, textarea, input[type=number]{
+	border: 2px solid rgba(0,0,0,0.1);
+}
+
+.destinatarios{
+	border: 2px solid rgba(0,0,0,0.1);
+	height: 40px;
+	border-radius: 5px;
+	margin-bottom: 20px;
+}
+
+input[type=radio] {
+    border: 0;
+    width: 100%;
+    height: 1.6em;
+}
+
+.botones .btn{
+	width: 25%;
+}
+
+.terminos{
+	overflow-y: scroll; 
+	max-height: 70vh;
+	padding: 10px;
+}
+

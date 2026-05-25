@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Ordenes | KangreSystem</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/dashboard.css}">
+	<link rel="shotcut icon" th:href="@{/img/logosimbolo.png}">
+	<script src="https://kit.fontawesome.com/eb1bb051d4.js"></script>
+</head>
+<body>
+	<header th:replace="plantillas/burguer :: header"></header>
+	<nav th:replace="plantillas/burguer :: navbar"></nav>
+	<div class="content mx-auto">
+		<div class="alert alert-success alert-dismissible fade show mt-2" role="alert" th:if="${success}">
+			<i class="far fa-check-circle mr-1"></i>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+			<strong th:text="${success}"></strong>
+		</div>
+		<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" th:if="${error}">
+	      <i class="far fa-times-circle"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${error}"></strong>
+		</div>
+		<div class="alert alert-warning alert-dismissible fade show mt-2" role="alert" th:if="${warning}">
+		  <i class="fas fa-exclamation-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${warning}"></strong>
+		</div>
+		<div class="alert alert-info alert-dismissible fade show mt-2" role="alert" th:if="${info}">
+		  <i class="fas fa-info-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${info}"></strong>
+		</div>
+	</div>
+	<div class="content mx-auto">
+		<div class="display-4 text-center mt-4" th:text="#{app.orden.index.titulo}"></div>
+		<h1 class="text-center text-secondary" th:text="#{app.orden.index.cocinero}"></h1>
+		<div class="display-4 text-center mt-4" th:text="'Ordenes de comida'"></div>
+		<h1 class="text-center text-secondary" th:text="'Cocinero'"></h1>
+		<img th:src="@{/img/cocinero.jpg}" width="500" class="d-block mx-auto">
+		<hr>
+		<div class="row">
+		  <div class="col-3">
+		    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+		      <a class="nav-link active justify-content-between d-flex align-items-center" id="v-pills-solicitadas-tab" data-toggle="pill" href="#v-pills-solicitadas" role="tab" aria-controls="v-pills-solicitadas" aria-selected="true">[[#{app.orden.index.solicitadas}]] <span class="badge badge-light" th:text="${solicitados.size()}"></span></a>
+		      <a class="nav-link" id="v-pills-preparadas-tab" data-toggle="pill" href="#v-pills-preparadas" role="tab" aria-controls="v-pills-preparadas" aria-selected="false">[[#{app.orden.index.preparadas}]]</a>
+		      <a class="nav-link" id="v-pills-cobradas-tab" data-toggle="pill" href="#v-pills-cobradas" role="tab" aria-controls="v-pills-cobradas" aria-selected="false">[[#{app.orden.index.cobradas}]]</a>
+		      <a class="nav-link" id="v-pills-canceladas-tab" data-toggle="pill" href="#v-pills-canceladas" role="tab" aria-controls="v-pills-canceladas" aria-selected="false">[[#{app.orden.index.cancel}]]</a>
+		    </div>
+		  </div>
+		  <div class="col-9">
+		    <div class="tab-content" id="v-pills-tabContent">
+		      <div class="tab-pane fade show active" id="v-pills-solicitadas" role="tabpanel" aria-labelledby="v-pills-solicitadas-tab">
+		      	<div class="row">
+		      		<div class="col">
+		      			<table class="table table-borderless text-center table-hover">
+						  <thead>
+						    <tr>
+						      <th scope="col">#</th>
+						      <th scope="col">[[#{app.index.alerta.fecha}]]</th>
+						      <th scope="col">[[#{app.orden.index.cajero}]]</th>
+						      <th scope="col">Total</th>
+						      <th scope="col"></th>
+						    </tr>
+						  </thead>
+						  <tbody>
+						    <tr th:each="s:${solicitados}">
+						      <th scope="row" th:text="${s.numeroOrden}"></th>
+						      <td th:text="${#calendars.format(s.fecha, 'dd/MMMMM/yyyy')}" class="text-uppercase"></td>
+						      <td th:text="${s.empleado.user.nombres+' '+s.empleado.user.apellidos}"></td>
+						      <td th:text="${'$'+#numbers.formatDecimal(s.total, 0, 'POINT', 0, 'POINT')}"></td>
+						      <td>
+						      	<a th:href="@{/pedido/orden/cocinero/preparar/}+${s.idPedido}" class="nav-link p-0 font-weight-bold text-uppercase">[[#{app.orden.index.preparar}]]</a>
+						      </td>
+						    </tr>
+						  </tbody>
+						</table>
+		      		</div>
+		      	</div>
+		      </div>
+		      <div class="tab-pane fade" id="v-pills-preparadas" role="tabpanel" aria-labelledby="v-pills-preparadas-tab">
+		      	<div class="row">
+		      		<div class="col">
+		      			<table class="table table-borderless text-center table-hover">
+						  <thead>
+						    <tr>
+						      <th scope="col">#</th>
+						      <th scope="col">[[#{app.index.alerta.fecha}]]</th>
+						      <th scope="col">[[#{app.orden.index.cajero}]]</th>
+						      <th scope="col">Total</th>
+						    </tr>
+						  </thead>
+						  <tbody>
+						    <tr th:each="p:${preparados}">
+						      <th scope="row" th:text="${p.numeroOrden}"></th>
+						      <td th:text="${#calendars.format(p.fecha, 'dd/MMMMM/yyyy')}" class="text-uppercase"></td>
+						      <td th:text="${p.empleado.user.nombres+' '+p.empleado.user.apellidos}"></td>
+						      <td th:text="${'$'+#numbers.formatDecimal(p.total, 0, 'POINT', 0, 'POINT')}"></td>
+						    </tr>
+						  </tbody>
+						</table>
+		      		</div>
+		      	</div>
+		      </div>
+		      <div class="tab-pane fade" id="v-pills-cobradas" role="tabpanel" aria-labelledby="v-pills-cobradas-tab">
+		      	<div class="row">
+		      		<div class="col">
+		      			<table class="table table-borderless text-center table-hover">
+						  <thead>
+						    <tr>
+						      <th scope="col">#</th>
+						      <th scope="col">[[#{app.index.alerta.fecha}]]</th>
+						      <th scope="col">[[#{app.orden.index.cajero}]]</th>
+						      <th scope="col">Total</th>
+						    </tr>
+						  </thead>
+						  <tbody>
+						    <tr th:each="c:${cobrados}">
+						      <th scope="row" th:text="${c.numeroOrden}"></th>
+						      <td th:text="${#calendars.format(c.fecha, 'dd/MMMMM/yyyy')}" class="text-uppercase"></td>
+						      <td th:text="${c.empleado.user.nombres+' '+c.empleado.user.apellidos}"></td>
+						      <td th:text="${'$'+#numbers.formatDecimal(c.total, 0, 'POINT', 0, 'POINT')}"></td>
+						    </tr>
+						  </tbody>
+						</table>
+		      		</div>
+		      	</div>
+		      </div>
+		      <div class="tab-pane fade" id="v-pills-canceladas" role="tabpanel" aria-labelledby="v-pills-canceladas-tab">
+		      	<div class="row">
+		      		<div class="col">
+		      			<table class="table table-borderless text-center table-hover">
+						  <thead>
+						    <tr>
+						      <th scope="col">#</th>
+						      <th scope="col">[[#{app.index.alerta.fecha}]]</th>
+						      <th scope="col">[[#{app.orden.index.cajero}]]</th>
+						      <th scope="col">Total</th>
+						    </tr>
+						  </thead>
+						  <tbody>
+						    <tr th:each="can:${cancelados}">
+						      <th scope="row" th:text="${can.numeroOrden}"></th>
+						      <td th:text="${#calendars.format(can.fecha, 'dd/MMMMM/yyyy')}" class="text-uppercase"></td>
+						      <td th:text="${can.empleado.user.nombres+' '+can.empleado.user.apellidos}"></td>
+						      <td th:text="${'$'+#numbers.formatDecimal(can.total, 0, 'POINT', 0, 'POINT')}"></td>
+						    </tr>
+						  </tbody>
+						</table>
+		      		</div>
+		      	</div>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+	</div>
+	<footer th:replace="plantillas/burguer :: footer"></footer>	
+</body>
+</html>

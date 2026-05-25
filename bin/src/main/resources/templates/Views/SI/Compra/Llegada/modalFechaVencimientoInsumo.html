@@ -1,0 +1,39 @@
+<!-- Modal -->
+<div class="modal fade" id="fecha-vencimiento-insumo" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">[[#{app.pedido.modal.producto}]]</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body row p-4">
+	      <div class="col">
+		      <h1 class="text-center display-4 text-secondary" id="nombreInsumoText"></h1>
+		      <h2 class="text-center font-weight-light" id="precioInsumoText"></h2>
+		      <hr>
+		      <form th:action="@{/proveedor/servicios/compra/recibir/agregar-vencimiento}" th:object="${vencimiento}" method="post" class="needs-validation">
+		      	<input type="hidden" id="idInsumoMFV" name="idInsumoMFV" th:field="*{insumo.idInsumo}"/>
+		      	<div class="form-group">
+		      		<label for="fecha" th:text="'Fecha vencimiento'"></label>
+		      		<input type="date" class="form-control form-control-lg" th:field="*{fecha}" id="fecha" name="fecha" required>
+		      	</div>
+		      	<div class="form-group">
+		      		<label for="lote" th:text="'Lote'"></label>
+		      		<input type="text" class="form-control form-control-lg" th:field="*{lote}" id="lote" name="lote" required>
+		      	</div>
+		      	<div class="form-group">
+		      		<label for="cantidad" th:text="Cantidad"></label>
+		      		<input type="text" class="form-control form-control-lg" th:field="*{cantidad}" id="cantidad" name="cantidad" required>
+		      	</div>
+		      	<button type="submit" class="btn btn-block btn-primary btn-lg rounded-pill font-weight-bold">
+		      		<span th:text="#{app.pedido.modal.boton}"></span>
+		      		<i class="fas fa-check-circle ml-2"></i>
+	      		</button>
+		      </form>   
+	      </div>
+      </div>
+    </div>
+  </div>
+</div>

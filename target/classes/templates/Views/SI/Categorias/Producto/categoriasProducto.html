@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Gestor categorias | KangreSystem</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/dashboard.css}">
+	<link rel="shotcut icon" th:href="@{/img/logosimbolo.png}">
+	<script src="https://kit.fontawesome.com/eb1bb051d4.js"></script>
+</head>
+<body>
+	<header th:replace="plantillas/burguer :: header"></header>
+	<nav th:replace="plantillas/burguer :: navbar"></nav>
+	<div class="content mx-auto">
+		<div class="alert alert-success alert-dismissible fade show mt-2" role="alert" th:if="${success}">
+		  <i class="far fa-check-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${success}"></strong>
+		</div>
+		<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" th:if="${error}">
+		  <i class="far fa-times-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${error}"></strong>
+		</div>
+		<div class="alert alert-warning alert-dismissible fade show mt-2" role="alert" th:if="${warning}">
+		  <i class="fas fa-exclamation-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${warning}"></strong>
+		</div>
+		<div class="alert alert-info alert-dismissible fade show mt-2" role="alert" th:if="${info}">
+		  <i class="fas fa-info-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${info}"></strong>
+		</div>
+	</div>
+	<div class="content mx-auto">
+		<h1 th:text="#{app.usuario.gestor}" class="text-center display-4 mt-4"></h1>
+		<h1 class="text-center text-secondary">[[#{app.nav.inven.prod}]] <span th:text="${id}"></span></h1>
+		<div class="row">
+			<div class="col">
+				<img th:src="@{/img/categorias.png}" width="600">
+			</div>
+			<div class="col">
+				<hr>
+				<form th:action="@{/gestor-categorias/producto/agregar}" method="post" th:object="${catProducto}" class="needs-validation justify-content-between d-flex form-inline mb-3" novalidate>
+	  				<input type="hidden" th:field="*{idCategoria}">
+	  				<input type="text" id="categoria" th:field="*{categoria}" name="categoria" class="form-control form-control-lg w-75" th:placeholder="#{app.prov.lista.categoria}" required>
+	  				<button type="submit" class="btn btn-outline-success font-weight-bold btn-lg">
+	  					<span th:text="#{app.boton.guardar}"></span>
+	  					<i class="fas fa-plus-circle ml-1"></i>
+  					</button>
+	  			</form>
+	  			
+	  			<table class="table table-hover text-center">
+					  <thead>
+					    <tr>
+					      <th scope="col">ID</th>
+					      <th scope="col">[[#{app.prov.lista.categoria}]]</th>
+					      <th scope="col"></th>
+					    </tr>
+					  </thead>
+					  <tbody>
+					    <tr th:each="catProd:${catProductos}">
+					      <th scope="row" th:text="${catProd.idCategoria}"></th>
+					      <td th:text="${catProd.categoria}"></td>
+					      <td class="btn-group">
+					      	<a th:href="@{/gestor-categorias/producto/edit/} + ${catProd.idCategoria}" class="btn btn-sm btn-light rounded-pill font-weight-bold">
+					      		<span th:text="#{app.boton.editar}"></span>
+					      		<i class="fas fa-edit ml-1"></i>
+				      		</a>
+				      		<button type="button" class="btn btn-sm btn-outline-danger border-0 ml-2" th:onclick="'javascript:confirmDeleteCatProd(\'' + ${catProd.idCategoria} + '\' );'">
+				      			<i class="fas fa-trash"></i>
+				      		</button>
+					      </td>
+					    </tr>
+					  </tbody>
+					</table>
+			</div>
+		</div>
+	</div>
+	<footer th:replace="plantillas/burguer :: footer"></footer>
+
+	<script type="text/javascript">
+	
+	// Example starter JavaScript for disabling form submissions if there are invalid fields
+	
+		(function() {
+			'use strict';
+			window.addEventListener('load',
+					function() {
+						// Fetch all the forms we want to apply custom Bootstrap validation styles to
+						var forms = document
+								.getElementsByClassName('needs-validation');
+						// Loop over them and prevent submission
+						var validation = Array.prototype.filter.call(forms,
+								function(form) {
+									form.addEventListener('submit', function(
+											event) {
+										if (form.checkValidity() === false) {
+											event.preventDefault();
+											event.stopPropagation();
+										}
+										form.classList.add('was-validated');
+									}, false);
+								});
+					}, false);
+		})();
+
+		function confirmDeleteCatProd(id) {
+			$('#deleteModalCatProd').modal('show');
+			$("#idCatProdMD").val(id);
+			
+		}
+
+		function deleteCatProd() {
+			var id = $("#idCatProdMD").val();
+			window.location = "/gestor-categorias/producto/delete/" + id;
+		}
+	</script>
+
+	<div th:include="/Views/SI/Categorias/Producto/modalDeleteCatProd.html" th:remove="tag"></div>
+</body>
+</html>

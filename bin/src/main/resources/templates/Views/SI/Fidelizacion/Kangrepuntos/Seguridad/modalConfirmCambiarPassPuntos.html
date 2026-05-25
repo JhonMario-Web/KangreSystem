@@ -1,0 +1,53 @@
+<div class="modal fade" id="modalConfirmCambiarPassPuntos" tabindex="-1" role="dialog" aria-labelledby="deleteModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">[[#{app.modal.confirmar}]]</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body text-center">
+      	<img th:src="@{/img/warning.jpg}" width="330px">
+      	<h1 class="font-weight-light display-4">[[#{app.modal.seguro}]]</h1>
+      	<p class="text-danger font-weight-bold">[[#{app.modal.revertir}]]</p>
+        <input type="hidden" id="idProveedor" name="idProveedor"/>
+        <form th:object="${usuario}" th:action="@{/kangrepuntos/contrasenia}" method="post">
+			<input type="hidden" th:field="*{idUser}" id="idUserModal" name="idUserModal">
+			<input type="hidden" th:field="*{username}" id="usernameModal" name="usernameModal">
+			<input type="hidden" th:field="*{password}" id="passwordModal" name="passwordModal">
+			<input type="hidden" th:field="*{tipoDoc}" id="tipoDocModal" name="tipoDocModal">
+			<input type="hidden" th:field="*{numeroDoc}" id="numeroDocModal" name="numeroDocModal">
+			<input type="hidden" th:field="*{nombres}" id="nombresModal" name="nombresModal">
+			<input type="hidden" th:field="*{apellidos}" id="apellidosModal" name="apellidosModal">
+			<input type="hidden" th:field="*{celular}" id="celularModal" name="celularModal">
+			<input type="hidden" th:field="*{telefono}" id="telefonoModal" name="telefonoModal">
+			<input type="hidden" th:field="*{direccion}" id="direccionModal" name="direccionModal">
+			<input type="hidden" th:field="*{ciudad}" id="ciudadModal" name="ciudadModal">
+			<input type="hidden" th:field="*{email}" id="emailModal" name="emailModal">
+			<input type="hidden" th:field="*{pais.idPais}" id="paisModal" name="paisModal">
+			<input type="hidden" th:field="*{genero}" id="generoModal" name="generoModal">
+			<input type="hidden" th:field="*{fechaNac}" id="fechaNacModal" name="fechaNacModal">
+			<input type="hidden" th:field="*{fechaRegistro}" id="fechaRegistroModal" name="fechaRegistroModal">
+			<input type="hidden" th:field="*{edad}" id="edadModal" name="edadModal">
+			<input type="hidden" th:field="*{enabled}" id="enabledModal" name="enabledModal">
+			<input type="hidden" th:field="*{terminos}" id="terminosModal" name="terminosModal">
+			<input type="hidden" id="actualPassModal" name="actualPassModal">
+			<input type="hidden" th:field="*{passwordPuntos}" id="passwordPuntosModal" name="passwordPuntosModal">
+			<input type="hidden" th:field="*{confirmPasswordPuntos}" id="confirmPasswordPuntosModal" name="confirmPasswordPuntosModal">
+			
+			<button type="submit" class="btn btn-lg btn-danger rounded-pill font-weight-bold btn-block">
+	        	<span th:text="#{app.boton.aceptar}"></span>
+	        	<i class="fas fa-check ml-1"></i>
+			</button>
+		</form>
+        <a href="" class="btn btn-lg btn-light rounded-pill font-weight-bold btn-block" data-dismiss="modal">
+        	<span th:text=#{app.boton.cancelar}></span>
+        	<i class="fas fa-times ml-1"></i>
+       </a>
+        
+      </div>
+      
+    </div>
+  </div>
+</div>

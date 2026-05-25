@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Pedidos | KangreSystem</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/dashboard.css}">
+	<link rel="shotcut icon" th:href="@{/img/logosimbolo.png}">
+	<script src="https://kit.fontawesome.com/eb1bb051d4.js"></script>
+</head>
+<body>
+	<div class="content mx-auto">
+		<div class="alert alert-success alert-dismissible fade show mt-2" role="alert" th:if="${success}">
+			<i class="far fa-check-circle mr-1"></i>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+			<strong th:text="${success}"></strong>
+		</div>
+		<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" th:if="${error}">
+	      <i class="far fa-times-circle"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${error}"></strong>
+		</div>
+		<div class="alert alert-warning alert-dismissible fade show mt-2" role="alert" th:if="${warning}">
+		  <i class="fas fa-exclamation-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${warning}"></strong>
+		</div>
+		<div class="alert alert-info alert-dismissible fade show mt-2" role="alert" th:if="${info}">
+		  <i class="fas fa-info-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${info}"></strong>
+		</div>
+	</div>
+	<div class="content mx-auto">
+		<h1 th:text="'Pagar pedido | Kangrepuntos'" class="text-center display-4 mt-4"></h1>
+		<div class="row justify-content-center py-4">
+			<div class="col-6">
+				<img th:src="@{/img/pagoKangrepuntos.jpg}" class=" d-block mx-auto" height="270">
+				<div class="jumbotron bg-light p-5" style="border-radius: 20px;">
+					<form autocomplete="off" th:action="@{/pedido/pago/kangrepuntos}" method="post" class="needs-validation" novalidate>
+						<h2 class="text-center">Numero de orden</h2>
+						<div class="form-group text-center">
+							<input type="number" class="form-control form-control-lg text-center" id="numeroOrden" name="numeroOrden" required>
+							<div class="invalid-feedback">Ingresa un numero de orden mayor a 1.</div>
+						</div>
+						<div class="form-group text-center">
+							<label>Numero documento de cliente</label>
+							<input type="number" class="form-control form-control-lg text-center" id="numeroDoc" name="numeroDoc" required>
+							<div class="invalid-feedback">Ingresar numero de documento de cliente.</div>
+						</div>
+						<button type="submit" class="btn btn-block btn-success rounded-pill font-weight-bold">
+							<i class="fas fa-search mr-1"></i>
+							Buscar orden
+						</button>
+						<a th:href="@{/pedido/}" class="btn btn-block btn-light rounded-pill font-weight-bold">
+							<i class="fas fa-times mr-1"></i>
+							Cancelar
+						</a>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<script src="https://code.jquery.com/jquery-1.9.1.js" integrity="sha256-e9gNBsAcA0DBuRWbm0oZfbiCyhjLrI6bmqAl5o+ZjUA=" crossorigin="anonymous"></script>
+	<script type="text/javascript" th:src="@{/js/popper.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+	
+	<script type="text/javascript">
+	   
+	    function confirmDelete(id){
+	    	$('#deleteModalPedido').modal('show');
+	    	$("#idPedidoMD").val(id);
+	    }
+	    
+	    
+	    function deletePedido(){
+	    	var id = $("#idPedidoMD").val();
+	        window.location = "/pedido/delete/"+id;
+	    }
+	    
+		$('document').ready(function(){
+    		
+    		$('[data-toggle="tooltip"]').tooltip();
+    		
+    		$('.table .btn-edit').on('click', function(){
+    			var idProveedor = $(this).parent().find('#idProveedor').val();
+    			$.ajax({
+    				type: 'GET',
+    				url: '/proveedor/details/'+idProveedor,
+    				success: function(proveedor){
+    					$('#proveedor-details #idProveedorModal').val(proveedor.idProveedor);
+    					$('#proveedor-details #nitProveedor').text(proveedor.nitProveedor);
+    					$('#proveedor-details #nombre').text(proveedor.nombre);
+    					$('#proveedor-details #telefono').text(proveedor.telefono);
+    					$('#proveedor-details #celular').text(proveedor.celular);
+    					$('#proveedor-details #email').text(proveedor.email);
+    					$('#proveedor-details #direccion').text(proveedor.direccion);
+    					$('#proveedor-details #categoria').text(proveedor.categoria.categoria);
+    					$('#proveedor-details #enabled').text(proveedor.enabled);
+    					$('#proveedor-details #ciudad').text(proveedor.ciudad);
+    					$('#proveedor-details #logo').attr('src', '/Imagenes/'+proveedor.logo);
+    				}
+    			});
+    		});	
+    		
+    	});
+	</script>
+	
+	<script>
+		// Example starter JavaScript for disabling form submissions if there are invalid fields
+		(function() {
+		  'use strict';
+		  window.addEventListener('load', function() {
+		    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+		    var forms = document.getElementsByClassName('needs-validation');
+		    // Loop over them and prevent submission
+		    var validation = Array.prototype.filter.call(forms, function(form) {
+		      form.addEventListener('submit', function(event) {
+		        if (form.checkValidity() === false) {
+		          event.preventDefault();
+		          event.stopPropagation();
+		        }
+		        form.classList.add('was-validated');
+		      }, false);
+		    });
+		  }, false);
+		})();
+	</script>		
+</body>
+</html>

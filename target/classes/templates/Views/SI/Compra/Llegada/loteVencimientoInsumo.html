@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Recibir compra | KangreSystem</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/dashboard.css}">
+	<link rel="shotcut icon" th:href="@{/img/logosimbolo.png}">
+	<script src="https://kit.fontawesome.com/eb1bb051d4.js"></script>
+</head>
+<style>
+	.jumbotron{
+		border-radius: 15px;
+		border: 2px solid rgba(0,0,0,0.2);
+	}
+</style>
+<body>
+	<header th:replace="plantillas/burguer :: header"></header>
+	<nav th:replace="plantillas/burguer :: navbar"></nav>
+	<div class="content mx-auto">
+		<div class="alert alert-success alert-dismissible fade show mt-2" role="alert" th:if="${success}">
+			<i class="far fa-check-circle mr-1"></i>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+			<strong th:text="${success}"></strong>
+		</div>
+		<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" th:if="${error}">
+	      <i class="far fa-times-circle"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${error}"></strong>
+		</div>
+		<div class="alert alert-warning alert-dismissible fade show mt-2" role="alert" th:if="${warning}">
+		  <i class="fas fa-exclamation-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${warning}"></strong>
+		</div>
+		<div class="alert alert-info alert-dismissible fade show mt-2" role="alert" th:if="${info}">
+		  <i class="fas fa-info-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${info}"></strong>
+		</div>
+	</div>
+	<div class="content mx-auto">
+		<h1 th:text="'Fechas de vencimiento y lotes'" class="text-center display-4 mt-4"></h1>
+		<hr>
+		<div class="row justify-content-between">
+			<div class="col-4">
+				<div class="jumbotron px-5 py-4 justify-content-between d-flex text-black-50">
+					<h1 th:text="'COMPRA'" class="font-weight-bold"></h1>
+					<h1 th:text="${llegada.compra.numeroCompra}" class="font-weight-bold"></h1>
+				</div>
+			</div>
+			<div class="col-4">
+				<div class="jumbotron px-5 py-4 text-black-50">
+					<h1 th:text="${llegada.compra.proveedor.nombre}" class="text-center font-weight-bold"></h1>
+				</div>
+			</div>
+			<div class="col-4">
+				<div class="jumbotron px-5 py-4 text-black-50">
+					<h1 th:text="${llegada.numeroFactura}" class="text-center font-weight-bold"></h1>
+				</div>
+			</div>
+			<div class="col-5">
+				<h2 class="text-primary font-weight-light text-center">Insumos recibidos</h2>
+				<table class="table table-hover table-borderless text-center">
+				  <thead>
+				    <tr>
+				      <th scope="col">ID</th>
+				      <th scope="col">Insumo</th>
+				      <th scope="col">Cantidad</th>
+				      <th scope="col"></th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				    <tr th:each="a:${agregados}">
+				      <th scope="row" th:text="${a.insumo.idInsumo}"></th>
+				      <td th:text="${a.insumo.nombre}"></td>
+				      <td th:text="${a.cantidad}"></td>
+				      <td>
+				      	<a href="#fecha-vencimiento-insumo" data-toggle="modal" class="text-success btn-vencimiento">
+				      		<i class="fas fa-plus-circle" data-toggle="tooltip" data-placement="top" title="Agregar fecha vencimiento"></i>
+				      		<input type="hidden" id="idInsumo" name="idInsumo" th:value="${a.insumo.idInsumo}">
+				      	</a>
+				      </td>
+				    </tr>
+				  </tbody>
+				</table>
+			</div>
+			<div class="col">
+				<h2 class="text-primary font-weight-light text-center">Fechas agregadas</h2>
+				<table class="table table-hover table-borderless text-center">
+				  <thead>
+				    <tr>
+				      <th scope="col">#</th>
+				      <th scope="col">Insumo</th>
+				      <th scope="col">Vencimiento</th>
+				      <th scope="col">Lote</th>
+				      <th scope="col">Cantidad</th>
+				      <th scope="col"></th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				    <tr th:each="v:${vencimientos}">
+				      <th scope="row" th:text="${v.idVencimiento}"></th>
+				      <td th:text="${v.insumo.nombre}"></td>
+				      <td th:text="${#calendars.format(v.fecha, 'dd/MMMMM/yyyy')}" class="text-uppercase"></td>
+				      <td th:text="${v.lote}"></td>
+				      <td th:text="${v.cantidad}"></td>
+				      <td>
+				      	<a th:href="@{/proveedor/servicios/compra/recibir/quitar-vencimiento/}+${v.idVencimiento - 1}" class="text-danger" data-toggle="tooltip" data-placement="top" title="Quitar insumo">
+				      		<i class="fas fa-times-circle"></i>
+				      	</a>
+				      </td>
+				    </tr>
+				  </tbody>
+				</table>
+			</div>
+		</div>
+		<hr>
+		<a th:href="@{/proveedor/servicios/compra/recibir/nueva}" class="btn btn-outline-danger font-weight-bold rounded-pill">
+			<i class="fas fa-times-circle"></i>
+			Cancelar
+		</a>
+		<a href="#modalRecibirCompra" data-toggle="modal" class="btn btn-success float-right font-weight-bold rounded-pill">
+			Recibir compra
+			<i class="fas fa-check-circle"></i>
+		</a>
+	</div>
+	<footer th:replace="plantillas/burguer :: footer"></footer>	
+	
+	<script type="text/javascript">
+	
+	    function clearSearch() {
+	        window.location = "[[@{/proveedor/}]]";
+	    }
+	   
+	    function confirmDelete(id){
+	    	$('#deleteModalCompra').modal('show');
+	    	$("#idCompraMD").val(id);
+	    }
+	    
+	    function deleteCompra(){
+	    	var id = $("#idCompraMD").val();
+	        window.location = "/proveedor/servicios/compra/delete/"+id;
+	    }
+	    
+	    function editProveedor(){
+	    	var id = $("#idProveedorModal").val();
+	        window.location = "/proveedor/edit/"+id;
+	    }
+	    
+	    function insumosProveedor(){
+	    	var nit = $("#proveedor-details #nitProveedorModalD").val();
+	        window.location = "/proveedor/insumos/"+nit;
+	    }
+	    
+		$('document').ready(function(){
+    		
+    		$('[data-toggle="tooltip"]').tooltip();
+    		
+    		$('.table .btn-vencimiento').on('click', function(){
+    			var idInsumo = $(this).parent().find('#idInsumo').val();
+    			$.ajax({
+    				type: 'GET',
+    				url: '/proveedor/servicios/compra/recibir/insumo-details/'+idInsumo,
+    				success: function(insumo){
+    					$('#fecha-vencimiento-insumo #idInsumoMFV').val(insumo.idInsumo);
+    					$('#fecha-vencimiento-insumo #nombreInsumoText').text(insumo.nombre);
+    					$('#fecha-vencimiento-insumo #precioInsumoText').text('$'+insumo.precio);
+    				}
+    			});
+    		});	
+    		
+    	});
+	</script>
+	
+	<script>
+		// Example starter JavaScript for disabling form submissions if there are invalid fields
+		(function() {
+		  'use strict';
+		  window.addEventListener('load', function() {
+		    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+		    var forms = document.getElementsByClassName('needs-validation');
+		    // Loop over them and prevent submission
+		    var validation = Array.prototype.filter.call(forms, function(form) {
+		      form.addEventListener('submit', function(event) {
+		        if (form.checkValidity() === false) {
+		          event.preventDefault();
+		          event.stopPropagation();
+		        }
+		        form.classList.add('was-validated');
+		      }, false);
+		    });
+		  }, false);
+		})();
+	</script>
+	
+	<div th:include="Views/SI/Compra/Llegada/modalRecibirCompra.html" th:remove="tag"></div>			
+	<div th:include="Views/SI/Compra/Llegada/modalFechaVencimientoInsumo.html" th:remove="tag"></div>			
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Ordenes | KangreSystem</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/dashboard.css}">
+	<link rel="shotcut icon" th:href="@{/img/logosimbolo.png}">
+	<script src="https://kit.fontawesome.com/eb1bb051d4.js"></script>
+</head>
+<body>
+	<header th:replace="plantillas/burguer :: header"></header>
+	<nav th:replace="plantillas/burguer :: navbar"></nav>
+	<div class="content mx-auto">
+		<div class="alert alert-success alert-dismissible fade show mt-2" role="alert" th:if="${success}">
+			<i class="far fa-check-circle mr-1"></i>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+			<strong th:text="${success}"></strong>
+		</div>
+		<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" th:if="${error}">
+	      <i class="far fa-times-circle"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${error}"></strong>
+		</div>
+		<div class="alert alert-warning alert-dismissible fade show mt-2" role="alert" th:if="${warning}">
+		  <i class="fas fa-exclamation-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${warning}"></strong>
+		</div>
+		<div class="alert alert-info alert-dismissible fade show mt-2" role="alert" th:if="${info}">
+		  <i class="fas fa-info-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${info}"></strong>
+		</div>
+	</div>
+	<div class="content mx-auto">
+		<div class="display-3 text-center mt-4" th:text="'Ingredientes'"></div>
+		<div class="display-4 text-center text-secondary" th:text="${producto.nombre}"></div>
+		<hr>
+		<div class="row justify-content-center">
+			<div class="col-5">
+				<img th:src="@{/img/ingredientes.jpg}" class="img-fluid">
+			</div>
+			<div class="col-6">
+				<table class="table table-borderless text-center table-hover">
+				  <thead>
+				    <tr>
+				      <th scope="col">ID</th>
+				      <th scope="col">Insumo</th>
+				      <th scope="col">Cantidad</th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				    <tr th:each="i:${ingredientes}">
+				      <th scope="row" th:text="${i.insumo.idInsumo}"></th>
+				      <td th:text="${i.insumo.nombre}"></td>
+				      <td th:text="${i.cantidad}"></td>
+				    </tr>
+				  </tbody>
+				</table>
+			</div>
+			<div class="col-12">
+				<button type="button" th:onclick="goBack()" class="btn btn-primary rounded-pill text-uppercase font-weight-bold">
+					<i class="fas fa-arrow-circle-left mr-1"></i>
+					Volver
+				</button>
+				<a th:href="@{/producto/}" class="btn btn-success rounded-pill float-right text-uppercase font-weight-bold">
+					Productos
+					<i class="fas fa-arrow-circle-right ml-1"></i>
+				</a>			
+			</div>
+		</div>
+	</div>
+	<footer th:replace="plantillas/burguer :: footer"></footer>
+	
+	<script>
+		function goBack() {
+		  window.history.back();
+		}
+	</script>
+	
+</body>
+</html>

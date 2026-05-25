@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Restablecer contraseña | KangreSystem</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/restablecerContraseña.css}">
+	<link rel="shotcut icon" th:href="@{/img/logosimbolo.png}">
+	<script th:src="@{/js/ingreso.js}"></script>
+	<script src="https://kit.fontawesome.com/eb1bb051d4.js"></script>
+</head>
+<body class="row align-items-center vh-100">
+	<div class="container d-flex justify-content-center ">
+		<div class="jumbotron">
+			<div class="row justify-content-center logo">
+				<div class="col ingreso">
+					<img th:src="@{/img/logoMonocro.png}" alt="" class="img-fluid img-responsive mb-4" title="Logo KangreSystem">	
+					<hr>
+					<h1 class="text-center text-success font-weight-light">Restablecer Contraseña</h1>
+					<hr>
+					<p class="font-weight-bold text-light rounded bg-dark text-center py-2">Necesitamos comprobar tu identidad</p>
+					<p>¿Como quiere obtener el codigo de seguridad?</p>
+					<form action="">
+						<div class="custom-control custom-radio my-3">
+							<input class="custom-control-input" type="radio" name="metodo" id="metodo1" value="opcion1">
+							<label class="custom-control-label font-weight-light" for="metodo1">Enviar codido por sms a: <span>32*****280</span></label>
+						</div>
+						<div class="custom-control custom-radio my-3">
+							<input class="custom-control-input" type="radio" name="metodo" id="metodo2" value="opcion2">
+							<label class="custom-control-label font-weight-light" for="metodo2">Enviar codigo al correo electronico: <span>j********.com</span></label>
+						</div>
+						<hr>
+						<div class="btn-group btn-block">
+							<a href="/ingresoCliente" class="btn btn-info font-weight-bold">Atras</a>
+							<button type="submit" class="btn btn-success font-weight-bold">Siguiente</button>
+						</div>
+					</form>
+					<a th:href="@{/index}" class="nav-link text-center  text-secondary">Volver al inicio</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

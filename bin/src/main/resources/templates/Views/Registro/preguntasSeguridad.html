@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Registro | KangreSystem</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/dashboard.css}">
+	<link rel="stylesheet" th:href="@{/css/registro.css}">
+	<link rel="shotcut icon" th:href="@{/img/logosimbolo.png}">
+	<script src="https://kit.fontawesome.com/eb1bb051d4.js"></script>
+</head>
+<body>
+	<header th:replace="plantillas/burguer :: header"></header>
+	<nav th:replace="plantillas/burguer :: navbar"></nav>
+	<div class="content mx-auto">
+		<div class="alert alert-success alert-dismissible fade show mt-2" role="alert" th:if="${success}">
+		  <i class="far fa-check-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${success}"></strong>
+		</div>
+		<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" th:if="${error}">
+		  <i class="far fa-times-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${error}"></strong>
+		</div>
+		<div class="alert alert-warning alert-dismissible fade show mt-2" role="alert" th:if="${warning}">
+		  <i class="fas fa-exclamation-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${warning}"></strong>
+		</div>
+		<div class="alert alert-info alert-dismissible fade show mt-2" role="alert" th:if="${info}">
+		  <i class="fas fa-info-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${info}"></strong>
+		</div>
+	</div>
+	<div class="container">
+		<h1 th:text="#{app.registro}" class="text-center display-4 mt-4"></h1>
+		<div class="row indice mx-auto border border-success mt-3">
+			<div class="col bg-success"></div>
+			<div class="col bg-success"></div>
+			<div class="col bg-success"></div>
+			<div class="col"></div>
+		</div>
+		<hr>
+		<h2 th:text="#{app.reg.preguntas_seguridad}" class="text-center text-secondary font-weight-light my-4"></h2>
+		<div class="row">
+			<div class="col">
+				<form th:action="@{/sign-up/preguntas-seguridad}" th:object="${respuesta}" name="formRegistro" id="formRegistro" method="post" class="needs-validation" novalidate>
+					<input type="hidden" th:field="*{idRespuesta}"/>
+					<input type="hidden" th:value="${respuesta.user.idUser}" th:field="*{user.idUser}"/>
+					<input type="hidden" th:value="${respuesta.user.username}" th:field="*{user.username}"/>
+					<input type="hidden" th:value="${respuesta.user.numeroDoc}" th:field="*{user.numeroDoc}"/>
+					<input type="hidden" th:value="${respuesta.user.tipoDoc}" th:field="*{user.tipoDoc}"/>
+					<input type="hidden" th:value="${respuesta.user.nombres}" th:field="*{user.nombres}"/>
+					<input type="hidden" th:value="${respuesta.user.apellidos}" th:field="*{user.apellidos}"/>
+					<input type="hidden" th:value="${respuesta.user.celular}" th:field="*{user.celular}"/>
+					<input type="hidden" th:value="${respuesta.user.genero}" th:field="*{user.genero}"/>
+					<input type="hidden" th:value="${respuesta.user.telefono}" th:field="*{user.telefono}"/>
+					<input type="hidden" th:value="${respuesta.user.direccion}" th:field="*{user.direccion}"/>
+					<input type="hidden" th:value="${respuesta.user.fechaNac}" th:field="*{user.fechaNac}"/>
+					<input type="hidden" th:value="${respuesta.user.fechaRegistro}" th:field="*{user.fechaRegistro}"/>
+					<input type="hidden" th:value="${respuesta.user.ciudad}" th:field="*{user.ciudad}"/>
+					<input type="hidden" th:value="${respuesta.user.email}" th:field="*{user.email}"/>
+					<input type="hidden" th:value="${respuesta.user.edad}" th:field="*{user.edad}"/>
+					<input type="hidden" th:value="${respuesta.user.antiguedad}" th:field="*{user.antiguedad}"/>
+					<input type="hidden" th:value="${respuesta.user.enabled}" th:field="*{user.enabled}"/>
+					<input type="hidden" th:value="${respuesta.user.enabled}" th:field="*{user.password}"/>
+					<input type="hidden" th:value="${respuesta.user.terminos}" th:field="*{user.terminos}"/>
+					<input type="hidden" th:value="${respuesta.user.pais.idPais}" th:field="*{user.pais.idPais}"/>
+					<div class="row justify-content-center d-flex">
+						<div class="col-10">
+							<select th:field="*{preguntaUno.idPregunta}" id="preguntaUno" name="preguntaUno" class="font-weight-bold custom-select custom-select-lg mb-4" required>
+								<option th:value="''" th:text="#{app.reg.pregunta.uno}"/>
+								<option th:value="1" th:text="#{app.reg.pregunta.amigo}"/>
+								<option th:value="2" th:text="#{app.reg.pregunta.trabajo}"/>
+								<option th:value="3" th:text="#{app.reg.pregunta.padres}"/>
+								<option th:value="4" th:text="#{app.reg.pregunta.mascota}"/>
+								<option th:value="5" th:text="#{app.reg.pregunta.comida}"/>
+							</select>
+						</div>
+						<div class="col-10">
+							<input type="text" th:field="*{respuestaUno}" id="respuestaUno" name="respuestaUno" class="form-control form-control-lg mb-4" th:placeholder="#{app.reg.respuesta.uno}"  pattern="[A-Za-z ]{2,50}" maxlength="50" required>
+						</div>
+						<div class="col-10">
+							<select th:field="*{preguntaDos.idPregunta}" id="preguntaDos" name="preguntaDos" class="font-weight-bold  custom-select custom-select-lg mb-4" required>
+								<option th:value="''" th:text="#{app.reg.pregunta.dos}"/>
+								<option th:value="6" th:text="#{app.reg.pregunta.madre}"/>
+								<option th:value="7" th:text="#{app.reg.pregunta.colegio}"/>
+								<option th:value="8" th:text="#{app.reg.pregunta.heroe}"/>
+								<option th:value="9" th:text="#{app.reg.pregunta.hospital}"/>
+								<option th:value="10" th:text="#{app.reg.pregunta.libro}"/>
+							</select>
+							<div class="invalid-feedback">[[#{app.prov.completar}]]</div>
+						</div>
+						<div class="col-10">
+							<input type="text" th:field="*{respuestaDos}" id="respuestaDos" name="respuestaDos" class="form-control form-control-lg mb-4" th:placeholder="#{app.reg.respuesta.dos}" maxlength="15" required>
+							<div class="invalid-feedback">[[#{app.prov.completar}]]</div>
+						</div>
+						<div class="col-10">
+							<select th:field="*{preguntaTres.idPregunta}" id="preguntaTres" name="preguntaTres" class="font-weight-bold custom-select custom-select-lg mb-4" required>
+								<option th:value="''" th:text="#{app.reg.pregunta.tres}"/>
+								<option th:value="11" th:text="#{app.reg.pregunta.apodo}"/>
+								<option th:value="12" th:text="#{app.reg.pregunta.color}"/>
+								<option th:value="13" th:text="#{app.reg.pregunta.amor}"/>
+								<option th:value="14" th:text="#{app.reg.pregunta.abuelo}"/>
+								<option th:value="15" th:text="#{app.reg.pregunta.empleo}"/>
+							</select>
+							<div class="invalid-feedback">[[#{app.prov.completar}]]</div>
+						</div>
+						<div class="col-10">
+							<input type="text" th:field="*{respuestaTres}" id="respuestaTres" name="respuestaTres" class="form-control form-control-lg mb-4" th:placeholder="#{app.reg.respuesta.tres}" maxlength="15" required>
+							<div class="invalid-feedback">[[#{app.prov.completar}]]</div>
+						</div>
+						<div class="col-10">
+							<button type="submit" id="btn-enviar" name="btn-enviar" class="btn float-right btn-lg btn-success">
+								<span th:text="#{app.reg.term.siguiente}"></span>
+								<i class="fas fa-chevron-circle-right"></i>
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<hr>
+	</div>
+	<footer th:replace="plantillas/burguer :: footer"></footer>
+	<script type="text/javascript" th:src="@{/js/preguntasSeguridad.js}"></script>
+</body>
+</html>

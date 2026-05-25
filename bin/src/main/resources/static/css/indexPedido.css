@@ -1,0 +1,18 @@
+*{
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0; 
+}
+
+.content{
+	width: 90%;
+	height: 100vh;
+}
+
+.productos{
+	height: 80%;
+	width: 40%;
+	float: left;
+}
+
+

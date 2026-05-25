@@ -1,0 +1,71 @@
+/* body{
+	font-family: 'Open sans',sans-serif;
+}
+.botonEnviar a{
+	width: 100%;
+}
+.title{
+	font-size: 2.5rem;
+} */
+/* .icono{
+	width: 50px;
+	height: 50px;
+	font-size: 30px;
+	color: #fff;
+	display: inline-block;
+	margin: 0 10px;
+	line-height: 50px;
+	text-decoration: none;
+	border-radius: 100px;
+	transition: all .5s ease;
+	text-align: center;
+}
+.redesSociales span{
+	margin-right: 10px;
+	font-weight: 300;
+} */
+/*.redesSociales .facebook{
+	background: #3b5998;
+}
+.redesSociales .twitter{
+	background: #1da1f2;
+}
+.redesSociales .instagram{
+	background: #833ab4;
+}*/
+/* .whatsapp:hover{
+	background: #008f39;
+}
+.facebook:hover{
+	background: #2b4168;
+}
+.twitter:hover{
+	background: #18719e;
+}
+.instagram:hover{
+	background: #592c7c;
+} */
+
+/*---MEDIA QUERIES---*/
+/*Extra small devices (portrait phones, less than 576px)
+No media query for `xs` since this is the default in Bootstrap*/
+
+/*Small devices (landscape phones, 576px and up)*/
+/* @media (min-width: 576px) { 
+.title{
+	font-size: 4rem;
+}
+
+} */
+
+
+/*Medium devices (tablets, 768px and up)*/
+/* @media (min-width: 768px) {
+.title{
+	font-size: 6rem;
+}
+
+} */
+
+
+

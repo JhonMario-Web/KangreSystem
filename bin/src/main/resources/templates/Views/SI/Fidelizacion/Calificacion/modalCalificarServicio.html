@@ -1,0 +1,32 @@
+<!-- Modal -->
+<div class="modal fade" id="modalCalificarServicio" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">Calificar servicio</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       	<h1 class="text-center font-weight-light">El servicio prestado fue</h1>
+       	<h1 id="calificacionModal" class="text-center text-secondary"></h1>
+       	<hr>
+       	<form th:action="@{/pedido/calificacion/calificar}" th:object="${calificacion}" method="post">
+       		<input type="hidden" id="calificacion" name="calificacion" th:field="*{calificacion}">
+       		<label for="descripcion">Descripcion (opcional)</label>
+       		<textarea rows="5" id="descripcion" name="descripcion" th:field="*{descripcion}" class="form-control"></textarea>
+       		<hr>
+       		<button type="submit" class="btn btn-primary btn-lg btn-block rounded-pill font-weight-bold" >
+       			Calificar servicio
+       			<i class="fas fa-check-circle ml-1"></i>
+  			</button>
+        	<button type="button" class="btn btn-light btn-lg rounded-pill btn-block font-weight-bold" data-dismiss="modal">
+        		Cancelar
+       			<i class="fas fa-times-circle ml-1"></i>
+       		</button>
+       	</form>
+      </div>
+    </div>
+  </div>
+</div>

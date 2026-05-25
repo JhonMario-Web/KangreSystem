@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+	<meta charset="UTF-8">
+	<title>Top 5 productos | KangreSystem</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/dashboard.css}">
+	<link rel="shotcut icon" th:href="@{/img/logosimbolo.png}">
+	<script src="https://kit.fontawesome.com/eb1bb051d4.js"></script>
+</head>
+<style>
+	.jumbotron{
+		border-radius: 20px;
+	}
+</style>
+<body>
+	<header th:replace="plantillas/burguer :: header"></header>
+	<nav th:replace="plantillas/burguer :: navbar"></nav>
+	<div class="content mx-auto">
+		<div class="alert alert-success alert-dismissible fade show mt-2" role="alert" th:if="${success}">
+			<i class="far fa-check-circle mr-1"></i>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+			<strong th:text="${success}"></strong>
+		</div>
+		<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" th:if="${error}">
+	      <i class="far fa-times-circle"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${error}"></strong>
+		</div>
+		<div class="alert alert-warning alert-dismissible fade show mt-2" role="alert" th:if="${warning}">
+		  <i class="fas fa-exclamation-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${warning}"></strong>
+		</div>
+		<div class="alert alert-info alert-dismissible fade show mt-2" role="alert" th:if="${info}">
+		  <i class="fas fa-info-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${info}"></strong>
+		</div>
+	</div>
+	<div class="content mx-auto">
+		<h1 th:text="#{app.inven.top.titulo}" class="text-center display-4 mt-4"></h1>
+		<hr>
+		<div class="row">
+			<div class="col">
+				<div class="jumbotron bg-light p-4">
+					<h2 class="text-center font-weight-light">[[#{app.inven.top.mas}]]</h2>
+					<hr>
+					<div th:each="masV:${masVendidos}" class="alert alert-success text-center" role="alert">
+  						<strong th:text="${masV.nombre}"></strong>
+					</div>
+				</div>
+			</div>
+			<div class="col">
+				<div class="jumbotron bg-light p-4">
+					<h2 class="text-center font-weight-light">[[#{app.inven.top.menos}]]</h2>
+					<hr>
+					<div th:each="menosV:${menosVendidos}" class="alert alert-danger text-center" role="alert">
+					  <strong th:text="${menosV.nombre}"></strong>
+					</div>
+				</div>
+			</div>
+		</div>
+		<hr>
+	</div>
+	
+	<footer th:replace="plantillas/burguer :: footer"></footer>	
+	
+	<script type="text/javascript">
+	
+	    function clearSearch() {
+	        window.location = "[[@{/proveedor/}]]";
+	    }
+	   
+	    function confirmDelete(id){
+	    	$('#deleteModalProducto').modal('show');
+	    	$("#idProductoMD").val(id);
+	    }
+	    
+	    function deleteProducto(){
+	    	var id = $("#idProductoMD").val();
+	        window.location = "/producto/delete/"+id;
+	    }
+	    
+	    function editProducto(){
+	    	var id = $("#idProductoModal").val();
+	        window.location = "/producto/edit/"+id;
+	    }
+	    
+	    function editIngredientes(){
+	    	var id = $("#idProductoModal").val();
+	        window.location = "/ingrediente/editar/"+id;
+	    }
+	    
+		$('document').ready(function(){
+    		
+    		$('[data-toggle="tooltip"]').tooltip();
+    		
+    		$('.table .btn-detalils').on('click', function(){
+    			var idProducto = $(this).parent().find('#idProducto').val();
+    			$.ajax({
+    				type: 'GET',
+    				url: '/producto/details/'+idProducto,
+    				success: function(producto){
+    					$('#producto-details #idProductoModal').val(producto.idProducto);
+    					$('#producto-details #nombre').text(producto.nombre);
+    					$('#producto-details #codBarra').text(producto.codBarra);
+    					$('#producto-details #precio').text('$'+producto.precio);
+    					$('#producto-details #categoria').text(producto.categoria.categoria);
+    					$('#producto-details #estado').text(producto.estado);
+    					$('#producto-details #detalle').text(producto.detalle);
+    					$('#producto-details #foto').attr('src', '/Imagenes/'+producto.foto);
+    				}
+    			});
+    		});	
+    		
+    	});
+	</script>
+	
+	<div th:include="Views/SI/Inventario/Producto/modalDeleteProducto.html" th:remove="tag"></div>	
+	<div th:include="Views/SI/Inventario/Producto/modalFilterProducto.html" th:remove="tag"></div>			
+	<div th:include="Views/SI/Inventario/Producto/modalDetailsProducto.html" th:remove="tag"></div>			
+</body>
+</html>

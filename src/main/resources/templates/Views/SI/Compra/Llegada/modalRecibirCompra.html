@@ -1,0 +1,30 @@
+<head>
+	<meta charset="utf-8">
+</head>
+<div class="modal fade" id="modalRecibirCompra" tabindex="-1" role="dialog" aria-labelledby="deleteModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header border-0">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body text-center">
+      	<h1 class="text-black-50 font-weight-light">¿Estas seguro de recibir esta compra?</h1>
+      	<hr>
+      	<h4 class="">Recuerda que al recibir la compra, todas las unidades recibidas seran cargadas al inventario.</h4>
+        <hr>
+        <a th:href="@{/proveedor/servicios/compra/recibir/recibir-compra}" class="btn btn-danger rounded-pill font-weight-bold btn-block">
+        	<i class="fas fa-check mr-1"></i>
+        	<span th:text="'Aceptar'"></span>
+       </a>
+        <a href="#" class="btn btn-light rounded-pill font-weight-bold btn-block" data-dismiss="modal">
+        	<i class="fas fa-times mr-1"></i>
+        	<span th:text=#{app.boton.cancelar}></span>
+       </a>
+        
+      </div>
+      
+    </div>
+  </div>
+</div>

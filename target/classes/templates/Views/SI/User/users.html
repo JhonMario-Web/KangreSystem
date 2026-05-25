@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Usuarios | KangreSystem</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/dashboard.css}">
+	<link rel="shotcut icon" th:href="@{/img/logosimbolo.png}">
+	<script src="https://kit.fontawesome.com/eb1bb051d4.js"></script>
+</head>
+
+<style>
+	.page-link:hover{
+		background-color:#d6d6d6;	
+	}
+	.page-item.active{
+		background-color:#c9c9c9;
+	}
+</style>
+
+<body>
+	<header th:replace="plantillas/burguer :: header"></header>
+	<nav th:replace="plantillas/burguer :: navbar"></nav>
+	<div class="content mx-auto">
+		<div class="alert alert-success alert-dismissible fade show mt-2" role="alert" th:if="${success}">
+			<i class="far fa-check-circle mr-1"></i>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+			<strong th:text="${success}"></strong>
+		</div>
+		<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" th:if="${error}">
+	      <i class="far fa-times-circle"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${error}"></strong>
+		</div>
+		<div class="alert alert-warning alert-dismissible fade show mt-2" role="alert" th:if="${warning}">
+		  <i class="fas fa-exclamation-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${warning}"></strong>
+		</div>
+		<div class="alert alert-info alert-dismissible fade show mt-2" role="alert" th:if="${info}">
+		  <i class="fas fa-info-circle mr-1"></i>
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		  <strong th:text="${info}"></strong>
+		</div>
+	</div>
+	<div class="content mx-auto">
+		<h1 th:text="#{app.usuario.graf.usuario}" class="text-center display-4 mt-4"></h1>
+		<div class="justify-content-center d-flex mb-4">
+			<button type="button" data-toggle="modal" data-target="#modalFilter" class="btn col-3 btn-light border border-secondary rounded-pill">
+				<span th:text="#{app.prov.busc}"></span>			
+				<i class="fas fa-search ml-2"></i>
+			</button>
+		</div>
+		<div class="justify-content-center d-flex">
+			<div class="btn-group">
+				<a class="btn btn-light border border-secondary font-weight-bold text-secondary" th:href="@{/user/pdf}">[[#{app.prov.exp}]] <i class="far fa-file-pdf ml-1 text-dark"></i></a>
+				<a class="btn btn-light border border-secondary font-weight-bold text-secondary" th:href="@{/user/(format=xlsx)}">[[#{app.prov.exl}]] <i class="far fa-file-excel ml-1 text-dark"></i></a>
+				<a class="btn btn-light border border-secondary font-weight-bold text-secondary" th:href="@{/sign-up/personal-info}">[[#{app.usuario.nuevo}]] <i class="fas fa-plus-circle ml-1 text-dark"></i></a>
+				<a class="btn btn-light border border-secondary font-weight-bold text-secondary" th:href="@{/user/limpiar}">[[#{app.prov.filt}]]<i class="fas fa-backspace ml-1 text-dark"></i></a>
+			</div>
+		</div>
+	</div>
+	<div class="content mx-auto">
+		<table class="table table-hover text-center">
+	  		<thead class="thead-light">
+			    <tr>
+			      <th scope="col">ID</th>
+			      <th scope="col">Username</th>
+			      <th scope="col">[[#{app.prov.lista.nombre}]]</th>
+			      <th scope="col">[[#{app.reg.apellido.s}]]</th>
+			      <th scope="col">Email</th>
+			      <th scope="col">[[#{app.prov.lista.estado}]]</th>
+			      <th scope="col"></th>
+			    </tr>
+	  		</thead>
+			<tbody>
+			    <tr th:each="u:${usuarios}">
+			      <th scope="row">
+				      	<a href="#user-details"  data-toggle="modal" class="btn-details text-info text-decoration-none" th:text="${u.idUser}"></a>
+				      	<input type="hidden" th:value="${u.idUser}" id="idUser" name="idUser">
+			      </th>
+			      <td th:text="${u.username}"></td>
+			      <td th:text="${u.nombres}"></td>
+			      <td th:text="${u.apellidos}"></td>
+			      <td th:text="${u.email}"></td>
+			      <td>
+		      		<div class="disabled" th:classappend="${u.enabled ? 'btn-outline-success' : 'btn-outline-dark'}">
+		      			<i th:classappend="${u.enabled ? 'fa-toggle-on' : 'fa-toggle-off'}" class="fas"></i>
+		      		</div>
+			      </td>  
+		          <td>
+	      	        <a href="#" th:onclick="'javascript:confirmDelete(\'' + ${u.idUser} + '\' );'" data-toggle="tooltip" data-placement="top" title="Eliminar usuario" class="text-danger text-decoration-none"><i class="fas fa-trash"></i></a>
+		          </td>
+			    </tr>
+			</tbody>
+		</table>
+		<!-- <div class="d-flex justify-content-center">
+				<nav class="" aria-label="...">
+					<ul class="pagination">
+						<li class="page-item ">
+					      <a class="page-link text-dark" th:href="@{/user/page/1}" aria-disabled="true">Inicio</a>
+					    </li>
+					    <li class="page-item"  th:classappend="${currentPage == 1 ? 'disabled' : ''}">
+					      <a class="page-link text-dark" th:href="@{'/user/page/' + ${currentPage - 1}}">&laquo;</a>
+					    </li>
+						<li th:each="i: ${#numbers.sequence(1, totalPages)}" class="page-item" aria-current="page" th:classappend="${currentPage == i ? 'active' : ''}">
+							<a th:if="${i != currentPage}" th:href="@{'/user/page/' + ${i}}" class="page-link text-dark">[[${i}]]</a>
+							<a th:unless="${i != currentPage}" class="page-link text-dark">[[${i}]]</a>
+						</li>
+						<li class="page-item" th:classappend="${currentPage == totalPages ? 'disabled' : ''}">
+					      <a class="page-link text-dark" th:href="@{'/user/page/' + ${currentPage + 1}}">&raquo;</a>
+					    </li>
+						<li class="page-item">
+					      <a class="page-link text-dark" th:href="@{'/user/page/' + ${totalPages}}">Fin</a>
+					    </li>
+					</ul> 
+				</nav>
+			</div> -->
+	</div>
+	<div class="content mx-auto">
+		<hr>
+		<div class="display-4 text-center">[[#{app.usuario.reporte}]]</div>
+		<hr>
+		<div class="row d-flex justify-content-between mt-4">
+			<div class="col-4">
+				<div class="jumbotron bg-light border p-4" style="border-radius: 20px;">
+					<h2 class="font-weight-light">[[#{app.usuario}]] <span th:text="${usuariosTotal}" class="float-right"></span></h2>
+					<hr>
+					<p><strong>[[#{app.usuario.admin}]] </strong> <span th:text="${admins}" class="float-right"></span></p>
+					<p><strong>[[#{app.usuario.cajero}]] </strong> <span th:text="${cajeros}" class="float-right"></span></p>
+					<p><strong>[[#{app.usuario.mesero}]] </strong> <span th:text="${meseros}" class="float-right"></span></p>
+					<p><strong>[[#{app.usuario.cocinero}]] </strong> <span th:text="${cocineros}" class="float-right"></span></p>
+				</div>
+			</div>
+			<div class="col-7">
+				<div id="container">
+					
+				</div>
+			</div>
+		</div>
+	<hr>
+	</div>
+	
+	<footer th:replace="plantillas/burguer :: footer"></footer>
+	
+	<script>
+	// Example starter JavaScript for disabling form submissions if there are invalid fields
+	(function() {
+	  'use strict';
+	  window.addEventListener('load', function() {
+	    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+	    var forms = document.getElementsByClassName('needs-validation');
+	    // Loop over them and prevent submission
+	    var validation = Array.prototype.filter.call(forms, function(form) {
+	      form.addEventListener('submit', function(event) {
+	        if (form.checkValidity() === false) {
+	          event.preventDefault();
+	          event.stopPropagation();
+	        }
+	        form.classList.add('was-validated');
+	      }, false);
+	    });
+	  }, false);
+	})();
+	</script>
+
+	<script type="text/javascript">
+	
+	    function clearSearch() {
+	        window.location = "[[@{/user/}]]";
+	    }
+	    
+	    function confirmDelete(id){
+	    	$('#deleteModal').modal('show');
+	    	$("#userIdHiddenInput").val(id);
+	    }
+	    
+	    function confirmResetPass(){
+	    	$('#user-details').modal('hide');
+	    	$('#resetPassModal').modal('show');
+	    	var id = $("#idUserModalDatails").val();
+	    	$("#idUserRP").val(id);
+	    }
+	    
+	    function editUser(){
+	    	var id = $("#idUserModalDatails").val();
+	        window.location = "/user/edit/"+id;
+	    }
+	    
+	    function deleteUser(){
+	    	var id = $("#userIdHiddenInput").val();
+	    	alert(id);
+	        window.location = "/user/delete/"+id;
+	    }
+	    
+	    function agregarRol(){
+	    	var id = $("#idUserModalDatails").val();
+	        window.location = "/rol/agregar/"+id;
+	    }
+	    
+	    function resetPassword(){
+	    	var id = $("#idUserRP").val();
+	        window.location = "/user/reset-password/"+id;
+	    }
+	    
+    	$('document').ready(function(){
+    		
+    		$('[data-toggle="tooltip"]').tooltip();
+    		
+    		$('.table .btn-details').on('click', function(){
+    			var idUser = $(this).parent().find('#idUser').val();
+    			$.ajax({
+    				type: 'GET',
+    				url: '/user/details/'+idUser,
+    				success: function(user){
+    					$('#user-details #idUserModalDatails').val(user.idUser);
+    					$('#user-details #nombres').text(user.nombres);
+    					$('#user-details #username').text(user.username);
+    					$('#user-details #apellidos').text(user.apellidos);
+    					$('#user-details #enabled').text(user.enabled);
+    					$('#user-details #antiguedad').text(user.antiguedad);
+    					$('#user-details #telefono').text(user.telefono);
+    					$('#user-details #celular').text(user.celular);
+    					$('#user-details #pais').text(user.pais.pais);
+    					$('#user-details #direccion').text(user.direccion);
+    					$('#user-details #email').text(user.email);
+    					$('#user-details #edad').text(user.edad+' años');
+    					$('#user-details #ciudad').text(user.ciudad);
+    				}
+    			});
+    		});	
+    	});
+	</script>
+	
+	<script th:inline="javascript">
+    $(function(){
+    Highcharts.chart('container', {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: [[#{app.usuario.graf.usuario}]]
+        },
+        subtitle: {
+            text: [[#{app.usuario.graf}]]
+        },
+        xAxis: {
+            categories: [[${usuariosMap.keySet()}]],
+            crosshair: true
+        },
+        yAxis: {
+            min: 0,
+            max:[[${usuariosTotal}]],
+            title: {
+                text: [[#{app.usuario.graf.cantidad}]]
+            }
+        },
+        tooltip: {
+            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+            '<td style="padding:0"><b>{point.y:.1f} K</b></td></tr>',
+            footerFormat: '</table>',
+            shared: true,
+            useHTML: true
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            }
+        },
+        series: [{
+            name: 'Usuarios',
+            data: [[${usuariosMap.values()}]]
+        }]
+    });
+    });
+	</script>
+	
+	
+	
+	<div th:include="Views/SI/User/modalDelete.html" th:remove="tag"></div>	
+	<div th:include="Views/SI/User/modalDetails.html" th:remove="tag"></div>	
+	<div th:include="Views/SI/User/modalFilterUser.html" th:remove="tag"></div>	
+	<div th:include="Views/SI/User/modalResetPassword.html" th:remove="tag"></div>	
+
+</body>
+</html>
